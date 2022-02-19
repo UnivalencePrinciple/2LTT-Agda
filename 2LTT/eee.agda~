@@ -1,3 +1,0 @@
-module src.eee where
-
-open import Primitive public
