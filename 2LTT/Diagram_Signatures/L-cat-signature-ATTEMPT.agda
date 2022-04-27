@@ -1,6 +1,6 @@
 {-# OPTIONS --without-K --two-level  --cumulativity #-}
 
-module 2LTT.Diagram_Signatures.L-cat-signature where
+module 2LTT.Diagram_Signatures.L-cat-signature-ATTEMPT where
 
 open import 2LTT.Diagram_Signatures.Definition public
 
