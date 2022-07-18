@@ -10,4 +10,4 @@ open import 2LTT.Coercion.Fibrant_Conversion public
 
 --⊤ᵉ is fibrant
 isFibrant-⊤ᵉ : isFibrant ⊤ᵉ
-isFibrant-⊤ᵉ = isfibrant ⊤ (idtoiso T2-⊤)
+isFibrant-⊤ᵉ = isfibrant ⊤ (exo-iso-⊤ᵉ)
