@@ -11,7 +11,7 @@ open import 2LTT.Coercion.Fibrant_Conversion public
 isFibrant-Σ : {i j : Level}{A : UUᵉ i}{B : A → UUᵉ j}
               → isFibrant {i} A → ((a : A) → isFibrant {j} (B a))
               → isFibrant {i ⊔ j} (Σᵉ A B)
-isFibrant-Σ {i} {j} {A = A} {B = B} (isfibrant fr P) Q = isfibrant T ((fΣ ,ᵉ gΣ ,ᵉ gfΣ ,ᵉ fgΣ))
+isFibrant-Σ {i} {j} {A = A} {B = B} (isfibrant fr P) Q = isfibrant (Σ fr (frB ∘ᵉ g)) (≅-trans iso-1 iso-2)
   where
   f : A → fr
   f = pr1ᵉ P
@@ -22,51 +22,18 @@ isFibrant-Σ {i} {j} {A = A} {B = B} (isfibrant fr P) Q = isfibrant T ((fΣ ,ᵉ
   gf : (a : A) → (g (f a)) =ᵉ a
   gf = (pr1ᵉ (pr2ᵉ (pr2ᵉ P)))
 
-  fg : (x : fr) → (f (g x)) =ᵉ x
-  fg = (pr2ᵉ (pr2ᵉ (pr2ᵉ P)))
-
   frB : (a : A) → UU j
   frB a = isFibrant.fibrant-match (Q a)
 
-  fB : (a : A) → (B a) → (frB a)
-  fB a = pr1ᵉ (isFibrant.fibrant-witness (Q a))
+  iso-1 : (Σᵉ A B) ≅ Σᵉ fr (λ x → frB (g x))
+  iso-1 = Σᵉ-iso-cong' {i} {j} P
+                            (exo-tr (λ u → ((a : A) → _≅_ {j} {j} (B a) (frB (u a))))
+                                    (exo-inv (funextᵉ gf))
+                                    (λ a → (isFibrant.fibrant-witness (Q a))) )
 
-  gB : (a : A) → (frB a) → (B a)
-  gB a = pr1ᵉ (pr2ᵉ (isFibrant.fibrant-witness (Q a)))
-
-  gfB : (a : A) → (b : B a) → (gB a (fB a b)) =ᵉ b
-  gfB a = (pr1ᵉ (pr2ᵉ (pr2ᵉ (isFibrant.fibrant-witness (Q a)))))
-
-  fgB : (a : A) → (y : frB a) → (fB a (gB a y)) =ᵉ y
-  fgB a = (pr2ᵉ (pr2ᵉ (pr2ᵉ (isFibrant.fibrant-witness (Q a)))))
-
-  T : UU (i ⊔ j)
-  T = Σ fr (λ x → frB (g x))
-
-  fΣ : (Σᵉ A B) → T
-  fΣ (a ,ᵉ b) = f a , fB (g (f a)) (exo-tr B (exo-inv (gf a)) b)
-
-  gΣ : T → (Σᵉ A B)
-  gΣ (x , y) = g x ,ᵉ gB (g x) y
-
-  gfΣ : (u : Σᵉ A B) → gΣ (fΣ u) =ᵉ u
-  gfΣ (a ,ᵉ b) = dep-pair-=ᵉ _ _ (gf a ,ᵉ exo-concat
-                                         (exo-tr-elim {x = g (f a)} {y = a} {p = gf a} (gfB (g (f a)) (exo-tr B (exo-inv (gf a)) b)))
-                                         (exo-concat (exo-tr-concat (exo-inv (gf a)) (gf a)) (exo-tr-left-law B (gf a))))
-
-  fgΣ : (v : T) → fΣ (gΣ v) =ᵉ v
-  fgΣ (x , y) = (dep-pair-=ᵉ' _ _  ((fg x) ,ᵉ exo-concat
-                                              (exo-ap (exo-tr (frB ∘ᵉ g) (fg x))
-                                                        (exo-ap-transport {i} {j} {A} {B} {frB} {g x} {g (f (g x))}
-                                                         (exo-inv (gf (g x))) (fB) (gB (g x) y)))
-                                              (exo-concat (exo-tr-ap {i} {j} {fr} {A} {g} {frB} (fg x))
-                                                           (exo-concat
-                                                            (exo-tr-concat {i} {j} {A} {frB} (exo-inv (gf (g x))) (exo-ap {i}{i} g (fg x)))
-                                                            (exo-concat
-                                                              (exo-ap-tr {i} {j} {A} {frB}
-                                                                     (UIPᵉ (exo-concat (exo-inv (gf (g x))) (exo-ap g (fg x))) reflᵉ))
-                                                              (fgB (g x) y))))))
-
+  iso-2 : Σᵉ fr (λ x → frB (g x)) ≅ Σ fr (frB ∘ᵉ g)
+  iso-2 = exo-Σᵉ-equiv
+  
 ------------------------------------------------------------------------------------------------------------------------
 --Fibrancy is preserved under ×ᵉ
 isFibrant-× : {i j : Level}{A : UUᵉ i}{B : UUᵉ j}
@@ -110,7 +77,3 @@ isFibrant-× {i} {j} {A = A} {B = B} (isfibrant RA wA) (isfibrant RB wB)
 
   fgA×B : (w : _) → fA×B (gA×B w) =ᵉ w
   fgA×B (x , y) = pair-=ᵉ' _ _ (fgA x ,ᵉ fgB y)
-
-
-
-  

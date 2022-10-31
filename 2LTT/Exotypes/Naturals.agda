@@ -1,4 +1,4 @@
-{-# OPTIONS --without-K --exact-split  --two-level #-}
+{-# OPTIONS --without-K --exact-split  --two-level --cumulativity #-}
 
 module 2LTT.Exotypes.Naturals where
 
@@ -6,6 +6,7 @@ open import 2LTT.Primitive
 open import 2LTT.Exotypes.Exo_Equality
 open import 2LTT.Exotypes.Sigma
 open import 2LTT.Exotypes.Functions
+open import 2LTT.Exotypes.Unit
 
 --Natural Numbers Exotype(ℕᵉ) 
 data ℕᵉ : UUᵉ lzero where
@@ -106,3 +107,36 @@ m <ᵉ n = succᵉ m ≤ᵉ n
  where
   r = pr1ᵉ q
   s = pr1ᵉ p
+
+--------------------------------------------------
+--finite products
+
+folded-×ᵉ : {i : Level} → ℕᵉ → (A : UUᵉ i) → UUᵉ i
+folded-×ᵉ {i} zeroᵉ A = ⊤ᵉ {i} 
+folded-×ᵉ (succᵉ n) A = A ×ᵉ (folded-×ᵉ n A)
+
+add-folded-×ᵉ : {i : Level}{A : UUᵉ i} → (n m : ℕᵉ) → folded-×ᵉ n A ×ᵉ folded-×ᵉ m A → folded-×ᵉ (add-ℕᵉ n m) A
+add-folded-×ᵉ zeroᵉ m (x ,ᵉ y) = y
+add-folded-×ᵉ (succᵉ n) m (x ,ᵉ y) = pr1ᵉ x ,ᵉ add-folded-×ᵉ n m (pr2ᵉ x ,ᵉ y)
+
+inv-add-folded-×ᵉ : {i : Level}{A : UUᵉ i} → (n m : ℕᵉ) → folded-×ᵉ (add-ℕᵉ n m) A → folded-×ᵉ n A ×ᵉ folded-×ᵉ m A
+inv-add-folded-×ᵉ zeroᵉ m t = starᵉ ,ᵉ t
+inv-add-folded-×ᵉ (succᵉ n) m t = (pr1ᵉ t ,ᵉ pr1ᵉ (inv-add-folded-×ᵉ n m (pr2ᵉ t))) ,ᵉ pr2ᵉ (inv-add-folded-×ᵉ n m (pr2ᵉ t))
+
+add-folded-×ᵉ-sec : {i : Level}{A : UUᵉ i} → (n m : ℕᵉ) → (t : folded-×ᵉ (add-ℕᵉ n m) A) →
+                      add-folded-×ᵉ n m (inv-add-folded-×ᵉ n m t) =ᵉ t
+add-folded-×ᵉ-sec zeroᵉ m t = reflᵉ
+add-folded-×ᵉ-sec (succᵉ n) m t = pair-=ᵉ _ _ (reflᵉ ,ᵉ add-folded-×ᵉ-sec n m (pr2ᵉ t))
+
+add-folded-×ᵉ-retr : {i : Level}{A : UUᵉ i} → (n m : ℕᵉ) → (t : _×ᵉ_ {i} {i} (folded-×ᵉ n A ) (folded-×ᵉ m A)) →
+                      inv-add-folded-×ᵉ n m (add-folded-×ᵉ n m t) =ᵉ t
+add-folded-×ᵉ-retr zeroᵉ m t = reflᵉ
+add-folded-×ᵉ-retr {i} (succᵉ n) m t =
+  pair-=ᵉ _ _ (pair-=ᵉ _ _ (reflᵉ ,ᵉ pr1ᵉ (inv-pair-=ᵉ _ _ (add-folded-×ᵉ-retr n m (pr2ᵉ (pr1ᵉ t) ,ᵉ pr2ᵉ t)))) ,ᵉ
+                            pr2ᵉ (inv-pair-=ᵉ _ _ (add-folded-×ᵉ-retr n m (pr2ᵉ (pr1ᵉ t) ,ᵉ pr2ᵉ t))))
+
+
+--------------------
+suc-level : ℕᵉ → Level → Level
+suc-level zeroᵉ i = lsuc i
+suc-level (succᵉ n) i = lsuc (suc-level n i)

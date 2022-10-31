@@ -7,14 +7,14 @@ open import 2LTT.Exotypes.Exo_Equality
 
 
 --Unit Type(⊤)
-record ⊤ : UU lzero where
+record ⊤ {i : Level} : UU i where
      constructor star
 
-terminal-map : {i : Level}{A : UU i} → A → ⊤
+terminal-map : {i : Level}{A : UU i} → A → ⊤ {i}
 terminal-map x = star
 
 --induction principle for exo-unit
-ind-⊤ : {i : Level} (P : ⊤ → UU i) → P star → ((x : ⊤) → P x)
+ind-⊤ : {i : Level} (P : ⊤ {i} → UU i) → P star → ((x : ⊤) → P x)
 ind-⊤ P p star = p
 
 --recursion principle for exo-unit

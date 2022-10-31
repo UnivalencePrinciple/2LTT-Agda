@@ -7,7 +7,7 @@ open import 2LTT.Cofibration.Properties
 
 
 
-----Cofibrancy preserved under exo-isomorphisms.
+----Sharpness preserved under exo-isomorphisms.
 isSharp-iso : {i k : Level}{A B : UUᵉ i}
               → A ≅ B → isSharp {i} A k
               → isSharp {i} B k

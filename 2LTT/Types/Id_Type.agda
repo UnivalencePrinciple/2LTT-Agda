@@ -143,6 +143,10 @@ tr-comp-fam : {i j : Level} {A : UU i} {P Q : A → UU j}
               → Id {j} (tr Q p (f x u)) (f y (tr P p u))
 tr-comp-fam refl u = refl
 
+tr-elim : {i j : Level} {A : UU i} {P : A → UU j} {x y : A} {p : Id {i} x y} {z z' : P x}
+                 → (Id z z') → Id (tr P p z) (tr P p z')
+tr-elim refl = refl
+
 tr-ap : {i j : Level} {A B : UU i} {f : A → B} {P : B → UU j} {x₁ x₂ : A} (e : Id {i} x₁ x₂) {p : P (f x₁)}
                → Id (tr (λ x → P (f x)) e p)  (tr {i} {j} P (ap f e) p)
 tr-ap refl = refl

@@ -19,6 +19,7 @@ open isFibrant public
 fibrant-conversion : {i : Level} → (B : UUᵉ i) → (isFibrant B) → UU i
 fibrant-conversion B (isfibrant fibrant-match fibrant-witness) = fibrant-match
 
+
 ----------------------------------------
 -----------POSTULATES about "coercion"
 

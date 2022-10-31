@@ -1,0 +1,258 @@
+{-# OPTIONS --without-K --two-level --cumulativity #-}
+
+module 2LTT.Cofibration.Cofibrancy_of_BinTree where
+
+open import 2LTT.Cofibration.isCofibrant public
+open import 2LTT.Cofibration.Cofibrancy_of_Fibrant_Types
+open import 2LTT.Cofibration.Cofibrancy_of_Finite_Types
+open import 2LTT.Cofibration.Cofibrancy_of_Exo_Empty
+open import 2LTT.Cofibration.Cofibrancy_of_Sigma
+open import 2LTT.Cofibration.Cofibrancy_of_List
+open import 2LTT.Cofibration.Properties
+
+
+--We will show if ℕᵉ is cofibrant and N and L are cofibrant, so is Bin-Treeᵉ N L.
+--To prove this, we will show first that unlabeled binary trees are cofibrant if ℕᵉ is cofibrant.
+--And to prove this, we will corralate unlabeled binary trees with some cofibrant lists.
+
+--Auxilary definitions
+data Tree : UUᵉ lzero
+data Forest : UUᵉ lzero
+data Tree where
+  tree-node : Forest → Tree
+data Forest where
+  forest-empty : Forest
+  forest-cons  : Tree → Forest → Forest
+
+forest-append : Forest → Forest → Forest
+forest-append forest-empty ys = ys
+forest-append (forest-cons x xs) ys = forest-cons x (forest-append xs ys)
+
+forest-append-right : ∀ {xs} → forest-append xs forest-empty =ᵉ xs
+forest-append-right {forest-empty}     = reflᵉ
+forest-append-right {forest-cons x xs} = exo-ap (forest-cons x) forest-append-right
+
+--Balanced parantheses.
+--Since Parens is finite, it's cofibrant. So if ℕᵉ is cofibrant, so is Listᵉ Parens.
+--Using this, we can show type of balanced parantheses is cofibrant.
+
+data Parens : UUᵉ lzero where
+  popen pclose : Parens
+
+is-balanced : Listᵉ Parens → ℕᵉ → UUᵉ lzero
+is-balanced nilᵉ zeroᵉ = ⊤ᵉ
+is-balanced nilᵉ (succᵉ n) = ⊥ᵉ
+is-balanced (consᵉ popen l) n = is-balanced l (succᵉ n)
+is-balanced (consᵉ pclose l) zeroᵉ = ⊥ᵉ
+is-balanced (consᵉ pclose l) (succᵉ n) = is-balanced l n
+
+is-balanced-cofib : {j : Level} → (l : Listᵉ Parens) → (n : ℕᵉ) → isCofibrant (is-balanced l n) j
+is-balanced-cofib nilᵉ zeroᵉ = ⊤ᵉ-is-cofibrant _
+is-balanced-cofib nilᵉ (succᵉ n) = ⊥ᵉ-is-cofibrant _
+is-balanced-cofib (consᵉ popen l) n = is-balanced-cofib l (succᵉ n)
+is-balanced-cofib (consᵉ pclose l) zeroᵉ = ⊥ᵉ-is-cofibrant _
+is-balanced-cofib (consᵉ pclose l) (succᵉ n) = is-balanced-cofib l n
+
+--type of balanced parantheses
+Balanced : (n : ℕᵉ) → UUᵉ lzero
+Balanced n = Σᵉ (Listᵉ Parens) (λ l → is-balanced l n)
+
+--List Parens is cofibrant
+is-List-Parens-cofib : {j : Level} → isCofibrant ℕᵉ j → isCofibrant (Listᵉ Parens) j
+is-List-Parens-cofib P = List-isCofibrant Parens (isCofibrant-iso iso-Parens (Fin-is-cofibrant twoᵉ _)) P
+  where
+   iso-Parens : ℕᵉ< twoᵉ ≅ Parens
+   iso-Parens = (λ { (inlᵉ (inrᵉ starᵉ)) → popen ; (inrᵉ starᵉ) → pclose}) ,ᵉ
+                (λ { popen → inlᵉ (inrᵉ starᵉ) ; pclose → inrᵉ starᵉ}) ,ᵉ
+                (λ { (inlᵉ (inrᵉ starᵉ)) → reflᵉ ; (inrᵉ starᵉ) → reflᵉ}) ,ᵉ
+                (λ { popen → reflᵉ ; pclose → reflᵉ})
+
+--Balanced is a family of cofibrant exo-types
+is-Balanced-cofib : {j : Level} → isCofibrant ℕᵉ j → (n : ℕᵉ) → isCofibrant (Balanced n) j
+is-Balanced-cofib {j} P n = Σᵉ-preserve-Cofibrant (is-List-Parens-cofib P) (λ a → is-balanced-cofib a n)
+------------------------------------------------------------
+
+--Creating Isomorphism between unlabeled binary trees and Balanced zero
+-- BinTree → Tree
+BinTree→Forest : UnL-BinTreeᵉ → Forest
+BinTree→Forest ul-leafᵉ       = forest-empty
+BinTree→Forest (ul-nodeᵉ l r) = forest-cons (tree-node (BinTree→Forest l)) (BinTree→Forest r)
+
+BinTree→Tree : UnL-BinTreeᵉ → Tree
+BinTree→Tree b = tree-node (BinTree→Forest b)
+
+-- Tree → BinTree
+Forest→BinTree : Forest → UnL-BinTreeᵉ
+Tree→BinTree : Tree → UnL-BinTreeᵉ
+
+Forest→BinTree forest-empty       = ul-leafᵉ
+Forest→BinTree (forest-cons x xs) = ul-nodeᵉ (Tree→BinTree x) (Forest→BinTree xs)
+
+Tree→BinTree (tree-node xs) = Forest→BinTree xs
+
+-- Tree → Balanced
+Forest→Balanced : Forest → ∀ {n} → Balanced n → Balanced n
+Forest→Balanced forest-empty b = b
+Forest→Balanced (forest-cons (tree-node t) ts) b
+  = Forest→Balanced ts (consᵉ popen (pr1ᵉ (Forest→Balanced t (consᵉ pclose (pr1ᵉ b) ,ᵉ (pr2ᵉ b)))) ,ᵉ
+                         pr2ᵉ (Forest→Balanced t (consᵉ pclose (pr1ᵉ b) ,ᵉ (pr2ᵉ b))))
+
+Tree→Balanced : Tree → Balanced zeroᵉ
+Tree→Balanced (tree-node t) = Forest→Balanced t (nilᵉ ,ᵉ starᵉ)
+
+
+-- Balanced → Tree
+data Stack : ℕᵉ → UUᵉ lzero where
+  sempty : Stack zeroᵉ
+  scons  : ∀ {n} → Forest → Stack n → Stack (succᵉ n)
+
+Balanced→Forest : ∀ {n} → Balanced n → Stack (succᵉ n) → Forest
+Balanced→Forest (nilᵉ ,ᵉ p) (scons x s) = x
+Balanced→Forest (consᵉ popen x₁ ,ᵉ p) s = Balanced→Forest (x₁ ,ᵉ p) (scons forest-empty s)
+Balanced→Forest (consᵉ pclose x₁ ,ᵉ p) (scons x (scons y s)) = Balanced→Forest (x₁ ,ᵉ p) (scons (forest-cons (tree-node x) y) s)
+
+Balanced→Tree : Balanced zeroᵉ → Tree
+Balanced→Tree b = tree-node (Balanced→Forest b (scons forest-empty sempty))
+
+sss : UnL-BinTreeᵉ →  ∀ n → Balanced n → Balanced n
+sss ul-leafᵉ n b = b
+sss (ul-nodeᵉ t t₁) n b = sss t₁ n ((consᵉ popen (pr1ᵉ (sss t (succᵉ n) (consᵉ pclose (pr1ᵉ b) ,ᵉ pr2ᵉ b)))) ,ᵉ
+                                    (pr2ᵉ (sss t (succᵉ n) (consᵉ pclose (pr1ᵉ b) ,ᵉ pr2ᵉ b))))
+data Stack' : ℕᵉ → UUᵉ lzero where
+  sempty : Stack' zeroᵉ
+  scons  : ∀ {n} → UnL-BinTreeᵉ → Stack' n → Stack' (succᵉ n)
+  
+ddd :  ∀ n → Balanced n → Stack' (succᵉ n) → UnL-BinTreeᵉ
+ddd n (nilᵉ ,ᵉ p) (scons x s) = x
+ddd n (consᵉ popen l ,ᵉ p) s = ddd (succᵉ n) (l ,ᵉ p) (scons ul-leafᵉ s)
+ddd (succᵉ n) (consᵉ pclose l ,ᵉ p) (scons x (scons x₁ s)) = ddd n (l ,ᵉ p) (scons (ul-nodeᵉ x x₁) s)
+
+UnL-BinTreeᵉ→Balanced : UnL-BinTreeᵉ → Balanced zeroᵉ
+UnL-BinTreeᵉ→Balanced t = sss t zeroᵉ (nilᵉ ,ᵉ starᵉ)
+
+Balanced→UnL-BinTreeᵉ : Balanced zeroᵉ → UnL-BinTreeᵉ
+Balanced→UnL-BinTreeᵉ p = ddd zeroᵉ p (scons {!ul-leafᵉ!} sempty)
+
+
+--Isomorphisms
+
+--
+Forest→BinTree↔ : ∀ t → BinTree→Forest (Forest→BinTree t) =ᵉ t
+Forest→BinTree↔ forest-empty = reflᵉ
+Forest→BinTree↔ (forest-cons (tree-node x) xs)
+  = exo-concat (exo-ap (forest-cons _) (Forest→BinTree↔ xs))
+               (exo-ap (λ z → forest-cons (tree-node z) _) (Forest→BinTree↔ x))
+
+Tree→BinTree↔ : ∀ t → BinTree→Tree (Tree→BinTree t) =ᵉ t
+Tree→BinTree↔ (tree-node xs) = exo-ap tree-node (Forest→BinTree↔ xs)
+
+--
+BinTree→Forest↔ : ∀ t → Forest→BinTree (BinTree→Forest t) =ᵉ t
+BinTree→Forest↔ ul-leafᵉ = reflᵉ
+BinTree→Forest↔ (ul-nodeᵉ l r)
+  = exo-concat (exo-ap (ul-nodeᵉ _) (BinTree→Forest↔ r))
+               (exo-ap (λ z → ul-nodeᵉ z _) (BinTree→Forest↔ l))
+
+BinTree→Tree↔ : ∀ t → Tree→BinTree (BinTree→Tree t) =ᵉ t
+BinTree→Tree↔ t = BinTree→Forest↔ t
+
+--
+Stack→Balanced : ∀ {n} → Stack (succᵉ n) → Balanced n → Balanced zeroᵉ
+Stack→Balanced {zeroᵉ}  (scons x s) b = Forest→Balanced x b
+Stack→Balanced {succᵉ _} (scons x s) b
+  = Stack→Balanced s (consᵉ popen (pr1ᵉ (Forest→Balanced x b)) ,ᵉ pr2ᵉ (Forest→Balanced x b))
+
+
+lemma : ∀ {n} x y s (b : Balanced n) →
+          Stack→Balanced (scons (forest-cons (tree-node x) y) s) b
+        =ᵉ Stack→Balanced (scons y s) (consᵉ popen (pr1ᵉ (Forest→Balanced x (consᵉ pclose (pr1ᵉ b) ,ᵉ (pr2ᵉ b)))) ,ᵉ
+                                                     pr2ᵉ (Forest→Balanced x (consᵉ pclose (pr1ᵉ b) ,ᵉ (pr2ᵉ b))))
+lemma {zeroᵉ}  x y _ b = reflᵉ
+lemma {succᵉ n} x y _ b = reflᵉ
+
+Balanced→Tree↔-inner : ∀ {n} (b : Balanced n) s
+                → Forest→Balanced (Balanced→Forest b s) (nilᵉ ,ᵉ starᵉ) =ᵉ Stack→Balanced s b
+Balanced→Tree↔-inner (nilᵉ ,ᵉ p) (scons x sempty) = reflᵉ
+Balanced→Tree↔-inner (consᵉ popen a ,ᵉ p) s = Balanced→Tree↔-inner (a ,ᵉ p) (scons forest-empty s)
+Balanced→Tree↔-inner (consᵉ pclose a ,ᵉ p) (scons x (scons y s))
+  = exo-concat (Balanced→Tree↔-inner (a ,ᵉ p) (scons (forest-cons (tree-node x) y) s)) (lemma _ _ _ (a ,ᵉ p))
+  
+Balanced→Tree↔ : ∀ b → Tree→Balanced (Balanced→Tree b) =ᵉ b
+Balanced→Tree↔ b = Balanced→Tree↔-inner b (scons forest-empty sempty)
+
+--
+stack-append : ∀ {n} → Forest → Stack (succᵉ n) → Stack (succᵉ n)
+stack-append f (scons x s) = scons (forest-append f x) s
+
+Tree→Balanced↔-inner : ∀ {n} f (b : Balanced n) s
+              → Balanced→Forest (Forest→Balanced f b) s
+              =ᵉ Balanced→Forest b (stack-append f s)
+Tree→Balanced↔-inner forest-empty b (scons x s) = reflᵉ
+Tree→Balanced↔-inner (forest-cons (tree-node t) f) b (scons x s)
+  = exo-concat (Tree→Balanced↔-inner f _ _)
+      (exo-concat (Tree→Balanced↔-inner t _ _)
+          (exo-ap (λ z → Balanced→Forest b (scons (forest-cons (tree-node z) (forest-append f x)) s))
+              forest-append-right))
+
+
+Tree→Balanced↔ : ∀ t → Balanced→Tree (Tree→Balanced t) =ᵉ t
+Tree→Balanced↔ (tree-node xs) =
+  exo-ap tree-node (exo-concat (Tree→Balanced↔-inner xs (nilᵉ ,ᵉ starᵉ) (scons forest-empty sempty)) (forest-append-right))
+
+--Balanced zero is isomorphic to Tree
+Balanced≅Tree : Balanced zeroᵉ ≅ Tree
+Balanced≅Tree = Balanced→Tree ,ᵉ (Tree→Balanced ,ᵉ (Balanced→Tree↔ ,ᵉ Tree→Balanced↔))
+
+--Tree is isomorphic to Unlabeled Binary Tree
+Tree≅UnL-BinTreeᵉ : Tree ≅ UnL-BinTreeᵉ
+Tree≅UnL-BinTreeᵉ = Tree→BinTree ,ᵉ (BinTree→Tree ,ᵉ Tree→BinTree↔ ,ᵉ BinTree→Tree↔)
+
+--Balanced is isomorphic to Unlabeled Binary Tree
+Balanced≅UnL-BinTreeᵉ : Balanced zeroᵉ ≅ UnL-BinTreeᵉ
+Balanced≅UnL-BinTreeᵉ = ≅-trans Balanced≅Tree Tree≅UnL-BinTreeᵉ
+
+------------------------------------------------------------------------------------------------------
+
+--Unlabeled Binary Tree is cofibrant if ℕᵉ is cofibrant
+is-UnL-BinTreeᵉ-cofib : {j : Level} → isCofibrant ℕᵉ j → isCofibrant UnL-BinTreeᵉ j
+is-UnL-BinTreeᵉ-cofib {j} P = isCofibrant-iso Balanced≅UnL-BinTreeᵉ (is-Balanced-cofib {j} P zeroᵉ )
+
+-----------------------------------------------------
+
+--Binary Tree is cofibrant if ℕᵉ is cofibrant
+is-BinTreeᵉ-cofib : {i j k : Level}{N : UUᵉ i}{L : UUᵉ j}
+                      → isCofibrant N (i ⊔ k) → isCofibrant L (i ⊔ j ⊔ k)  → isCofibrant ℕᵉ (i ⊔ j ⊔ k)
+                      → isCofibrant (BinTreeᵉ N L) k
+is-BinTreeᵉ-cofib {i} {j} {k} Q R P =
+  isCofibrant-iso BinTree-to-UnLBinTree-iso
+                  (Σᵉ-preserve-Cofibrant (is-UnL-BinTreeᵉ-cofib {i ⊔ j ⊔ k} P)
+                   λ a → ×ᵉ-preserve-Cofibrant {j} {i} {k} (folded-×-cofib R _) (folded-×-cofib Q _))
+                   
+------------------------------------------------------------------------------
+
+--Binary Tree with labeled leaf, unlabeled node, is cofibrant if ℕᵉ is cofibrant
+is-LeafLabeledBinTreeᵉ-cofib : {i k : Level}{L : UUᵉ i}
+                                → isCofibrant L (i ⊔ k) → isCofibrant ℕᵉ (i ⊔ k) 
+                                → isCofibrant (BinTreeᵉ ⊤ᵉ L) k
+is-LeafLabeledBinTreeᵉ-cofib Q P = is-BinTreeᵉ-cofib (⊤ᵉ-is-cofibrant _) Q P 
+
+------------------------------------------------------------------------------
+
+--Binary Tree with labeled node, unlabeled leaf, is cofibrant if ℕᵉ is cofibrant
+is-NodeLabeledBinTreeᵉ-cofib : {i k : Level}{N : UUᵉ i}
+                                → isCofibrant N (i ⊔ k) → isCofibrant ℕᵉ (i ⊔ k) 
+                                → isCofibrant (BinTreeᵉ N ⊤ᵉ) k
+is-NodeLabeledBinTreeᵉ-cofib {i} {k} Q P = is-BinTreeᵉ-cofib {i} {lzero} {k} Q (⊤ᵉ-is-cofibrant _) P 
+
+-----------------------------------------------
+
+--Tree→BinTree (Balanced→Tree (consᵉ popen (consᵉ pclose (consᵉ popen (consᵉ pclose nilᵉ))) ,ᵉ starᵉ))
+
+--Tree→Balanced (BinTree→Tree (ul-nodeᵉ (ul-nodeᵉ (ul-nodeᵉ ul-leafᵉ ul-leafᵉ) (ul-leafᵉ)) (ul-nodeᵉ (ul-leafᵉ) (ul-nodeᵉ ul-leafᵉ ul-leaf--ᵉ))))
+t = consᵉ popen (consᵉ pclose (consᵉ popen (consᵉ popen (consᵉ pclose (consᵉ pclose (consᵉ popen (consᵉ pclose (consᵉ popen (consᵉ pclose (consᵉ popen (consᵉ popen (consᵉ popen (consᵉ pclose (consᵉ pclose (consᵉ pclose nilᵉ))))))))))))) ))
+
+number-of-branches : Tree → ℕᵉ
+number-of-branches (tree-node forest-empty) = oneᵉ
+number-of-branches (tree-node (forest-cons x x₁)) = add-ℕᵉ (number-of-branches x) (number-of-branches (tree-node x₁))
+
+s = tree-node (forest-cons (tree-node (forest-cons (tree-node (forest-cons (tree-node forest-empty) forest-empty)) forest-empty)) (forest-cons (tree-node forest-empty) (forest-cons (tree-node forest-empty) forest-empty)))

@@ -11,8 +11,8 @@ Precomp-isEquiv {i} {j} B F RB r Y = Fib-isEquiv {i ⊔ j} {i ⊔ j} {Π RB Y} {
                                                            (isCofibrant-at.Π-fibrant-witness (F (Y ∘ᵉ r)))
                                                            (precomp B RB r Y)
 
-Has-Section-Precomp : {i j : Level} (B : UUᵉ i) → (isCofibrant B j) →
-                  (RB : UU i) → (r : B → RB) → (Y : RB → UU j) → UU (i ⊔ j)
+Has-Section-Precomp : {i j : Level} (B : UUᵉ i) → (isCofibrant {i} B j) →
+                      (RB : UU i) → (r : B → RB) → (Y : RB → UU j) → UU (i ⊔ j)
 Has-Section-Precomp {i} {j} B F RB r Y =  has-section {i ⊔ j} {i ⊔ j}
                                                            (Fib-map {i ⊔ j} {i ⊔ j} {Π RB Y} {Πᵉ B (Y ∘ᵉ r)}
                                                            (isfibrant _ ≅-refl)
@@ -36,10 +36,10 @@ Lemma-2-3--1->3 B F RB r K =  λ Z → K (λ _ → Z)
 
 
 Lemma-2-3--2->1 : {i j : Level} (B : UUᵉ i) →
-                  (F : isCofibrant B (i ⊔ j)) →
+                  (F : isCofibrant {i} B j) →
                   (RB : UU i) → (r : B → RB) →
-                  ((Y : RB → UU j) → Has-Section-Precomp {i} {i ⊔ j} B F RB r Y ) →
-                  ((Y : RB → UU j) → Precomp-isEquiv {i} {i ⊔ j} B F RB r Y)
+                  ((Y : RB → UU j) → Has-Section-Precomp {i} {j} B F RB r Y ) →
+                  ((Y : RB → UU j) → Precomp-isEquiv {i} {j} B F RB r Y)
 Lemma-2-3--2->1 {i} {j} B F RB r P Y = invertibles-are-equiv _
                                        ((pr1 (P Y)) ,
                                        (λ x → auxiliary-map
@@ -142,7 +142,7 @@ Lemma-2-3--3->2 {i} {j} B F RB r P Y = sec-map , section-proof
     sec-map x = λ c → tr Y (happly (p (k x)) c) (pr2 (σ (h' (aux-map (k x))) c))
 
     aux-eq2 : (x : FM) → (b : B) → Id (r b , sec-map x (r b)) (aux-map (k x) b)
-    aux-eq2 x b = (lift {i} {j} {RB} {Y} {r b} (σ (h' (aux-map (k x))) (r b)) (happly (p (k x)) (r b))) ⁻¹ ·
+    aux-eq2 x b =  (lift {i} {j} {RB} {Y} {r b} (σ (h' (aux-map (k x))) (r b)) (happly (p (k x)) (r b))) ⁻¹ ·
                  ((=ᵉ-to-Id (happlyᵉ (aux-eq (σ (h' (aux-map (k x))))) b)) ·
                     (ap {i} {i} (λ u → (k' (u (h' (aux-map (k x))))) b) (funext βσ) · =ᵉ-to-Id (happlyᵉ (kh' (aux-map (k x))) b)))
 

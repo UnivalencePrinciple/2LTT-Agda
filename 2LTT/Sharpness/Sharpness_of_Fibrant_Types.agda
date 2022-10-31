@@ -65,8 +65,8 @@ is-Fibrant-Sharp {i} {j} {B} P = issharp cwB
 
 -------------------------------------------------------------------------
 --In particular, ⊤̂ᵉ is sharp
-is-⊤ᵉ-Sharp : (k : Level) → isSharp {lzero} ⊤ᵉ k
-is-⊤ᵉ-Sharp k = issharp (⊤ᵉ-is-cofibrant k)
-                      ⊤
-                      map-⊤ᵉ
-                      λ Y → id-is-equiv
+is-⊤ᵉ-Sharp : {i : Level} (k : Level) → isSharp {i} (⊤ᵉ {i}) k
+is-⊤ᵉ-Sharp {i} k = issharp ((⊤ᵉ-is-cofibrant {i}) k)
+                      (⊤ {i}) 
+                      (map-⊤ᵉ {i})
+                      λ Y → id-is-equiv {i ⊔ k}

@@ -9,5 +9,5 @@ open import 2LTT.Coercion.Fibrant_Conversion public
 
 
 --⊤ᵉ is fibrant
-isFibrant-⊤ᵉ : isFibrant ⊤ᵉ
-isFibrant-⊤ᵉ = isfibrant ⊤ (exo-iso-⊤ᵉ)
+isFibrant-⊤ᵉ : {i : Level} → isFibrant (⊤ᵉ {i})
+isFibrant-⊤ᵉ {i} = isfibrant {i} ⊤ (exo-iso-⊤ᵉ {i})

@@ -44,10 +44,10 @@ module _
 
 --Properties
 --Ex. 4.10. If K has rank 0, then matching object at K is equivalent to unit type.
-match-obj-zero-sort-≅-⊤ᵉ : {i j k : Level}{ℒ : Inv-Exo-cat i j}
+match-obj-zero-sort-≅-⊤ : {i j k : Level}{ℒ : Inv-Exo-cat i j}
                            {M : Exo-Functor {i} {j} {lsuc k} {k} (iexo-cat ℒ) (ExoUniv-is-Exo-cat k)}
-                           (K : ℒ ⟅ zeroᵉ ⟆) → matching-object {i} {j} {k} {ℒ} {M} {zeroᵉ} {K} ≅ ⊤ᵉ
-match-obj-zero-sort-≅-⊤ᵉ {i} {j} {k} {ℒ} {M} K = (λ a → starᵉ) ,ᵉ
+                           (K : ℒ ⟅ zeroᵉ ⟆) → matching-object {i} {j} {k} {ℒ} {M} {zeroᵉ} {K} ≅ ⊤
+match-obj-zero-sort-≅-⊤ {i} {j} {k} {ℒ} {M} K = (λ a → star) ,ᵉ
                                                  (λ b → ((λ m → λ {()}) ,ᵉ λ m1 m2 m1<m2 → λ {()})) ,ᵉ
                                                  (λ a → dep-pair-=ᵉ _ _
                                                       ((funextᵉ {_} {i ⊔ j ⊔ k} λ x → funextᵉ {_} {i ⊔ j ⊔ k} λ {()}) ,ᵉ
@@ -55,3 +55,4 @@ match-obj-zero-sort-≅-⊤ᵉ {i} {j} {k} {ℒ} {M} K = (λ a → starᵉ) ,ᵉ
                                                           λ x₁ → funextᵉ {_} {i ⊔ j ⊔ k} λ x₂ → funextᵉ {_} {i ⊔ j ⊔ k} λ {()}))) ,ᵉ
                                                  (λ b → reflᵉ)                           
                       
+

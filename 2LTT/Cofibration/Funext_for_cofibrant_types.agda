@@ -111,3 +111,25 @@ Fib-Π-functor-isEquiv {i} {j} {A} {P} {Q} {F} W K
   htpQ : (T : _) → Id (fQ ((Πᵉ-functor {i} {j} idᵉ F) ((Πᵉ-functor {i} {j} idᵉ G) (gQ T)))) (fQ (gQ T))
   htpQ T = FUNEXT.FEP {i} {j} {A} {Q} {W} {f = (Πᵉ-functor {i} {j} idᵉ F) ((Πᵉ-functor {i} {j} idᵉ G) (gQ T))} {g = gQ T}
                      λ a → (FG a) (gQ T a)
+
+
+new-funext-to-cofib : {i j : Level} {A : UUᵉ i} →
+                      (F : (Y : A → UU j) → isFibrant {i ⊔ j} (Πᵉ A Y)) →
+                      ((Y : A → UU j) → ((f g : Πᵉ A Y) → (Πᵉ A (λ a → Id (f a) (g a))) →
+                      Id (pr1ᵉ (isFibrant.fibrant-witness (F Y)) f) (pr1ᵉ (isFibrant.fibrant-witness (F Y)) g))) →
+                      isCofibrant {i} A j
+Π-fibrant-witness (new-funext-to-cofib F Q Y) = F Y
+contr-preserve-witness (new-funext-to-cofib {A = A} F Q Y)
+  = λ T → h (λ a → pr1 (T a)) , λ x → =ᵉ-to-Id (exo-inv (hk x)) · Q Y (k x) (λ a → pr1 (T a)) (λ a → pr2 (T a) (k x a))
+    where
+      FM = isFibrant.fibrant-match (F Y)
+
+      k : FM → Πᵉ A Y
+      k = pr1ᵉ (pr2ᵉ (isFibrant.fibrant-witness (F Y)))
+
+      h : Πᵉ A Y → FM
+      h = pr1ᵉ (isFibrant.fibrant-witness (F Y))
+
+      hk : (X : FM) → (h ∘ᵉ k) X =ᵉ X
+      hk = pr2ᵉ (pr2ᵉ (pr2ᵉ (isFibrant.fibrant-witness (F Y))))
+                      

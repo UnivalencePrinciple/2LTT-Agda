@@ -147,9 +147,6 @@ Fib-Π-functor {i} {j} {A} {P} {Q} {F} W U = fQ ∘ᵉ ((Πᵉ-functor {i} {j} i
   fQ : (Πᵉ A Q) → isFibrant.fibrant-match U
   fQ = pr1ᵉ (isFibrant.fibrant-witness U)
 
-
-
-
 --If two maps are Fib-is-equiv, then so is their "product".
 Fib-×-isEquiv :  {i j k l : Level} {A : UUᵉ i} {B : UUᵉ j} {C : UUᵉ k} {D : UUᵉ l}
                  (P : isFibrant {i} A) (Q : isFibrant {j} B) (R : isFibrant {k} C) (S : isFibrant {l} D)
@@ -161,7 +158,7 @@ Fib-×-isEquiv {i} {j} {k} {l} {A} {B} {C} {D} P Q R S F G W U
   = invertibles-are-equiv _
      ((λ {(x , y) → (inv-F x , inv-G y)}) ,
      (λ {(x , y) → pair⁼ _ _ (left-htp-F x , left-htp-G y)}) ,
-     λ {(x , y) → pair⁼ _ _ (right-htp-F x , right-htp-G y)})
+     λ {(x , y) → pair⁼ _ _ (right-htp-F x , right-htp-G y) })
   where
   inv-F : isFibrant.fibrant-match Q → isFibrant.fibrant-match P
   inv-F = pr1 (equivs-are-invertible _ W)
@@ -180,6 +177,7 @@ Fib-×-isEquiv {i} {j} {k} {l} {A} {B} {C} {D} P Q R S F G W U
 
   right-htp-G : (y : _ ) → Id ((Fib-map R S G)(inv-G y)) y
   right-htp-G = pr2 (pr2 (equivs-are-invertible _ U))
+
 
 
 

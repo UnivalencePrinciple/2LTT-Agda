@@ -14,7 +14,6 @@ data _+ᵉ_ {l1 l2 : Level}(A : UUᵉ l1) (B : UUᵉ l2) : UUᵉ (l1 ⊔ l2)  wh
   inlᵉ : A → A +ᵉ B
   inrᵉ : B → A +ᵉ B
 
-
 --induction principle for coprod
 ind-+ᵉ : {i j k : Level} {A : UUᵉ i} {B : UUᵉ j} (C : A +ᵉ B → UUᵉ k)
               → ((x : A) → C (inlᵉ x)) → ((y : B) → C (inrᵉ y))

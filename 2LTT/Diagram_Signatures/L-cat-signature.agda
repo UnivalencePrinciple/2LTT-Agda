@@ -324,7 +324,7 @@ L-cat-isDSig = L-cat-is-Inv-Exo-cat ,ᵉ
    proof-of-cofibrancy (succᵉ (succᵉ zeroᵉ)) (I ,ᵉ reflᵉ) (succᵉ zeroᵉ) p = isCofibrant-iso L-cat-I-Fanout-A (Fin-is-cofibrant oneᵉ lzero)
    proof-of-cofibrancy (succᵉ (succᵉ zeroᵉ)) (T ,ᵉ reflᵉ) zeroᵉ p = isCofibrant-iso L-cat-T-Fanout-O (Fin-is-cofibrant threeᵉ lzero) 
    proof-of-cofibrancy (succᵉ (succᵉ zeroᵉ)) (T ,ᵉ reflᵉ) (succᵉ zeroᵉ) p = isCofibrant-iso L-cat-T-Fanout-A (Fin-is-cofibrant threeᵉ lzero) 
-   proof-of-cofibrancy (succᵉ (succᵉ (succᵉ n))) (O ,ᵉ ()) m p
-   proof-of-cofibrancy (succᵉ (succᵉ (succᵉ n))) (A ,ᵉ ()) m p
-   proof-of-cofibrancy (succᵉ (succᵉ (succᵉ n))) (I ,ᵉ ()) m p
-   proof-of-cofibrancy (succᵉ (succᵉ (succᵉ n))) (T ,ᵉ ()) m p
+   proof-of-cofibrancy (succᵉ (succᵉ (succᵉ n))) (O ,ᵉ ()) 
+   proof-of-cofibrancy (succᵉ (succᵉ (succᵉ n))) (A ,ᵉ ()) 
+   proof-of-cofibrancy (succᵉ (succᵉ (succᵉ n))) (I ,ᵉ ()) 
+   proof-of-cofibrancy (succᵉ (succᵉ (succᵉ n))) (T ,ᵉ ()) 

@@ -47,9 +47,8 @@ inv-dep-pair-=ᵉ (a ,ᵉ b) (.a ,ᵉ .b) reflᵉ = reflᵉ ,ᵉ reflᵉ
 
 
 --Path lifting property
-exo-liftᵉ : {i j : Level} {A : UUᵉ i} {P : A → UUᵉ j} {x y : A}
-            → (u : P x) (p : x =ᵉ y)
-            → (x ,ᵉ u) =ᵉ (y ,ᵉ exo-tr P p u)
+exo-liftᵉ : {i j : Level} {A : UUᵉ i} {P : A → UUᵉ j} {y : A} (u : Σᵉ {i} {j} A P) (p : (pr1ᵉ u) =ᵉ y)
+            → u =ᵉ (y ,ᵉ exo-tr P p (pr2ᵉ u))
 exo-liftᵉ u reflᵉ = reflᵉ
 
 --congruence

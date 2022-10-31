@@ -1,4 +1,4 @@
-{-# OPTIONS --without-K --exact-split --two-level #-}
+{-# OPTIONS --without-K --exact-split --two-level --cumulativity #-}
 
 module 2LTT.Exotypes.Finite where
 

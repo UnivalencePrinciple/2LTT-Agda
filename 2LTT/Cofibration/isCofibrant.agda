@@ -21,5 +21,5 @@ record isCofibrant-at {i : Level} (B : UUᵉ i) (j : Level) (Y : B → UU j) : U
 
 open isCofibrant-at public
 
-isCofibrant : {i : Level} (B : UUᵉ i)(j : Level) → UUᵉ (lsuc (i ⊔ j))
+isCofibrant : {i : Level}(B : UUᵉ i)(j : Level) → UUᵉ (lsuc (i ⊔ j))
 isCofibrant {i} B j = (Y : B → UU j) → isCofibrant-at {i} B j Y

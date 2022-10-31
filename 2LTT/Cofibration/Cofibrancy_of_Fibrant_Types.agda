@@ -33,14 +33,13 @@ isCofibrant-at.contr-preserve-witness (is-Fibrant-Cofibrant {i} {j} A (isfibrant
 
 
 --In particular, ⊤ᵉ is cofibrant
-⊤ᵉ-is-cofibrant : (k : Level) → isCofibrant ⊤ᵉ k
-isFibrant.fibrant-match (isCofibrant-at.Π-fibrant-witness (⊤ᵉ-is-cofibrant k Y))
-   = Π ⊤ λ {star → Y starᵉ}
-isFibrant.fibrant-witness (isCofibrant-at.Π-fibrant-witness (⊤ᵉ-is-cofibrant k Y))
-   = (λ T → λ {star → T (starᵉ) }) ,ᵉ
-     (λ T → λ {starᵉ → T (star)}) ,ᵉ
-     (λ a → reflᵉ) ,ᵉ
-     (λ b → reflᵉ)
-isCofibrant-at.contr-preserve-witness (⊤ᵉ-is-cofibrant k Y)
-   = Fib-Π-type-contr {lzero} {k} {⊤ᵉ} {isFibrant-⊤ᵉ}
-                               {Y} {λ a → isfibrant (Y a) ≅-refl}
+⊤ᵉ-is-cofibrant : {i : Level} (k : Level) → isCofibrant {i} (⊤ᵉ {i}) k
+isFibrant.fibrant-match (isCofibrant-at.Π-fibrant-witness (⊤ᵉ-is-cofibrant {i} k Y))
+  = Π ⊤ λ {star → Y starᵉ}
+isFibrant.fibrant-witness (isCofibrant-at.Π-fibrant-witness (⊤ᵉ-is-cofibrant {i} k Y))
+  = (λ T → λ {star → T (starᵉ) }) ,ᵉ
+    (λ T → λ {starᵉ → T (star)}) ,ᵉ
+    (λ a → reflᵉ) ,ᵉ
+    (λ b → reflᵉ)
+isCofibrant-at.contr-preserve-witness (⊤ᵉ-is-cofibrant {i} k Y)
+ = Fib-Π-type-contr {i} {k} {⊤ᵉ {i}} {isFibrant-⊤ᵉ {i}} {Y} {λ a → isfibrant (Y a) ≅-refl}
