@@ -23,11 +23,6 @@ list-appendᵉ-right : {i : Level} {A : UUᵉ i} → (l : Listᵉ A) → list-ap
 list-appendᵉ-right nilᵉ = reflᵉ
 list-appendᵉ-right (consᵉ x l) = exo-ap (consᵉ x) (list-appendᵉ-right l)
 
-list-deleteᵉ : {i : Level} {A : UUᵉ i} → Listᵉ A → Listᵉ A
-list-deleteᵉ nilᵉ = nilᵉ
-list-deleteᵉ (consᵉ x nilᵉ) = nilᵉ
-list-deleteᵉ (consᵉ x (consᵉ x₁ l)) = consᵉ x (list-deleteᵉ (consᵉ x₁ l))
-
 embed-to-Listᵉ : {i : Level} (A : UUᵉ i) → A → Listᵉ A
 embed-to-Listᵉ A a = consᵉ a nilᵉ
 
