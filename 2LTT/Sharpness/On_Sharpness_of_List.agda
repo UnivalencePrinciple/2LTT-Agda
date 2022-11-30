@@ -19,8 +19,8 @@ cofib-list-to-sharp-List {l1} {l2} A P R
    rA = isSharp.fibrant-transfer P
 
    rList : Listᵉ A → List RA
-   rList nilᵉ = nil
-   rList (consᵉ x l) = cons (rA x) (rList l)
+   rList []ᵉ = []
+   rList (x ::ᵉ l) = (rA x) :: (rList l)
 
    FM : (Y : List RA → UU l2) → UU (l1 ⊔ l2)
    FM Y = (fibrant-match (Π-fibrant-witness (Q (Y ∘ᵉ rList))))
@@ -35,43 +35,43 @@ cofib-list-to-sharp-List {l1} {l2} A P R
    hk = λ Y → pr2ᵉ (pr2ᵉ (pr2ᵉ ((fibrant-witness (Π-fibrant-witness (Q (Y ∘ᵉ rList)))))))
 
    aux-type : (s : List {l1} RA) → (Y : List RA → UU l2) → (x : FM Y) → Y (s)
-   aux-type nil Y x = (k Y) x nilᵉ
-   aux-type (cons c l) Y x = aux-type l Y' ((h Y') T )
+   aux-type [] Y x = (k Y) x []ᵉ
+   aux-type (c :: l) Y x = aux-type l Y' ((h Y') T )
     where
      Y' : List RA → UU l2
-     Y' l' = Y (cons c l')
+     Y' l' = Y (c :: l')
 
      T : (l' : Listᵉ A) → Y' (rList l')
-     T l' = β (u λ a → (k Y) x (consᵉ a l') ) c
+     T l' = β (u λ a → (k Y) x (a ::ᵉ l') ) c
        where
-         equiv = (isSharp.precomp-is-equiv P) (λ z → Y (cons z (rList l')))
-         u = pr1ᵉ ((fibrant-witness (Π-fibrant-witness (cwA ((λ z → Y (cons z (rList l'))) ∘ᵉ rA)))))
+         equiv = (isSharp.precomp-is-equiv P) (λ z → Y (z :: (rList l')))
+         u = pr1ᵉ ((fibrant-witness (Π-fibrant-witness (cwA ((λ z → Y (z :: (rList l'))) ∘ᵉ rA)))))
          β = pr1 (equivs-are-invertible _ equiv)
 
    aux-eq : (t : Listᵉ A) → (Y : List RA → UU l2) → (x : FM Y) →
             Id (aux-type (rList t) Y x) ((k Y) x t)
-   aux-eq nilᵉ Y x = refl
-   aux-eq (consᵉ b t) Y x = refl · ((aux-eq t Y' ((h Y') T)) · ((=ᵉ-to-Id (happlyᵉ ((kh Y') T) t)) · q t))
+   aux-eq []ᵉ Y x = refl
+   aux-eq (b ::ᵉ t) Y x = refl · ((aux-eq t Y' ((h Y') T)) · ((=ᵉ-to-Id (happlyᵉ ((kh Y') T) t)) · q t))
      where
        Y' : List RA → UU l2
-       Y' l' = Y (cons (rA b) l')
+       Y' l' = Y ((rA b) :: l')
 
        T : (l' : Listᵉ A) → Y' (rList l')
-       T l' = β (u (λ a → (k Y) x (consᵉ a l'))) (rA b)
+       T l' = β (u (λ a → (k Y) x (a ::ᵉ l'))) (rA b)
          where
-           equiv = (isSharp.precomp-is-equiv P) (λ z → Y (cons z (rList l')))
-           u = pr1ᵉ ((fibrant-witness (Π-fibrant-witness (cwA ((λ z → Y (cons z (rList l'))) ∘ᵉ rA)))))
+           equiv = (isSharp.precomp-is-equiv P) (λ z → Y (z :: (rList l')))
+           u = pr1ᵉ ((fibrant-witness (Π-fibrant-witness (cwA ((λ z → Y (z :: (rList l'))) ∘ᵉ rA)))))
            β = pr1 (equivs-are-invertible _ equiv)
 
-       q : (l' : Listᵉ A) → Id (T l') (k Y x (consᵉ b l'))
-       q l' = (=ᵉ-to-Id (happlyᵉ {l1} {l2} (vu ((β (u (λ a → (k Y) x (consᵉ a l')))) ∘ᵉ rA)) b)) ⁻¹ ·
-                (ap (λ f → (v f) b) (αβ (u (λ a → (k Y) x (consᵉ a l')))) ·
-                  =ᵉ-to-Id (happlyᵉ {l1} {l2} (vu (λ a → (k Y) x (consᵉ a l'))) b))
+       q : (l' : Listᵉ A) → Id (T l') (k Y x (b ::ᵉ l'))
+       q l' = (=ᵉ-to-Id (happlyᵉ {l1} {l2} (vu ((β (u (λ a → (k Y) x (a ::ᵉ l')))) ∘ᵉ rA)) b)) ⁻¹ ·
+                (ap (λ f → (v f) b) (αβ (u (λ a → (k Y) x (a ::ᵉ l')))) ·
+                  =ᵉ-to-Id (happlyᵉ {l1} {l2} (vu (λ a → (k Y) x (a ::ᵉ l'))) b))
          where
-           equiv = (isSharp.precomp-is-equiv P) (λ z → Y (cons z (rList l')))
-           u = pr1ᵉ ((fibrant-witness (Π-fibrant-witness (cwA ((λ z → Y (cons z (rList l'))) ∘ᵉ rA)))))
-           v = pr1ᵉ (pr2ᵉ ((fibrant-witness (Π-fibrant-witness (cwA ((λ z → Y (cons z (rList l'))) ∘ᵉ rA))))))
-           vu = pr1ᵉ (pr2ᵉ (pr2ᵉ ((fibrant-witness (Π-fibrant-witness (cwA ((λ z → Y (cons z (rList l'))) ∘ᵉ rA)))))))
+           equiv = (isSharp.precomp-is-equiv P) (λ z → Y (z :: (rList l')))
+           u = pr1ᵉ ((fibrant-witness (Π-fibrant-witness (cwA ((λ z → Y (z :: (rList l'))) ∘ᵉ rA)))))
+           v = pr1ᵉ (pr2ᵉ ((fibrant-witness (Π-fibrant-witness (cwA ((λ z → Y (z :: (rList l'))) ∘ᵉ rA))))))
+           vu = pr1ᵉ (pr2ᵉ (pr2ᵉ ((fibrant-witness (Π-fibrant-witness (cwA ((λ z → Y (z :: (rList l'))) ∘ᵉ rA)))))))
            β = pr1 (equivs-are-invertible _ equiv)
            αβ = pr2 (pr2 (equivs-are-invertible _ equiv))
 

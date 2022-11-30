@@ -28,8 +28,8 @@ map-ℕᵉ (succᵉ x) = succ (map-ℕᵉ x)
 
 -----exo-list
 map-Listᵉ : {i : Level}{A : UU i} → Listᵉ A → List A
-map-Listᵉ nilᵉ = nil
-map-Listᵉ (consᵉ x l) = cons x (map-Listᵉ l)
+map-Listᵉ []ᵉ = []
+map-Listᵉ (x ::ᵉ l) = x :: (map-Listᵉ l)
 
 -----exo-binary-tree
 map-BinTreeᵉ : {i j : Level}{N : UU i}{L : UU j} → BinTreeᵉ N L → BinTree N L

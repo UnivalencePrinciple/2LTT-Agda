@@ -18,11 +18,11 @@ folded-×-sharp {i} {j} P (succᵉ n) = ×ᵉ-preserve-Sharp P (folded-×-sharp 
 
 --First, we show is-balanced is a family of sharp exo-types
 is-balanced-sharp : {j : Level} → (l : Listᵉ Parens) → (n : ℕᵉ) → isSharp (is-balanced l n) j
-is-balanced-sharp nilᵉ zeroᵉ = is-⊤ᵉ-Sharp _
-is-balanced-sharp nilᵉ (succᵉ n) = is-⊥ᵉ-Sharp _
-is-balanced-sharp (consᵉ popen l) n = is-balanced-sharp l (succᵉ n)
-is-balanced-sharp (consᵉ pclose l) zeroᵉ = is-⊥ᵉ-Sharp _
-is-balanced-sharp (consᵉ pclose l) (succᵉ n) = is-balanced-sharp l n
+is-balanced-sharp []ᵉ zeroᵉ = is-⊤ᵉ-Sharp _
+is-balanced-sharp []ᵉ (succᵉ n) = is-⊥ᵉ-Sharp _
+is-balanced-sharp (popen ::ᵉ l) n = is-balanced-sharp l (succᵉ n)
+is-balanced-sharp (pclose ::ᵉ l) zeroᵉ = is-⊥ᵉ-Sharp _
+is-balanced-sharp (pclose ::ᵉ l) (succᵉ n) = is-balanced-sharp l n
 
 --List Parens is sharp
 is-List-Parens-sharp : {j : Level} → isCofibrant ℕᵉ j → isSharp (Listᵉ Parens) j

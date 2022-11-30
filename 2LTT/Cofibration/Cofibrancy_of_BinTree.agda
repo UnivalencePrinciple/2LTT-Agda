@@ -18,18 +18,18 @@ data Parens : UUᵉ lzero where
   popen pclose : Parens
 
 is-balanced : Listᵉ Parens → ℕᵉ → UUᵉ lzero
-is-balanced nilᵉ zeroᵉ = ⊤ᵉ
-is-balanced nilᵉ (succᵉ n) = ⊥ᵉ
-is-balanced (consᵉ popen l) n = is-balanced l (succᵉ n)
-is-balanced (consᵉ pclose l) zeroᵉ = ⊥ᵉ
-is-balanced (consᵉ pclose l) (succᵉ n) = is-balanced l n
+is-balanced []ᵉ zeroᵉ = ⊤ᵉ
+is-balanced []ᵉ (succᵉ n) = ⊥ᵉ
+is-balanced (popen ::ᵉ l) n = is-balanced l (succᵉ n)
+is-balanced (pclose ::ᵉ l) zeroᵉ = ⊥ᵉ
+is-balanced (pclose ::ᵉ l) (succᵉ n) = is-balanced l n
 
 is-balanced-cofib : {j : Level} → (l : Listᵉ Parens) → (n : ℕᵉ) → isCofibrant (is-balanced l n) j
-is-balanced-cofib nilᵉ zeroᵉ = ⊤ᵉ-is-cofibrant _
-is-balanced-cofib nilᵉ (succᵉ n) = ⊥ᵉ-is-cofibrant _
-is-balanced-cofib (consᵉ popen l) n = is-balanced-cofib l (succᵉ n)
-is-balanced-cofib (consᵉ pclose l) zeroᵉ = ⊥ᵉ-is-cofibrant _
-is-balanced-cofib (consᵉ pclose l) (succᵉ n) = is-balanced-cofib l n
+is-balanced-cofib []ᵉ zeroᵉ = ⊤ᵉ-is-cofibrant _
+is-balanced-cofib []ᵉ (succᵉ n) = ⊥ᵉ-is-cofibrant _
+is-balanced-cofib (popen ::ᵉ l) n = is-balanced-cofib l (succᵉ n)
+is-balanced-cofib (pclose ::ᵉ l) zeroᵉ = ⊥ᵉ-is-cofibrant _
+is-balanced-cofib (pclose ::ᵉ l) (succᵉ n) = is-balanced-cofib l n
 
 --type of balanced parantheses
 Balanced : (n : ℕᵉ) → UUᵉ lzero
@@ -56,21 +56,21 @@ is-Balanced-cofib {j} P n = Σᵉ-preserve-Cofibrant (is-List-Parens-cofib P) (�
 UnL-BinTreeᵉ→Balanced' : UnL-BinTreeᵉ →  ∀ n → Balanced n → Balanced n
 UnL-BinTreeᵉ→Balanced' ul-leafᵉ n b = b
 UnL-BinTreeᵉ→Balanced' (ul-nodeᵉ t t₁) n b
-  = UnL-BinTreeᵉ→Balanced' t₁ n ((consᵉ popen (pr1ᵉ (UnL-BinTreeᵉ→Balanced'  t (succᵉ n) (consᵉ pclose (pr1ᵉ b) ,ᵉ pr2ᵉ b)))) ,ᵉ
-                                               (pr2ᵉ (UnL-BinTreeᵉ→Balanced'  t (succᵉ n) (consᵉ pclose (pr1ᵉ b) ,ᵉ pr2ᵉ b))))
+  = UnL-BinTreeᵉ→Balanced' t₁ n ((popen ::ᵉ (pr1ᵉ (UnL-BinTreeᵉ→Balanced'  t (succᵉ n) (pclose ::ᵉ (pr1ᵉ b) ,ᵉ pr2ᵉ b)))) ,ᵉ
+                                               (pr2ᵉ (UnL-BinTreeᵉ→Balanced'  t (succᵉ n) (pclose ::ᵉ (pr1ᵉ b) ,ᵉ pr2ᵉ b))))
 
 UnL-BinTreeᵉ→Balanced : UnL-BinTreeᵉ → Balanced zeroᵉ
-UnL-BinTreeᵉ→Balanced t = UnL-BinTreeᵉ→Balanced' t zeroᵉ (nilᵉ ,ᵉ starᵉ)
+UnL-BinTreeᵉ→Balanced t = UnL-BinTreeᵉ→Balanced' t zeroᵉ ([]ᵉ ,ᵉ starᵉ)
 
 data Stack : ℕᵉ → UUᵉ lzero where
   sempty : Stack zeroᵉ
   scons  : ∀ {n} → UnL-BinTreeᵉ → Stack n → Stack (succᵉ n)
   
 Balanced→UnL-BinTreeᵉ'  :  ∀ n → Balanced n → Stack (succᵉ n) → UnL-BinTreeᵉ
-Balanced→UnL-BinTreeᵉ' n (nilᵉ ,ᵉ p) (scons x s) = x
-Balanced→UnL-BinTreeᵉ' n (consᵉ popen l ,ᵉ p) s
+Balanced→UnL-BinTreeᵉ' n ([]ᵉ ,ᵉ p) (scons x s) = x
+Balanced→UnL-BinTreeᵉ' n (popen ::ᵉ l ,ᵉ p) s
   = Balanced→UnL-BinTreeᵉ' (succᵉ n) (l ,ᵉ p) (scons ul-leafᵉ s)
-Balanced→UnL-BinTreeᵉ' (succᵉ n) (consᵉ pclose l ,ᵉ p) (scons x (scons x₁ s))
+Balanced→UnL-BinTreeᵉ' (succᵉ n) (pclose ::ᵉ l ,ᵉ p) (scons x (scons x₁ s))
   = Balanced→UnL-BinTreeᵉ' n (l ,ᵉ p) (scons (ul-nodeᵉ x x₁) s)
 
 Balanced→UnL-BinTreeᵉ : Balanced zeroᵉ → UnL-BinTreeᵉ
@@ -80,7 +80,7 @@ Balanced→UnL-BinTreeᵉ p = Balanced→UnL-BinTreeᵉ' zeroᵉ p (scons ul-lea
 --Example of the conversion
 
 --()(())()()((()))
-t = consᵉ popen (consᵉ pclose (consᵉ popen (consᵉ popen (consᵉ pclose (consᵉ pclose (consᵉ popen (consᵉ pclose (consᵉ popen (consᵉ pclose (consᵉ popen (consᵉ popen (consᵉ popen (consᵉ pclose (consᵉ pclose (consᵉ pclose nilᵉ))))))))))))) ))
+t = popen ::ᵉ pclose ::ᵉ popen ::ᵉ popen ::ᵉ pclose ::ᵉ pclose ::ᵉ popen ::ᵉ pclose ::ᵉ popen ::ᵉ pclose ::ᵉ popen ::ᵉ popen ::ᵉ popen ::ᵉ pclose ::ᵉ pclose ::ᵉ pclose ::ᵉ []ᵉ
 
 --            *
 --         /     \
@@ -95,35 +95,35 @@ t = consᵉ popen (consᵉ pclose (consᵉ popen (consᵉ popen (consᵉ pclose 
 --                 *   * *   *
 s = ul-nodeᵉ (ul-nodeᵉ (ul-nodeᵉ ul-leafᵉ ul-leafᵉ) ul-leafᵉ) (ul-nodeᵉ ul-leafᵉ  (ul-nodeᵉ ul-leafᵉ (ul-nodeᵉ (ul-nodeᵉ ul-leafᵉ ul-leafᵉ) (ul-nodeᵉ ul-leafᵉ ul-leafᵉ))))
 
-p : Balanced→UnL-BinTreeᵉ (t ,ᵉ starᵉ) =ᵉ s
-p = reflᵉ
+path1 : Balanced→UnL-BinTreeᵉ (t ,ᵉ starᵉ) =ᵉ s
+path1 = reflᵉ
 
-q : UnL-BinTreeᵉ→Balanced s =ᵉ (t ,ᵉ starᵉ)
-q = reflᵉ
+path2 : UnL-BinTreeᵉ→Balanced s =ᵉ (t ,ᵉ starᵉ)
+path2 = reflᵉ
 ---------------------------------------
 
 --isomorphisms
 Stack→Balanced : ∀ n → Stack (succᵉ n) → Balanced n → Balanced zeroᵉ
 Stack→Balanced zeroᵉ (scons x s) b = UnL-BinTreeᵉ→Balanced' x zeroᵉ b
 Stack→Balanced (succᵉ n) (scons x s) b
-  = Stack→Balanced n s (consᵉ popen (pr1ᵉ (UnL-BinTreeᵉ→Balanced' x (succᵉ n) b)) ,ᵉ
+  = Stack→Balanced n s (popen ::ᵉ (pr1ᵉ (UnL-BinTreeᵉ→Balanced' x (succᵉ n) b)) ,ᵉ
                                      pr2ᵉ (UnL-BinTreeᵉ→Balanced' x (succᵉ n) b))
 
 
 lemma : ∀ n → (x y : UnL-BinTreeᵉ) → (s : Stack n) → (b : Balanced n) →
           Stack→Balanced n (scons (ul-nodeᵉ x y) s) b
-        =ᵉ Stack→Balanced n (scons y s) (consᵉ popen (pr1ᵉ (UnL-BinTreeᵉ→Balanced' x (succᵉ n) ((consᵉ pclose (pr1ᵉ b)) ,ᵉ pr2ᵉ b))) ,ᵉ
-                                                      pr2ᵉ (UnL-BinTreeᵉ→Balanced' x (succᵉ n) ((consᵉ pclose (pr1ᵉ b)) ,ᵉ pr2ᵉ b)))
+        =ᵉ Stack→Balanced n (scons y s) (popen ::ᵉ (pr1ᵉ (UnL-BinTreeᵉ→Balanced' x (succᵉ n) ((pclose ::ᵉ (pr1ᵉ b)) ,ᵉ pr2ᵉ b))) ,ᵉ
+                                                      pr2ᵉ (UnL-BinTreeᵉ→Balanced' x (succᵉ n) ((pclose ::ᵉ (pr1ᵉ b)) ,ᵉ pr2ᵉ b)))
 lemma zeroᵉ x y s b = reflᵉ
 lemma (succᵉ n) x y s b = reflᵉ
 
 Balanced→UnL-BinTree'↔ : ∀ n → (b : Balanced n) → (s : Stack (succᵉ n))
-                          → (UnL-BinTreeᵉ→Balanced' (Balanced→UnL-BinTreeᵉ' n b s) zeroᵉ (nilᵉ ,ᵉ starᵉ))
+                          → (UnL-BinTreeᵉ→Balanced' (Balanced→UnL-BinTreeᵉ' n b s) zeroᵉ ([]ᵉ ,ᵉ starᵉ))
                              =ᵉ Stack→Balanced n s b
-Balanced→UnL-BinTree'↔ zeroᵉ (nilᵉ ,ᵉ p) (scons x sempty) = reflᵉ
-Balanced→UnL-BinTree'↔ n (consᵉ popen l ,ᵉ p) s
+Balanced→UnL-BinTree'↔ zeroᵉ ([]ᵉ ,ᵉ p) (scons x sempty) = reflᵉ
+Balanced→UnL-BinTree'↔ n (popen ::ᵉ l ,ᵉ p) s
   = Balanced→UnL-BinTree'↔ (succᵉ n) (l ,ᵉ p) (scons ul-leafᵉ s)
-Balanced→UnL-BinTree'↔ (succᵉ n) (consᵉ pclose l ,ᵉ p) (scons x (scons x₁ s))
+Balanced→UnL-BinTree'↔ (succᵉ n) (pclose ::ᵉ l ,ᵉ p) (scons x (scons x₁ s))
   = exo-concat (Balanced→UnL-BinTree'↔ n (l ,ᵉ p) (scons (ul-nodeᵉ x x₁) s)) (lemma _ _ _ _ (l ,ᵉ p))
 
 Balanced→UnL-BinTree↔ : ∀ b → UnL-BinTreeᵉ→Balanced (Balanced→UnL-BinTreeᵉ b) =ᵉ b
@@ -151,7 +151,7 @@ UnL-BinTree→Balanced'↔ n (ul-nodeᵉ f f₁) b (scons x s)
                  (Balanced→UnL-BinTreeᵉ' _ b (scons (ul-nodeᵉ z (bintree-append f₁ x)) s))) bintree-append-right))
 
 UnL-BinTree→Balanced↔ : ∀ t → Balanced→UnL-BinTreeᵉ (UnL-BinTreeᵉ→Balanced t) =ᵉ t
-UnL-BinTree→Balanced↔ t = exo-concat (UnL-BinTree→Balanced'↔ zeroᵉ t (nilᵉ ,ᵉ starᵉ) (scons ul-leafᵉ sempty)) (bintree-append-right)
+UnL-BinTree→Balanced↔ t = exo-concat (UnL-BinTree→Balanced'↔ zeroᵉ t ([]ᵉ ,ᵉ starᵉ) (scons ul-leafᵉ sempty)) (bintree-append-right)
 -------------------------------------------------------------------
 
 --Balanced is isomorphic to Unlabeled Binary Tree

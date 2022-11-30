@@ -6,23 +6,25 @@ open import 2LTT.Exotypes.Exo_Equality
 open import 2LTT.Primitive
 
 data Listᵉ {l1 : Level}(A : UUᵉ l1) : UUᵉ l1  where
-  nilᵉ : Listᵉ A
-  consᵉ : A → Listᵉ A → Listᵉ A
+  []ᵉ : Listᵉ A
+  _::ᵉ_ : A → Listᵉ A → Listᵉ A
+
+infixr 5 _::ᵉ_
 
 ind-Listᵉ : {l1 l2 : Level}(A : UUᵉ l1) (Y : Listᵉ {l1} A → UUᵉ l2) →
-                           Y (nilᵉ) → ((a : A) (l : Listᵉ A) → Y (l) → Y (consᵉ a l)) → ((l : (Listᵉ A)) → Y l)
-ind-Listᵉ A Y c f nilᵉ = c
-ind-Listᵉ A Y c f (consᵉ a l) = f a l (ind-Listᵉ A Y c f l)
+                           Y ([]ᵉ) → ((a : A) (l : Listᵉ A) → Y (l) → Y (a ::ᵉ l)) → ((l : (Listᵉ A)) → Y l)
+ind-Listᵉ A Y c f []ᵉ = c
+ind-Listᵉ A Y c f (a ::ᵉ l) = f a l (ind-Listᵉ A Y c f l)
 
 list-appendᵉ : {i : Level} {A : UUᵉ i} → Listᵉ A → Listᵉ A → Listᵉ A
-list-appendᵉ nilᵉ l'  =  l'
-list-appendᵉ (consᵉ a l) l' =  consᵉ a (list-appendᵉ l l')
+list-appendᵉ []ᵉ l'  =  l'
+list-appendᵉ (a ::ᵉ l) l' = a ::ᵉ (list-appendᵉ l l')
 {-# INLINE list-appendᵉ #-}
 
-list-appendᵉ-right : {i : Level} {A : UUᵉ i} → (l : Listᵉ A) → list-appendᵉ l nilᵉ =ᵉ l
-list-appendᵉ-right nilᵉ = reflᵉ
-list-appendᵉ-right (consᵉ x l) = exo-ap (consᵉ x) (list-appendᵉ-right l)
+list-appendᵉ-right : {i : Level} {A : UUᵉ i} → (l : Listᵉ A) → list-appendᵉ l []ᵉ =ᵉ l
+list-appendᵉ-right []ᵉ = reflᵉ
+list-appendᵉ-right (x ::ᵉ l) = exo-ap (λ l → x ::ᵉ l) (list-appendᵉ-right l)
 
 embed-to-Listᵉ : {i : Level} (A : UUᵉ i) → A → Listᵉ A
-embed-to-Listᵉ A a = consᵉ a nilᵉ
+embed-to-Listᵉ A a = a ::ᵉ []ᵉ
 

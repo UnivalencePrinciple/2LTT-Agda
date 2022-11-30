@@ -12,17 +12,17 @@ folded-×-cofib {i} {j} P zeroᵉ = ⊤ᵉ-is-cofibrant {i} j
 folded-×-cofib {i} {j} P (succᵉ n) = ×ᵉ-preserve-Cofibrant {i} {i} {j} P (folded-×-cofib P n)
 
 tuples-to-list : {i : Level} {A : UUᵉ i} → Σᵉ ℕᵉ (λ n → (folded-×ᵉ n A)) → Listᵉ A
-tuples-to-list (zeroᵉ ,ᵉ starᵉ) = nilᵉ
-tuples-to-list (succᵉ n ,ᵉ p) = consᵉ (pr1ᵉ p) (tuples-to-list (n ,ᵉ (pr2ᵉ p)))
+tuples-to-list (zeroᵉ ,ᵉ starᵉ) = []ᵉ
+tuples-to-list (succᵉ n ,ᵉ p) = (pr1ᵉ p) ::ᵉ (tuples-to-list (n ,ᵉ (pr2ᵉ p)))
 
 list-to-tuples : {i : Level} {A : UUᵉ i} → Listᵉ A → Σᵉ ℕᵉ (λ n → (folded-×ᵉ n A))
-list-to-tuples nilᵉ = (zeroᵉ ,ᵉ starᵉ)
-list-to-tuples (consᵉ a l) = succᵉ (pr1ᵉ (list-to-tuples l)) ,ᵉ a ,ᵉ pr2ᵉ (list-to-tuples l)
+list-to-tuples []ᵉ = (zeroᵉ ,ᵉ starᵉ)
+list-to-tuples (a ::ᵉ l) = succᵉ (pr1ᵉ (list-to-tuples l)) ,ᵉ a ,ᵉ pr2ᵉ (list-to-tuples l)
 
 tuples-to-list-has-section : {i : Level} {A : UUᵉ i} → (l : Listᵉ A) →
                        tuples-to-list (list-to-tuples l) =ᵉ l
-tuples-to-list-has-section nilᵉ = reflᵉ
-tuples-to-list-has-section (consᵉ x l) = exo-ap (consᵉ x) (tuples-to-list-has-section l)
+tuples-to-list-has-section []ᵉ = reflᵉ
+tuples-to-list-has-section (x ::ᵉ l) = exo-ap (λ l → x ::ᵉ l) (tuples-to-list-has-section l)
 
 tuples-to-list-has-retraction : {i : Level} {A : UUᵉ i} → (p : Σᵉ {lzero} {i} ℕᵉ (λ n → (folded-×ᵉ n A))) →
                           list-to-tuples (tuples-to-list p) =ᵉ p
