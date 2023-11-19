@@ -53,7 +53,8 @@ is-Fibrant-Sharp {i} {j} {B} P = issharp cwB
   GF X = funextᵉ (λ a → exo-apd {i} {j} X (fgtB a))
 
   FG : (X : Πᵉ B (Y ∘ᵉ ftB)) → F (G X) =ᵉ X
-  FG X = funextᵉ (λ x → exo-concat (exo-ap-tr {i} {j} {fB} {Y} {ftB (gtB (ftB x))} {ftB x} {fgtB (ftB x)} {exo-ap ftB (gftB x)} (UIPᵉ _ _))                                    (exo-concat (exo-inv (exo-tr-ap (gftB x))) (exo-apd {i} {j} X (gftB x))))
+  FG X = funextᵉ (λ x → exo-concat (exo-ap-tr {i} {j} {fB} {Y} {ftB (gtB (ftB x))} {ftB x} {fgtB (ftB x)} {exo-ap ftB (gftB x)} (UIPᵉ _ _))
+                    (exo-concat (exo-inv (exo-tr-ap (gftB x))) (exo-apd {i} {j} X (gftB x))))
 
   proof : Fib-isEquiv (isfibrant (Π fB Y) ≅-refl) (isCofibrant-at.Π-fibrant-witness (cwB (Y ∘ᵉ ftB))) F
   proof = Iso-to-Fib-isEquiv {i ⊔ j} {i ⊔ j} (isfibrant (Π fB Y) ≅-refl)
