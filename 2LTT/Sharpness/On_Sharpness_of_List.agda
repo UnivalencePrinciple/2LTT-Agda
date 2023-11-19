@@ -25,10 +25,10 @@ cofib-list-to-sharp-List {l1} {l2} A P R
    FM : (Y : List RA → UU l2) → UU (l1 ⊔ l2)
    FM Y = (fibrant-match (Π-fibrant-witness (Q (Y ∘ᵉ rList))))
 
-   k : (Y : List RA → UU l2) → FM Y → Πᵉ (Listᵉ A) (Y ∘ᵉ rList)
+   k : (Y : List {l1} RA → UU l2) → FM Y → Πᵉ (Listᵉ A) (Y ∘ᵉ rList)
    k Y = pr1ᵉ (pr2ᵉ ((fibrant-witness (Π-fibrant-witness (Q (Y ∘ᵉ rList))))))
 
-   h : (Y : List RA → UU l2) → Πᵉ (Listᵉ A) (Y ∘ᵉ rList) → FM Y
+   h : (Y : List {l1} RA → UU l2) → Πᵉ (Listᵉ A) (Y ∘ᵉ rList) → FM Y
    h Y = pr1ᵉ ((fibrant-witness (Π-fibrant-witness (Q (Y ∘ᵉ rList)))))
 
    kh = λ Y → pr1ᵉ (pr2ᵉ (pr2ᵉ ((fibrant-witness (Π-fibrant-witness (Q (Y ∘ᵉ rList)))))))
