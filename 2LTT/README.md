@@ -1,8 +1,5 @@
 # 2LTT-Agda
 
-This library is an experiment about some new features of Agda that allows us work with two level type theory. We are mainly formalizing the content of the [Univalence Principle](https://arxiv.org/abs/2102.06275) (UP) paper, but the second chapter of the paper is about two level type theory ([2LTT](https://arxiv.org/abs/1705.03307)), and the rest of the paper makes use of it. Thus, the library also contains the basics of 2LTT.
-
----
 The flag `--two-level` enables a new sort called `SSet`. This provides two distinct universes for us. One stands for the universe of types (like in HoTT), the other stands for the universe of types with strict equalities. In 2LTT, these are called the universe of inner types and the universe of outer types, respectively. In UP, these are called the universe of of types and the exo-universe of exo-types, respectively. We are using the second version. According to Voevodsky’s approach in his [Homotopy Type System](https://www.math.ias.edu/vladimir/sites/math.ias.edu.vladimir/files/HTS.pdf) (HTS), types are regarded as fibrant types, but exo-types are not necessarily fibrant. The following [Agda code](https://github.com/UnivalencePrinciple/2LTT-Agda/blob/main/2LTT/Primitive.agda) formalizes these two (polymophic) universes. 
 
 ```agda
