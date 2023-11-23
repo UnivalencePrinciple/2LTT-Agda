@@ -8,10 +8,8 @@ Instead, we use a coercion map as in the 2LTT paper. We also have term conversio
 ```agda
 record C {i : Level} (A : UU i) : UUᵉ i where
   constructor c
-  field a : A
-
-ic : {i : Level} {A : UU i} → C A → A
-ic (c a) = a
+  field
+    ic : A
 ```
 
 ---
