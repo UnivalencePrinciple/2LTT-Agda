@@ -15,10 +15,6 @@ UU i = Set i
 --main coercion
 record C {i : Level} (A : UU i) : UUᵉ i where
   constructor c
-  field a : A
+  field ic : A
 
-open C
-
-ic : {i : Level} {A : UU i} → C A → A
-ic (c a) = a
-{-# INLINE ic #-}
+open C public
