@@ -18,7 +18,7 @@ is-Fibrant-Cofibrant : {i j : Level}(A : UUᵉ i) → isFibrant {i} A → isCofi
 isFibrant.fibrant-match (isCofibrant-at.Π-fibrant-witness (is-Fibrant-Cofibrant {i} {j} A (isfibrant fr (f ,ᵉ g ,ᵉ gf ,ᵉ fg)) Y))
     = Π fr (λ x → Y (g (c x)))
 isFibrant.fibrant-witness (isCofibrant-at.Π-fibrant-witness (is-Fibrant-Cofibrant {i} {j} A (isfibrant fr (f ,ᵉ g ,ᵉ gf ,ᵉ fg)) Y))
-    = ≅-trans ((λ T → λ x → T (g x)) ,ᵉ
+    = ≅-trans ((λ T → λ {x → T (g x)}),ᵉ
                (λ T a → exo-tr {i} {j} (λ x → C (Y x)) (gf a) (T (f a)) ) ,ᵉ
               ((λ T → funextᵉ {i} {j} (λ a → exo-apd T (gf a))) ,ᵉ
                (λ T → funextᵉ {i} {j} (λ x →  exo-concat
