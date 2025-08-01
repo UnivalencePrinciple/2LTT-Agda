@@ -22,9 +22,9 @@ open import 2LTT.Types.Equivalences
 {-# INLINE Π-functor #-}
 
 Π-iso-cong : {i j : Level}{A B : UU i}{P : A → UU j}{Q : B → UU j}
-             → (f0 : B → A) → {isEquiv f0}
-             → (F : (b : B) → P (f0 b) → Q (b)) → {(b : B) → isEquiv (F b)}
-             → Π A P ≃ Π B Q
+             → (f0 : B → A) → {isEquiv {i} {i} f0}
+             → (F : (b : B) → P (f0 b) → Q (b)) → {(b : B) → isEquiv {j} {j} (F b)}
+             → _≃_ {i ⊔ j} {i ⊔ j} (Π A P) (Π B Q)
 Π-iso-cong {i} {j} {A} {B} {P} {Q} f0 {W} F {U}
  = (Π-functor f0 F) , (invertibles-are-equiv {i ⊔ j} {i ⊔ j} (Π-functor f0 F)
                                                              ((Π-functor g0 G) , Htpy1 , Htpy2 ))

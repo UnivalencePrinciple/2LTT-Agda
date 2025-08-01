@@ -303,10 +303,10 @@ ap-isEquiv {i} {j} {A} {B} W x y = invertibles-are-equiv (ap {i} {j} f) ((λ p �
 
 ----------------------------------------------------------------------------------------------------------------------------------
 is-truncation-cong : {i j : Level} {A : UU i} {B : UU j}
-                     → A ≃ B
+                     → _≃_ {i} {j} A B
                      → (t : 𝕋)
-                     → is-type t B
-                     → is-type t A
+                     → is-type {j} t B
+                     → is-type {i} t A
 is-truncation-cong {i} {j} W neg-two-𝕋 P = is-contr-cong {j} {i} (≃-sym W) P
 is-truncation-cong {i} {j} W (succ-𝕋 t) P = λ a a' → is-truncation-cong {i} {j} {Id {i} (a) (a')} {Id {j} (f a) (f a')}
                                                                          (ap {i} {j} f , ap-isEquiv W a a') t (P (f a) (f a')) 

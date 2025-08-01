@@ -57,11 +57,9 @@ module FUNEXT {i j : Level}{A : UUᵉ i} {B : A → UU j} {P : isCofibrant {i} A
               · (ap (λ u → β (λ a → pr1 ((α' u) a))) p' ·
          =ᵉ-to-Id (exo-ap {i ⊔ j} {i ⊔ j} β (funextᵉ {i} {j} λ a → (exo-ap {j} {j} pr1 (happlyᵉ (αβ' g') a)))))
 
-
-
 Fib-Π-functor-isEquiv : {i j : Level}{A : UUᵉ i}{P Q : A → UU j} {F : (a : A) → P a → Q a}
-                       → (W : isCofibrant A j)
-                       → ((a : A) → isEquiv (F a))
+                       → (W : isCofibrant {i} A j)
+                       → ((a : A) → isEquiv {j} {j} (F a))
                        → Fib-isEquiv (isCofibrant-at.Π-fibrant-witness (W P))
                                       (isCofibrant-at.Π-fibrant-witness (W Q)) (Πᵉ-functor {i} {j} idᵉ F)
 Fib-Π-functor-isEquiv {i} {j} {A} {P} {Q} {F} W K
@@ -114,9 +112,9 @@ Fib-Π-functor-isEquiv {i} {j} {A} {P} {Q} {F} W K
 
 
 new-funext-to-cofib : {i j : Level} {A : UUᵉ i} →
-                      (F : (Y : A → UU j) → isFibrant {i ⊔ j} (Πᵉ A Y)) →
-                      ((Y : A → UU j) → ((f g : Πᵉ A Y) → (Πᵉ A (λ a → Id (f a) (g a))) →
-                      Id (pr1ᵉ (isFibrant.fibrant-witness (F Y)) f) (pr1ᵉ (isFibrant.fibrant-witness (F Y)) g))) →
+                      (F : (Y : A → UU j) → isFibrant {i ⊔ j} (Πᵉ {i} {j} A Y)) →
+                      ((Y : A → UU j) → ((f g : Πᵉ {i} {j} A Y) → (Πᵉ {i} {j} A (λ a → Id {j} (f a) (g a))) →
+                      Id {i ⊔ j} (pr1ᵉ (isFibrant.fibrant-witness (F Y)) f) (pr1ᵉ (isFibrant.fibrant-witness (F Y)) g))) →
                       isCofibrant {i} A j
 Π-fibrant-witness (new-funext-to-cofib F Q Y) = F Y
 contr-preserve-witness (new-funext-to-cofib {A = A} F Q Y)

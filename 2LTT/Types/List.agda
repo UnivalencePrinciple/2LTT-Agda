@@ -4,7 +4,7 @@ module 2LTT.Types.List where
 
 open import 2LTT.Primitive
 
-data List {l1 : Level}(A : UU l1) : UU l1  where
+data List {l1 : Level} (A : UU l1) : UU l1  where
   [] : List A
   _::_ : A → List A → List A
 

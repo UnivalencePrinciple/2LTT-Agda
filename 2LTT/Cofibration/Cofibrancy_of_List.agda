@@ -7,7 +7,7 @@ open import 2LTT.Cofibration.Cofibrancy_of_Fibrant_Types
 open import 2LTT.Cofibration.Cofibrancy_of_Sigma
 open import 2LTT.Cofibration.Properties
 
-folded-×-cofib : {i j : Level} {A : UUᵉ i} → (isCofibrant {i} A (i ⊔ j)) → (n : ℕᵉ) → (isCofibrant (folded-×ᵉ n A) j)
+folded-×-cofib : {i j : Level} {A : UUᵉ i} → (isCofibrant {i} A (i ⊔ j)) → (n : ℕᵉ) → (isCofibrant {i} (folded-×ᵉ n A) j)
 folded-×-cofib {i} {j} P zeroᵉ = ⊤ᵉ-is-cofibrant {i} j
 folded-×-cofib {i} {j} P (succᵉ n) = ×ᵉ-preserve-Cofibrant {i} {i} {j} P (folded-×-cofib P n)
 

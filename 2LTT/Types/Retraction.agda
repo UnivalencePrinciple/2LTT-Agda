@@ -68,7 +68,7 @@ NatΣ : {i j k : Level} {A : UU i} {B : A → UU j}{C : A → UU k}
 NatΣ s (x , a) = (x , s x a)
 
 Σ-retract : {i j k : Level} {A : UU i} {B : A → UU j} {C : A → UU k}
-            → ((a : A) → B a ◃ C a) → Σ A B ◃ Σ A C
+            → ((a : A) → _◃_ {j} {k} (B a) (C a)) → Σ A B ◃ Σ A C
 Σ-retract {i} {j} {k} {A} {B} {C} p = NatΣ r , NatΣ s , η'
  where
   r : (a : A) → C a → B a

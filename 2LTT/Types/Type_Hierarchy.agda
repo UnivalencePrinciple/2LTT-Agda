@@ -80,15 +80,15 @@ is-set-is-prop A = type-hrchy A neg-one-𝕋
 is-set-is-contr : {i : Level}(A : UU i) → is-contr A → is-set A
 is-set-is-contr {i} A = (is-set-is-prop {i} A) ∘ (is-prop-is-contr A)
 
-is-set-to-all-paths-equal : {i : Level} (A : UU i) → is-set A → (a b : A) → (p q : Id a b) → Id p q
+is-set-to-all-paths-equal : {i : Level} (A : UU i) → is-set {i} A → (a b : A) → (p q : Id {i} a b) → Id {i} p q
 is-set-to-all-paths-equal A W a b p q = all-elements-equal-is-prop (W a b) p q
 
 Π-type-contr : {i j : Level} {A : UU i} {B : A → UU j} →
-              ((a : A) → is-contr (B a)) → is-contr (Π A B)
+              ((a : A) → is-contr {j} (B a)) → is-contr (Π A B)
 Π-type-contr F = ((λ a → pr1 (F a))) , λ f → funext λ a → (pr2 (F a)) (f a) 
 
 Π-type-prop : {i j : Level} {A : UU i} {B : A → UU j} →
-              ((a : A) → is-prop (B a)) → is-prop (Π A B)
+              ((a : A) → is-prop {j} (B a)) → is-prop (Π A B)
 Π-type-prop F = is-prop-all-elements-equal (λ f → λ g →  funext (λ x → pr1 ((F x) (f x) (g x))) )
 
 is-prop-contr :  {i : Level}(A : UU i) → is-prop (is-contr A) 

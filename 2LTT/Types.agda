@@ -13,9 +13,9 @@ open import 2LTT.Types.Naturals       public
 open import 2LTT.Types.Pi             public
 open import 2LTT.Primitive            public
 open import 2LTT.Types.Sigma          public
-open import 2LTT.Types.BinTree          public
+open import 2LTT.Types.BinTree        public
 open import 2LTT.Types.Unit           public
-open import 2LTT.Types.W-type           public
+open import 2LTT.Types.W-type         public
 open import 2LTT.Types.Equivalences   public
 open import 2LTT.Types.Functoriality  public
 open import 2LTT.Types.Retraction     public

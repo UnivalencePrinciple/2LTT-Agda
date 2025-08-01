@@ -186,7 +186,7 @@ Fib-×-isEquiv {i} {j} {k} {l} {A} {B} {C} {D} P Q R S F G W U
 Fib-htpy-to-isEquiv : {i j : Level} {A : UUᵉ i} {B : UUᵉ j}
                       (P : isFibrant {i} A) (Q : isFibrant {j} B)
                       → (F G : A → B)
-                      → ((a : A) → F a =ᵉ G a)
+                      → ((a : A) → _=ᵉ_ {j} (F a) (G a))
                       → Fib-isEquiv P Q F
                       → Fib-isEquiv P Q G
 Fib-htpy-to-isEquiv {i} {j} {A} {B} P Q F G Htpy W = htpy-equiv {i} {j} (Fib-map P Q F)

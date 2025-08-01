@@ -90,4 +90,3 @@ is-map-Πᵉ-iso = inv-map-Πᵉ ,ᵉ ((λ a → reflᵉ) ,ᵉ (λ b → reflᵉ
 
 exo-Πᵉ-equiv : {i j : Level} {A : UU i}{B : A → UU j} → Πᵉ A B ≅ Π A B
 exo-Πᵉ-equiv = map-Πᵉ ,ᵉ is-map-Πᵉ-iso
-

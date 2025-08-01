@@ -14,7 +14,7 @@ open import 2LTT.Exotypes.Sigma
 
 
 data WWᵉ {l1 l2 : Level}(A : UUᵉ l1) (B : A → UUᵉ l2) : UUᵉ (l1 ⊔ l2)  where
-  supᵉ : (a : A) → ((B a → WWᵉ A B) → WWᵉ A B)
+  supᵉ : (a : A) → (B a → WWᵉ A B) → WWᵉ A B
 
 WWᵉ-ind : {l1 l2 l3 : Level}(A : UUᵉ l1) (B : A → UUᵉ l2) (Y : WWᵉ {l1} {l2} A B → UUᵉ l3) →
                             ((a : A) (f : B (a) → WWᵉ {l1} {l2} A B)
