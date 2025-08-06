@@ -17,4 +17,4 @@ The directory has two parts:
 
 ---
 
-For questions and suggestions, please write to euskuplu@usc.edu
+For questions and suggestions, please write to uskupluelif@gmail.com
