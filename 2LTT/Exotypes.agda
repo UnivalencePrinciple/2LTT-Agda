@@ -15,3 +15,4 @@ open import 2LTT.Exotypes.Sigma          public
 open import 2LTT.Exotypes.BinTree           public
 open import 2LTT.Exotypes.W-type           public
 open import 2LTT.Exotypes.Unit           public
+open import 2LTT.Exotypes.Container      public

@@ -1,0 +1,10 @@
+# Agda build artifacts
+_build/
+*.agdai
+
+# Editor files
+*~
+\#*\#
+.#*
+.vscode/
+.DS_Store
