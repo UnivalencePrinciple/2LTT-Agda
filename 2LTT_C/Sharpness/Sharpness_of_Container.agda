@@ -34,8 +34,8 @@ finite-exp-sharp P (n ,ᵉ e) = isSharp-iso (Πᵉ-iso-cong' (≅-sym e) (λ _ �
 --Conversely, if F(⊤ᵉ) is sharp, then the shape exo-type is sharp.
 --Hence the hypothesis on the shape exo-type above cannot be weakened.
 ⟦⟧ᵉ-⊤ᵉ-to-Shape-sharp : {i j : Level} (F : Containerᵉ i lzero)
-                       → isSharp {i} (⟦ F ⟧ᵉ (⊤ᵉ {i})) j → isSharp {i} (Shape F) j
-⟦⟧ᵉ-⊤ᵉ-to-Shape-sharp {i} {j} F P = isSharp-iso {i} {j} (⟦⟧ᵉ-⊤ᵉ≅Shape F) P
+                       → isSharp (⟦ F ⟧ᵉ (⊤ᵉ {i})) j → isSharp (Shape F) j
+⟦⟧ᵉ-⊤ᵉ-to-Shape-sharp F P = isSharp-iso (⟦⟧ᵉ-⊤ᵉ≅Shape F) P
 
 --If ℕᵉ is cofibrant, then all countable exo-types are sharp
 Countable-is-sharp : {j : Level} {S : UUᵉ lzero} → isCountable S → isCofibrant ℕᵉ j → isSharp S j

@@ -23,14 +23,14 @@ succ-exp-iso n = (λ { (a ,ᵉ h) (inlᵉ x) → h x ; (a ,ᵉ h) (inrᵉ star�
                  (λ k → funextᵉ (λ { (inlᵉ x) → reflᵉ ; (inrᵉ starᵉ) → reflᵉ}))
 
 --If A is cofibrant, then so is (ℕᵉ< n → A)
-Fin-exp-cofib : {i j : Level} {A : UUᵉ i} → isCofibrant {i} A (i ⊔ j) → (n : ℕᵉ) → isCofibrant {i} (ℕᵉ< n → A) j
+Fin-exp-cofib : {i j : Level} {A : UUᵉ i} → isCofibrant A (i ⊔ j) → (n : ℕᵉ) → isCofibrant (ℕᵉ< n → A) j
 Fin-exp-cofib {i} {j} P zeroᵉ = isCofibrant-iso ⊥ᵉ-exp-iso (⊤ᵉ-is-cofibrant {i} j)
-Fin-exp-cofib {i} {j} P (succᵉ n) = isCofibrant-iso (succ-exp-iso n) (×ᵉ-preserve-Cofibrant {i} {i} {j} P (Fin-exp-cofib {i} {j} P n))
+Fin-exp-cofib {i} {j} P (succᵉ n) = isCofibrant-iso (succ-exp-iso n) (×ᵉ-preserve-Cofibrant {i} {i} {j} P (Fin-exp-cofib P n))
 
 --If A is cofibrant and X is exo-finite, then (X → A) is cofibrant
 finite-exp-cofib : {i j : Level} {X : UUᵉ lzero} {A : UUᵉ i}
-                   → isCofibrant {i} A (i ⊔ j) → Σᵉ ℕᵉ (λ n → ℕᵉ< n ≅ X) → isCofibrant {i} (X → A) j
-finite-exp-cofib {i} {j} P (n ,ᵉ e) = isCofibrant-iso {i} {j} (Πᵉ-iso-cong' (≅-sym e) (λ _ → ≅-refl)) (Fin-exp-cofib {i} {j} P n)
+                   → isCofibrant A (i ⊔ j) → Σᵉ ℕᵉ (λ n → ℕᵉ< n ≅ X) → isCofibrant (X → A) j
+finite-exp-cofib P (n ,ᵉ e) = isCofibrant-iso (Πᵉ-iso-cong' (≅-sym e) (λ _ → ≅-refl)) (Fin-exp-cofib P n)
 
 -----------------------------------------------------------------------------------------
 
@@ -45,8 +45,8 @@ finite-exp-cofib {i} {j} P (n ,ᵉ e) = isCofibrant-iso {i} {j} (Πᵉ-iso-cong'
 --Conversely, if F(⊤ᵉ) is cofibrant, then the shape exo-type is cofibrant.
 --Hence the hypothesis on the shape exo-type above cannot be weakened.
 ⟦⟧ᵉ-⊤ᵉ-to-Shape-cofib : {i j : Level} (F : Containerᵉ i lzero)
-                       → isCofibrant {i} (⟦ F ⟧ᵉ (⊤ᵉ {i})) j → isCofibrant {i} (Shape F) j
-⟦⟧ᵉ-⊤ᵉ-to-Shape-cofib {i} {j} F P = isCofibrant-iso {i} {j} (⟦⟧ᵉ-⊤ᵉ≅Shape F) P
+                       → isCofibrant (⟦ F ⟧ᵉ (⊤ᵉ {i})) j → isCofibrant (Shape F) j
+⟦⟧ᵉ-⊤ᵉ-to-Shape-cofib F P = isCofibrant-iso (⟦⟧ᵉ-⊤ᵉ≅Shape F) P
 
 --If ℕᵉ is cofibrant, then all countable exo-types are cofibrant
 Countable-is-cofibrant : {j : Level} {S : UUᵉ lzero} → isCountable S → isCofibrant ℕᵉ j → isCofibrant S j

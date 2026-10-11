@@ -34,7 +34,7 @@ infix 5 _◁_
 
 --A container is finitary if each position fiber is exo-finite.
 isFinitary : {i j : Level} → Containerᵉ i j → UUᵉ (i ⊔ j)
-isFinitary {i} {j} (S ◁ P) = (s : S) → Σᵉ {lzero} {j} ℕᵉ (λ n → _≅_ {lzero} {j} (ℕᵉ< n) (P s))
+isFinitary (S ◁ P) = (s : S) → Σᵉ ℕᵉ (λ n → ℕᵉ< n ≅ P s)
 
 --An exo-type is countable if it is exo-finite or isomorphic to ℕᵉ.
 isCountable : {i : Level} → UUᵉ i → UUᵉ i
@@ -79,10 +79,10 @@ List-Containerᵉ-to-Listᵉ-is-sec (a ::ᵉ l) = exo-ap (a ::ᵉ_) (List-Contai
 
 List-Containerᵉ-to-Listᵉ-is-retr' : {i : Level} {A : UUᵉ i} (n : ℕᵉ) (h : ℕᵉ< n → A) →
                                    Listᵉ-to-List-Containerᵉ (List-Containerᵉ-to-Listᵉ' n h) =ᵉ (n ,ᵉ h)
-List-Containerᵉ-to-Listᵉ-is-retr' {i} zeroᵉ h = exo-ap {i} {i} (_,ᵉ_ {lzero} {i} zeroᵉ) (funextᵉ {lzero} {i} (λ ()))
-List-Containerᵉ-to-Listᵉ-is-retr' {i} (succᵉ n) h =
-  exo-concat {i} (exo-ap {i} {i} (cons-List-Containerᵉ {i} (h (inrᵉ starᵉ))) (List-Containerᵉ-to-Listᵉ-is-retr' {i} n (λ x → h (inlᵉ x))))
-                  (exo-ap {i} {i} (_,ᵉ_ {lzero} {i} (succᵉ n)) (funextᵉ {lzero} {i} (λ { (inlᵉ x) → reflᵉ ; (inrᵉ starᵉ) → reflᵉ})))
+List-Containerᵉ-to-Listᵉ-is-retr' zeroᵉ h = exo-ap (zeroᵉ ,ᵉ_) (funextᵉ (λ ()))
+List-Containerᵉ-to-Listᵉ-is-retr' (succᵉ n) h =
+  exo-concat (exo-ap (cons-List-Containerᵉ (h (inrᵉ starᵉ))) (List-Containerᵉ-to-Listᵉ-is-retr' n (λ x → h (inlᵉ x))))
+             (exo-ap (succᵉ n ,ᵉ_) (funextᵉ (λ { (inlᵉ x) → reflᵉ ; (inrᵉ starᵉ) → reflᵉ})))
 
 List-Containerᵉ-to-Listᵉ-is-retr : {i : Level} {A : UUᵉ i} (t : ⟦ List-Containerᵉ ⟧ᵉ A) →
                                   Listᵉ-to-List-Containerᵉ (List-Containerᵉ-to-Listᵉ t) =ᵉ t
