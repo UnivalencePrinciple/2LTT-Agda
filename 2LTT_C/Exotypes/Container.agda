@@ -40,6 +40,10 @@ isFinitary {i} {j} (S ◁ P) = (s : S) → Σᵉ {lzero} {j} ℕᵉ (λ n → _�
 isCountable : {i : Level} → UUᵉ i → UUᵉ i
 isCountable S = (Σᵉ ℕᵉ (λ n → ℕᵉ< n ≅ S)) +ᵉ (ℕᵉ ≅ S)
 
+--Applying a container to ⊤ᵉ gives its shape exo-type
+⟦⟧ᵉ-⊤ᵉ≅Shape : {i j k : Level} (F : Containerᵉ i j) → ⟦ F ⟧ᵉ (⊤ᵉ {k}) ≅ Shape F
+⟦⟧ᵉ-⊤ᵉ≅Shape F = pr1ᵉ ,ᵉ (λ s → s ,ᵉ (λ _ → starᵉ)) ,ᵉ (λ _ → reflᵉ) ,ᵉ (λ _ → reflᵉ)
+
 ------------------------------------------------------------------------------
 
 --List container

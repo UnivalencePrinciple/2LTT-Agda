@@ -34,21 +34,27 @@ finite-exp-cofib {i} {j} P (n ,ᵉ e) = isCofibrant-iso {i} {j} (Πᵉ-iso-cong'
 
 -----------------------------------------------------------------------------------------
 
---General version: if A is cofibrant, each position fiber is exo-finite,
---and the shape exo-type is cofibrant, then F(A) is cofibrant.
+--If A is cofibrant, each position fiber is exo-finite, and the shape exo-type is cofibrant,
+--then F(A) is cofibrant.
 ⟦⟧ᵉ-preserve-Cofibrant : {i j k : Level} (F : Containerᵉ i lzero) {A : UUᵉ j}
                          → isCofibrant A (j ⊔ k) → isFinitary F → isCofibrant (Shape F) (j ⊔ k)
                          → isCofibrant (⟦ F ⟧ᵉ A) k
 ⟦⟧ᵉ-preserve-Cofibrant {i} {j} {k} (S ◁ P) R fin Q =
   Σᵉ-preserve-Cofibrant {i} {j} {k} Q (λ s → finite-exp-cofib R (fin s))
 
+--Conversely, if F(⊤ᵉ) is cofibrant, then the shape exo-type is cofibrant.
+--Hence the hypothesis on the shape exo-type above cannot be weakened.
+⟦⟧ᵉ-⊤ᵉ-to-Shape-cofib : {i j : Level} (F : Containerᵉ i lzero)
+                       → isCofibrant {i} (⟦ F ⟧ᵉ (⊤ᵉ {i})) j → isCofibrant {i} (Shape F) j
+⟦⟧ᵉ-⊤ᵉ-to-Shape-cofib {i} {j} F P = isCofibrant-iso {i} {j} (⟦⟧ᵉ-⊤ᵉ≅Shape F) P
+
 --If ℕᵉ is cofibrant, then all countable exo-types are cofibrant
 Countable-is-cofibrant : {j : Level} {S : UUᵉ lzero} → isCountable S → isCofibrant ℕᵉ j → isCofibrant S j
 Countable-is-cofibrant {j} (inlᵉ (n ,ᵉ e)) P = isCofibrant-iso e (Fin-is-cofibrant n j)
 Countable-is-cofibrant (inrᵉ e) P = isCofibrant-iso e P
 
---Main result: if A is cofibrant and F is a container whose shape exo-type is countable
---and each position fiber is exo-finite, then F(A) is cofibrant (if ℕᵉ is cofibrant).
+--In particular, if ℕᵉ is cofibrant, then F(A) is cofibrant for every cofibrant A
+--and every finitary container F with countable shapes.
 Containerᵉ-isCofibrant : {i j : Level} (F : Containerᵉ lzero lzero) {A : UUᵉ i}
                          → isCofibrant A (i ⊔ j) → isFinitary F → isCountable (Shape F) → isCofibrant ℕᵉ (i ⊔ j)
                          → isCofibrant (⟦ F ⟧ᵉ A) j

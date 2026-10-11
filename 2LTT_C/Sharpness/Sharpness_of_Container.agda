@@ -23,21 +23,27 @@ finite-exp-sharp P (n ,ᵉ e) = isSharp-iso (Πᵉ-iso-cong' (≅-sym e) (λ _ �
 
 -----------------------------------------------------------------------------------------
 
---General version: if A is sharp, each position fiber is exo-finite,
---and the shape exo-type is sharp, then F(A) is sharp.
+--If A is sharp, each position fiber is exo-finite, and the shape exo-type is sharp,
+--then F(A) is sharp.
 ⟦⟧ᵉ-preserve-Sharp : {i j k : Level} (F : Containerᵉ i lzero) {A : UUᵉ j}
                      → isSharp A (j ⊔ k) → isFinitary F → isSharp (Shape F) (lsuc j ⊔ k)
                      → isSharp (⟦ F ⟧ᵉ A) k
 ⟦⟧ᵉ-preserve-Sharp {i} {j} {k} (S ◁ P) R fin Q =
   Σᵉ-preserve-Sharp {i} {j} {k} Q (λ s → finite-exp-sharp R (fin s))
 
+--Conversely, if F(⊤ᵉ) is sharp, then the shape exo-type is sharp.
+--Hence the hypothesis on the shape exo-type above cannot be weakened.
+⟦⟧ᵉ-⊤ᵉ-to-Shape-sharp : {i j : Level} (F : Containerᵉ i lzero)
+                       → isSharp {i} (⟦ F ⟧ᵉ (⊤ᵉ {i})) j → isSharp {i} (Shape F) j
+⟦⟧ᵉ-⊤ᵉ-to-Shape-sharp {i} {j} F P = isSharp-iso {i} {j} (⟦⟧ᵉ-⊤ᵉ≅Shape F) P
+
 --If ℕᵉ is cofibrant, then all countable exo-types are sharp
 Countable-is-sharp : {j : Level} {S : UUᵉ lzero} → isCountable S → isCofibrant ℕᵉ j → isSharp S j
 Countable-is-sharp {j} (inlᵉ (n ,ᵉ e)) P = isSharp-iso e (Fin-is-sharp n j)
 Countable-is-sharp (inrᵉ e) P = isSharp-iso e (cofib-to-sharp-ℕᵉ P)
 
---Main result: if A is sharp and F is a container whose shape exo-type is countable
---and each position fiber is exo-finite, then F(A) is sharp (if ℕᵉ is cofibrant).
+--In particular, if ℕᵉ is cofibrant, then F(A) is sharp for every sharp A
+--and every finitary container F with countable shapes.
 Containerᵉ-isSharp : {i j : Level} (F : Containerᵉ lzero lzero) {A : UUᵉ i}
                      → isSharp A (i ⊔ j) → isFinitary F → isCountable (Shape F) → isCofibrant ℕᵉ (lsuc i ⊔ j)
                      → isSharp (⟦ F ⟧ᵉ A) j
