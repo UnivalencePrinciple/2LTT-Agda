@@ -106,6 +106,11 @@ is-prop-contr {i} A = is-prop-all-elements-equal λ {(a , p) → λ {(a' , p')
                   → is-contr (A × B)
 ×-contr-is-contr (a , P) (b , Q) = (a , b) , λ {(a' , b') → pair⁼ (a' , b') (a , b) ((P a') , Q b')}
 
+Σ-is-contr : {l l' : Level} {A : UU l} {B : A → UU l'}
+              → is-contr A → ((a : A) → is-contr (B a)) → is-contr (Σ A B)
+Σ-is-contr (a , ha) cB = 
+  (a , (center _ (cB a))) , λ {(a' , b') → dep-pair⁼ _ _ ((ha a') , (centrality _ (cB a) (tr _ (ha a') b')))}
+
 
 
 Π-over-⊥-is-contr : {i : Level} {Y : ⊥ → UU i} → is-contr (Π ⊥ Y)

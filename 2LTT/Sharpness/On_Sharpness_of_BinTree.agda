@@ -1,4 +1,4 @@
-{-# OPTIONS --without-K --exact-split --two-level --cumulativity --type-in-type #-}
+{-# OPTIONS --without-K --exact-split --two-level --cumulativity #-}
 
 module 2LTT.Sharpness.On_Sharpness_of_BinTree where
 
@@ -35,12 +35,12 @@ is-List-Parens-sharp P = cofib-list-to-sharp-List Parens (isSharp-iso iso-Parens
                 (λ { popen → reflᵉ ; pclose → reflᵉ})
 
 --Balanced is a family of cofibrant exo-types
-is-Balanced-sharp : {j : Level} → isCofibrant ℕᵉ (lsuc lzero ⊔ j) → (n : ℕᵉ) → isSharp (Balanced n) j
-is-Balanced-sharp {j} P n = Σᵉ-preserve-Sharp (is-List-Parens-sharp P) (λ a → is-balanced-sharp a n)
+is-Balanced-sharp : {j : Level} → isCofibrant ℕᵉ (lsuc lzero ⊔ j) → (n : ℕᵉ) → isSharp (Balanced n) (lsuc lzero ⊔ j)
+is-Balanced-sharp {j} P n = Σᵉ-preserve-Sharp {lzero} {lzero} {j} (is-List-Parens-sharp P) (λ a → is-balanced-sharp a n)
 
 
 --Unlabeled Binary Tree is sharp if ℕᵉ is cofibrant
-is-UnL-BinTreeᵉ-sharp : {j : Level} → isCofibrant ℕᵉ (lsuc lzero ⊔ j) → isSharp UnL-BinTreeᵉ j
+is-UnL-BinTreeᵉ-sharp : {j : Level} → isCofibrant ℕᵉ (lsuc lzero ⊔ j) → isSharp UnL-BinTreeᵉ (lsuc lzero ⊔ j)
 is-UnL-BinTreeᵉ-sharp {j} P = isSharp-iso Balanced≅UnL-BinTreeᵉ (is-Balanced-sharp {j} P zeroᵉ )
 
 
@@ -48,25 +48,26 @@ is-UnL-BinTreeᵉ-sharp {j} P = isSharp-iso Balanced≅UnL-BinTreeᵉ (is-Balanc
 
 --Binary Tree is cofibrant if ℕᵉ is cofibrant
 is-BinTreeᵉ-sharp : {i j k : Level}{N : UUᵉ i}{L : UUᵉ j}
-                      → isSharp N k → isSharp L k  → isCofibrant ℕᵉ k
-                      → isSharp (BinTreeᵉ N L) k
+                      → isSharp N (lsuc (i ⊔ j) ⊔ k) → isSharp L (lsuc (i ⊔ j) ⊔ k)
+                      → isCofibrant ℕᵉ (lsuc (i ⊔ j) ⊔ k)
+                      → isSharp (BinTreeᵉ N L) (lsuc (i ⊔ j) ⊔ k)
 is-BinTreeᵉ-sharp {i} {j} {k} Q R P =
   isSharp-iso BinTree-to-UnLBinTree-iso
-                (Σᵉ-preserve-Sharp (is-UnL-BinTreeᵉ-sharp {k} P)
+                (Σᵉ-preserve-Sharp {lzero} {i ⊔ j} {k} (is-UnL-BinTreeᵉ-sharp {lsuc (i ⊔ j) ⊔ k} P)
                  λ a → ×ᵉ-preserve-Sharp (folded-×-sharp R _) (folded-×-sharp Q _))
                  
 ------------------------------------------------------------------------------
 
 --Binary Tree with labeled leaf, unlabeled node, is sharp if ℕᵉ is cofibrant
 is-LeafLabeledBinTreeᵉ-sharp : {i k : Level}{L : UUᵉ i}
-                                → isSharp L k → isCofibrant ℕᵉ k
-                                → isSharp (BinTreeᵉ ⊤ᵉ L) k
-is-LeafLabeledBinTreeᵉ-sharp {i} {k} Q P = is-BinTreeᵉ-sharp (is-⊤ᵉ-Sharp k) Q P 
+                                → isSharp L (lsuc i ⊔ k) → isCofibrant ℕᵉ (lsuc i ⊔ k)
+                                → isSharp (BinTreeᵉ ⊤ᵉ L) (lsuc i ⊔ k)
+is-LeafLabeledBinTreeᵉ-sharp {i} {k} Q P = is-BinTreeᵉ-sharp {lzero} {i} {k} (is-⊤ᵉ-Sharp (lsuc i ⊔ k)) Q P 
 
 ------------------------------------------------------------------------------
 
 --Binary Tree with labeled node, unlabeled leaf, is sharp if ℕᵉ is cofibrant
 is-NodeLabeledBinTreeᵉ-sharp : {i k : Level}{N : UUᵉ i}
-                                → isSharp N k → isCofibrant ℕᵉ k
-                                → isSharp (BinTreeᵉ N ⊤ᵉ) k
-is-NodeLabeledBinTreeᵉ-sharp {i} {k} Q P = is-BinTreeᵉ-sharp Q (is-⊤ᵉ-Sharp k) P 
+                                → isSharp N (lsuc i ⊔ k) → isCofibrant ℕᵉ (lsuc i ⊔ k)
+                                → isSharp (BinTreeᵉ N ⊤ᵉ) (lsuc i ⊔ k)
+is-NodeLabeledBinTreeᵉ-sharp {i} {k} Q P = is-BinTreeᵉ-sharp {i} {lzero} {k} Q (is-⊤ᵉ-Sharp (lsuc i ⊔ k)) P 

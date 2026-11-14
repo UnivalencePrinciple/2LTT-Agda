@@ -1,4 +1,4 @@
-{-# OPTIONS --without-K --exact-split --two-level --type-in-type #-}
+{-# OPTIONS --without-K --exact-split --two-level #-}
 
 module 2LTT_C.Sharpness.Sharpness_of_Sigma where
 
@@ -6,13 +6,16 @@ open import 2LTT_C.Sharpness.isSharp public
 open import 2LTT_C.Coercion.Fibrant_Functions public
 
 Σᵉ-preserve-Sharp : {i j k : Level}{A : UUᵉ i}{B : A → UUᵉ j}
-                               → isSharp {i} A (lsuc j ⊔ k) → ((a : A) → isSharp {j} (B a) k)
-                               → isSharp {i ⊔ j} (Σᵉ A B) k
+                               → isSharp {i} A (lsuc j ⊔ k) → ((a : A) → isSharp {j} (B a) (lsuc j ⊔ k))
+                               → isSharp {i ⊔ j} (Σᵉ A B) (lsuc j ⊔ k)
 Σᵉ-preserve-Sharp {i} {j} {k} {A} {B} P Q = issharp cwΣAB
                                                 (Σ frA RB̃)
                                                 ftΣ
                                                 λ Y → precomp-equiv.proof {Y}
   where
+   Uj : UU (lsuc j ⊔ k)
+   Uj = Raise k (UU j)
+-------
    cwA : isCofibrant A (lsuc j ⊔ k)
    cwA = isSharp.cofibrant-witness P
 -------
@@ -22,33 +25,33 @@ open import 2LTT_C.Coercion.Fibrant_Functions public
    ftA : A → frA
    ftA = isSharp.fibrant-transfer P
 -------
-   midset : UU (i ⊔ lsuc j)
+   midset : UU (i ⊔ lsuc j ⊔ k)
    midset = isFibrant.fibrant-match
-              (isCofibrant-at.Π-fibrant-witness (cwA (λ _ → UU j)))
+              (isCofibrant-at.Π-fibrant-witness (cwA (λ _ → Uj)))
 -------            
-   F : C (frA → UU j) → (A → C (UU j))
-   F = (precomp A (frA) (ftA) (λ _ → UU j))
-   F' : (frA → UU j) → midset
-   F' =  (Fib-map (isfibrant _ ≅-refl) (isCofibrant-at.Π-fibrant-witness (cwA (λ _ → UU j))) F)
+   F : C (frA → Uj) → (A → C (Uj))
+   F = (precomp A (frA) (ftA) (λ _ → Uj))
+   F' : (frA → Uj) → midset
+   F' =  (Fib-map (isfibrant _ ≅-refl) (isCofibrant-at.Π-fibrant-witness (cwA (λ _ → Uj))) F)
 -------
-   pcmpeqA : (Y : frA → UU k)
-                 → Fib-isEquiv (isfibrant _ ≅-refl) (isCofibrant-at.Π-fibrant-witness (cwA (λ x → Y (ftA x)))) (precomp {i} {k} A frA ftA Y)
+   pcmpeqA : (Y : frA → UU (lsuc j ⊔ k))
+                 → Fib-isEquiv (isfibrant _ ≅-refl) (isCofibrant-at.Π-fibrant-witness (cwA (λ x → Y (ftA x)))) (precomp {i} {lsuc j ⊔ k} A frA ftA Y)
    pcmpeqA = isSharp.precomp-is-equiv P
 -------
-   G : midset → (frA → UU j)
-   G = pr1 (equivs-are-invertible F' (pcmpeqA (λ _ → UU j)))
+   G : midset → (frA → Uj)
+   G = pr1 (equivs-are-invertible F' (pcmpeqA (λ _ → Uj)))
 -------
    GF : (G ∘ F') ~ id
-   GF = pr1 (pr2 (equivs-are-invertible F' (pcmpeqA (λ _ → UU j))))
+   GF = pr1 (pr2 (equivs-are-invertible F' (pcmpeqA (λ _ → Uj))))
 -------
    FG : (F' ∘ G) ~ id
-   FG = pr2 (pr2 (equivs-are-invertible F' (pcmpeqA (λ _ → UU j))))
+   FG = pr2 (pr2 (equivs-are-invertible F' (pcmpeqA (λ _ → Uj))))
 -------
-   CWB : (a : A) → isCofibrant (B a) k
+   CWB : (a : A) → isCofibrant (B a) (lsuc j ⊔ k)
    CWB a = isSharp.cofibrant-witness (Q a)
 -------
-   cwΣAB : isCofibrant (Σᵉ A B) k
-   cwΣAB = Σᵉ-preserve-Cofibrant cwA CWB
+   cwΣAB : isCofibrant (Σᵉ A B) (lsuc j ⊔ k)
+   cwΣAB = Σᵉ-preserve-Cofibrant {i} {j} {lsuc j ⊔ k} cwA CWB
 -------
    RB : (a : A) → UU j
    RB a = isSharp.fibrant-replacement (Q a)
@@ -56,44 +59,44 @@ open import 2LTT_C.Coercion.Fibrant_Functions public
    FTB : (a : A) → ((B a) → (RB a))
    FTB a = isSharp.fibrant-transfer (Q a)
 -------
-   pcmpeqBa : (a : A) → (Y : (RB a) → UU k)
+   pcmpeqBa : (a : A) → (Y : (RB a) → UU (lsuc j ⊔ k))
               → Fib-isEquiv (isfibrant _ ≅-refl)
                              (isCofibrant-at.Π-fibrant-witness ((CWB a) (λ x → Y ((FTB a) x))))
-                             (precomp {j} {k} (B a) (RB a) (FTB a) Y)
+                             (precomp {j} {lsuc j ⊔ k} (B a) (RB a) (FTB a) Y)
    pcmpeqBa a = isSharp.precomp-is-equiv (Q a)
 -------
-   α : (A → C (UU j)) → C midset
+   α : (A → C Uj) → C midset
    α = pr1ᵉ (isFibrant.fibrant-witness
-                   (isCofibrant-at.Π-fibrant-witness (cwA (λ _ → UU j))))
+                   (isCofibrant-at.Π-fibrant-witness (cwA (λ _ → Uj))))
 -------
-   β : C midset → (A → C (UU j))
+   β : C midset → (A → C Uj)
    β = pr1ᵉ (pr2ᵉ (isFibrant.fibrant-witness
-                   (isCofibrant-at.Π-fibrant-witness (cwA (λ _ → UU j)))))
+                   (isCofibrant-at.Π-fibrant-witness (cwA (λ _ → Uj)))))
 -------
    αβ : (x : _) → α (β x) =ᵉ x
    αβ = pr2ᵉ (pr2ᵉ (pr2ᵉ (isFibrant.fibrant-witness
-                   (isCofibrant-at.Π-fibrant-witness (cwA (λ _ → UU j))))))
+                   (isCofibrant-at.Π-fibrant-witness (cwA (λ _ → Uj))))))
 -------
    βα : (x : _) → β (α x) =ᵉ x
    βα = pr1ᵉ (pr2ᵉ (pr2ᵉ (isFibrant.fibrant-witness
-                   (isCofibrant-at.Π-fibrant-witness (cwA (λ _ → UU j))))))
+                   (isCofibrant-at.Π-fibrant-witness (cwA (λ _ → Uj))))))
 -------
    RB̃ : frA → UU j
-   RB̃ = G (ic (α (λ a → c (RB a))))
+   RB̃ x = lower (G (ic (α (λ a → c (raise (RB a))))) x)
 -------
-   ev : A → ((A → C (UU j)) → C (UU j))
+   ev : A → ((A → C Uj) → C Uj)
    ev a Y = Y a
 -------
-   eṽ : A → (midset → C (UU j))
+   eṽ : A → (midset → C Uj)
    eṽ a = (λ x → (ev a) λ a → (β (c x) a))
 -------
-   L1 : Id (ic (α (λ a → c (RB̃ (ftA a))))) (ic (α (λ a → c (RB a))))
-   L1 = (ap F' {RB̃} {G (ic (α (λ a → c (RB a))))} refl) · FG (ic (α (λ a → c (RB a))))
+   L1 : Id (ic (α (λ a → c (raise (RB̃ (ftA a)))))) (ic (α (λ a → c (raise (RB a)))))
+   L1 = FG (ic (α (λ a → c (raise (RB a)))))
 -------
    L2 : (a : A) → (Id (RB̃ (ftA a)) (RB a))
-   L2 a = (=ᵉ-to-Id (exo-ap {i ⊔ lsuc j} {lsuc j} (ev a) (βα (λ a' → c (RB̃ (ftA a')))))) ⁻¹
+   L2 a = ap lower ((=ᵉ-to-Id (exo-ap {i ⊔ lsuc j ⊔ k} {lsuc j ⊔ k} (ev a) (βα (λ a' → c (raise (RB̃ (ftA a'))))))) ⁻¹
            · (ap (λ x → ic (eṽ a x)) L1 
-             · =ᵉ-to-Id (exo-ap {i ⊔ lsuc j} {lsuc j} (ev a) (βα (λ a → c (RB a))))) 
+             · =ᵉ-to-Id (exo-ap {i ⊔ lsuc j ⊔ k} {lsuc j ⊔ k} (ev a) (βα (λ a → c (raise (RB a)))))))
 -------
    EQ-T : (a : A) → (RB a) → ((λ a → RB̃ (ftA a)) a)
    EQ-T a = (inv p q)
@@ -119,20 +122,20 @@ open import 2LTT_C.Coercion.Fibrant_Functions public
    ftΣ : (Σᵉ A B) → (Σ frA (λ x → RB̃ x))
    ftΣ = (λ x → ftA (pr1ᵉ x) , (EQ-T (pr1ᵉ x)) ((FTB (pr1ᵉ x)) (pr2ᵉ x)))
 -------
-   module precomp-equiv {Y : Σ {i} {j} frA (λ x → RB̃ x) → UU k} where
+   module precomp-equiv {Y : Σ {i} {j} frA (λ x → RB̃ x) → UU (lsuc j ⊔ k)} where
         ----We'll use the idea in the UP paper, page 19. There is a chain of
         ----equivalences that contains six Π-types. We'll enumerate these accordingly.
         ----Also, we'll enumerate the maps between these Π-types according to their inputs.
-        ΠType-1 : UU (i ⊔ j ⊔ k) --this is fibrant by default.
+        ΠType-1 : UU (i ⊔ lsuc j ⊔ k) --this is fibrant by default.
         ΠType-1 = Π (Σ frA RB̃) Y
         -------------------------
-        ΠType-2 : UU (i ⊔ j ⊔ k) --this is fibrant by default.
+        ΠType-2 : UU (i ⊔ lsuc j ⊔ k) --this is fibrant by default.
         ΠType-2 = Π frA (λ x → Π (RB̃ x) (λ y → Y (x , y)))
         -------------------------
         Map-1 : C ΠType-1 → C ΠType-2 --there is an obvious equivalence between them.
         Map-1 = λ {(c T) → c (Π-Σ-expansion T)}
         -------------------------
-        ΠType-3 : UUᵉ (i ⊔ j ⊔ k) --this is an exo-type, but fibrant one.
+        ΠType-3 : UUᵉ (i ⊔ lsuc j ⊔ k) --this is an exo-type, but fibrant one.
         ΠType-3 = Πᵉ A (λ a → C (Π (RB̃ (ftA a)) (λ y → Y ((ftA a) , y))))
         -------------------------
         Fibrant3 : isFibrant ΠType-3
@@ -141,7 +144,7 @@ open import 2LTT_C.Coercion.Fibrant_Functions public
         Map-2 : C ΠType-2 → ΠType-3
         Map-2 (c T) = λ a → c (λ y → T (ftA a) y) 
         -------------------------
-        ΠType-4 : UUᵉ (i ⊔ j ⊔ k) --this is an exo-type, but fibrant one.
+        ΠType-4 : UUᵉ (i ⊔ lsuc j ⊔ k) --this is an exo-type, but fibrant one.
         ΠType-4 = Πᵉ A (λ a → C (Π (RB a) (λ y → Y ((ftA a) , EQ-T a y))))
         -------------------------
         Fibrant4 : isFibrant ΠType-4
@@ -153,11 +156,11 @@ open import 2LTT_C.Coercion.Fibrant_Functions public
         Map-3 : ΠType-3 → ΠType-4
         Map-3 T = λ x → c (λ y → (midmap x) (ic (T x)) y)
         -------------------------
-        ΠType-5 : UUᵉ (i ⊔ j ⊔ k) --this is an exo-type, but fibrant one.
+        ΠType-5 : UUᵉ (i ⊔ lsuc j ⊔ k) --this is an exo-type, but fibrant one.
         ΠType-5 = Πᵉ A (λ a → Πᵉ (B a) (λ b → C (Y ((ftA a) , EQ-T a (FTB a b)))))
         -------------------------
         Fibrant5 : isFibrant ΠType-5
-        Fibrant5 = (isFibrant-iso (≅-sym {i ⊔ j ⊔ k}{i ⊔ j ⊔ k} Πᵉ-Σ-expansion)
+        Fibrant5 = (isFibrant-iso (≅-sym {i ⊔ lsuc j ⊔ k}{i ⊔ lsuc j ⊔ k} Πᵉ-Σ-expansion)
                                 (isCofibrant-at.Π-fibrant-witness (cwΣAB (λ x → Y (ftΣ x)))))
         -------------------------
         midmap' : (a : A) → C (Π (RB a) (λ y → Y ((ftA a) , EQ-T a y))) → (Πᵉ (B a) (λ b → C (Y ((ftA a) ,  EQ-T a (FTB a b)))))
@@ -173,9 +176,9 @@ open import 2LTT_C.Coercion.Fibrant_Functions public
         midmap'-Fib-isEquiv a = (pcmpeqBa a) (λ y → Y ((ftA a) ,  EQ-T a y)) 
         -------------------------
         Map-4 : ΠType-4 → ΠType-5
-        Map-4 = (Πᵉ-functor {i} {j ⊔ k} idᵉ midmap') 
+        Map-4 = (Πᵉ-functor {i} {lsuc j ⊔ k} idᵉ midmap') 
         -------------------------
-        ΠType-6 : UUᵉ (i ⊔ j ⊔ k) --this is an exo-type, but fibrant one.
+        ΠType-6 : UUᵉ (i ⊔ lsuc j ⊔ k) --this is an exo-type, but fibrant one.
         ΠType-6 = Πᵉ (Σᵉ A B) (λ z → C (Y (ftΣ z)))
         -------------------------
         Fibrant6 : isFibrant ΠType-6
@@ -197,25 +200,25 @@ open import 2LTT_C.Coercion.Fibrant_Functions public
         Equiv-2 = pcmpeqA (λ x → Π (RB̃ x) (λ y → Y (x , y)))
         -------------------------
         Equiv-3 : Fib-isEquiv Fibrant3 Fibrant4 Map-3
-        Equiv-3 = Fib-Π-functor-isEquiv {i} {j ⊔ k} cwA λ a → pr2 (Π-iso-cong {j} {k} (EQ-T a) {EQ-T-isEquiv a}
+        Equiv-3 = Fib-Π-functor-isEquiv {i} {lsuc j ⊔ k} cwA λ a → pr2 (Π-iso-cong {j} {lsuc j ⊔ k} (EQ-T a) {EQ-T-isEquiv a}
                                                                                        (λ b → id) {λ b → id-is-equiv})
         -------------------------
         Equiv-4 : Fib-isEquiv Fibrant4 Fibrant5 Map-4
-        Equiv-4 = Fib-Π-functor-isEquiv {i} {j ⊔ k} {F = check-map} cwA λ a → (midmap'-Fib-isEquiv a)
+        Equiv-4 = Fib-Π-functor-isEquiv {i} {lsuc j ⊔ k} {F = check-map} cwA λ a → (midmap'-Fib-isEquiv a)
         -------------------------
         Equiv-5 : Fib-isEquiv Fibrant5 Fibrant6 Map-5
         Equiv-5 = Iso-to-Fib-isEquiv Fibrant5 Fibrant6 (pr1ᵉ Πᵉ-Σ-expansion) (pr2ᵉ Πᵉ-Σ-expansion)
         -------------------------
         Equiv-main : Fib-isEquiv (isfibrant ΠType-1 ≅-refl) Fibrant6 (Map-5 ∘ᵉ (Map-4 ∘ᵉ (Map-3 ∘ᵉ (Map-2 ∘ᵉ Map-1))))
-        Equiv-main = Fib-comp-isEquiv {i ⊔ j ⊔ k}{i ⊔ j ⊔ k} {i ⊔ j ⊔ k} (isfibrant _ ≅-refl)
+        Equiv-main = Fib-comp-isEquiv {i ⊔ lsuc j ⊔ k}{i ⊔ lsuc j ⊔ k} {i ⊔ lsuc j ⊔ k} (isfibrant _ ≅-refl)
                                       Fibrant5
                                       Fibrant6
                                       (Map-4 ∘ᵉ (Map-3 ∘ᵉ (Map-2 ∘ᵉ Map-1))) Map-5
-                                      (Fib-comp-isEquiv {i ⊔ j ⊔ k}{i ⊔ j ⊔ k} {i ⊔ j ⊔ k} (isfibrant _ ≅-refl)
+                                      (Fib-comp-isEquiv {i ⊔ lsuc j ⊔ k}{i ⊔ lsuc j ⊔ k} {i ⊔ lsuc j ⊔ k} (isfibrant _ ≅-refl)
                                       Fibrant4
                                       Fibrant5
                                       (Map-3 ∘ᵉ (Map-2 ∘ᵉ Map-1)) Map-4
-                                      (Fib-comp-isEquiv {i ⊔ j ⊔ k}{i ⊔ j ⊔ k} {i ⊔ j ⊔ k} (isfibrant _ ≅-refl)
+                                      (Fib-comp-isEquiv {i ⊔ lsuc j ⊔ k}{i ⊔ lsuc j ⊔ k} {i ⊔ lsuc j ⊔ k} (isfibrant _ ≅-refl)
                                       Fibrant3
                                       Fibrant4
                                       (Map-2 ∘ᵉ Map-1) Map-3

@@ -117,3 +117,40 @@ Fib-×ᵉ-contr : {i j : Level} {A : UUᵉ i} {B : UUᵉ j} {W : isFibrant {i} A
 Fib-×ᵉ-contr {i} {j} {A} {B} {W} {V} P Q = ×-contr-is-contr P Q
 -------------------------------------------------------------------------------------------------------------
 
+module _ {l1 l2 l3 : Level} {A : UUᵉ l1} {B : A → UUᵉ l2} {Z : UU l3}
+         (FA : isFibrant A) (FB : (a : A) → isFibrant (B a))
+         (cA : is-contr (fibrant-match FA)) (cB : (a : A) → is-contr (fibrant-match (FB a)))
+         (F : Σᵉ A B → C Z) where
+  private
+    fa = pr1ᵉ (fibrant-witness FA)
+    ga = pr1ᵉ (pr2ᵉ (fibrant-witness FA))
+    lha = pr1ᵉ (pr2ᵉ (pr2ᵉ (fibrant-witness FA)))
+    fb = λ a → pr1ᵉ (fibrant-witness (FB a))
+    gb = λ a → pr1ᵉ (pr2ᵉ (fibrant-witness (FB a)))
+    lhb = λ a → pr1ᵉ (pr2ᵉ (pr2ᵉ (fibrant-witness (FB a))))
+
+    T : UU (l1 ⊔ l2)
+    T = Σ (fibrant-match FA) (λ x → fibrant-match (FB (ga (c x))))
+
+    cT : is-contr T
+    cT = Σ-is-contr cA (λ x → cB (ga (c x)))
+
+    G : T → Z
+    G (x , y) = ic (F (ga (c x) ,ᵉ gb (ga (c x)) (c y)))
+
+    pt : Σᵉ A B → T
+    pt (a ,ᵉ b) = ic (fa a) , ic (fb (ga (fa a)) (exo-tr B (exo-inv (lha a)) b))
+
+    tr-F : {a' a : A} (p : a' =ᵉ a) (b : B a) → F (a' ,ᵉ exo-tr B (exo-inv p) b) =ᵉ F (a ,ᵉ b)
+    tr-F reflᵉ b = reflᵉ
+
+    G-pt : (u : Σᵉ A B) → c (G (pt u)) =ᵉ F u
+    G-pt (a ,ᵉ b) =
+      exo-concat (exo-ap (λ t → F (ga (fa a) ,ᵉ t)) (lhb (ga (fa a)) (exo-tr B (exo-inv (lha a)) b)))
+                 (tr-F (lha a) b)
+
+  contr-Σᵉ-const : (u u' : Σᵉ A B) → Id (ic (F u)) (ic (F u'))
+  contr-Σᵉ-const u u' =
+    (cic-eq (G-pt u)) ⁻¹ ·
+    (ap G (centrality T cT (pt u) · (centrality T cT (pt u')) ⁻¹) · cic-eq (G-pt u'))
+-------------------------------------------------------------------------------------------------------------

@@ -73,7 +73,4 @@ is such that each `B(a)` is cofibrant, then `Σᵉ A B` is cofibrant.
 In the folder `Sharpness`, we formalized sharp exo-types and some of their properties. An exo-type `A` is sharp if it is cofibrant and has a fibrant replacement which is a type `RA` such that there is a map `n : A → RA` and for any families `Y` of types over `RA`, the precomposition map `Π RA Y  → Πᵉ A (Y∘ᵉn)` is a fibrant equivalence. We also formalized Lemma 2.3 in UP.
 
 ---
-In the folder `Diagram_Signatures`, we've started to formalize Chapter 4 of UP. It's in progress, but we have basic definitions and examples.
-
----
-For questions and suggestions, please write to euskuplu@usc.edu
+For questions and suggestions, please write to uskupluelif@gmail.com

@@ -1,4 +1,4 @@
-{-# OPTIONS --without-K --exact-split --two-level --cumulativity --type-in-type #-}
+{-# OPTIONS --without-K --exact-split --two-level --cumulativity #-}
 
 module 2LTT.Sharpness.isSharp_equiv_definitions where
 
@@ -69,13 +69,14 @@ Lemma-2-3--2->1 {i} {j} B F RB r P Y = invertibles-are-equiv _
                               c)
 
 Lemma-2-3--3->2 : {i j : Level} (B : UUᵉ i) →
-                  (F : isCofibrant B j) →
+                  (F : isCofibrant B (i ⊔ j)) →
                   (RB : UU i) → (r : B → RB) →
-                  ((Z : UU j) → Precomp-isEquiv {i} {j} B F RB r (λ _ → Z)) →                   
-                  ((Y : RB → UU j) → Has-Section-Precomp {i} {j} B F RB r Y)
+                  ((Z : UU (i ⊔ j)) → Precomp-isEquiv {i} {i ⊔ j} B F RB r (λ _ → Z)) →                   
+                  ((Y : RB → UU (i ⊔ j)) → Has-Section-Precomp {i} {i ⊔ j} B F RB r Y)
 Lemma-2-3--3->2 {i} {j} B F RB r P Y = sec-map , section-proof
   where    
-    Z = Σ RB Y
+    Z : UU (i ⊔ j)
+    Z = Σ {i ⊔ j} {i ⊔ j} RB Y
     
     FM = fibrant-match (Π-fibrant-witness (F (Y ∘ᵉ r)))
 
@@ -116,8 +117,8 @@ Lemma-2-3--3->2 {i} {j} B F RB r P Y = sec-map , section-proof
     σ' = (inv _ (P RB))
     β' = (Fib-map (isfibrant _ ≅-refl) (Π-fibrant-witness (F ((λ _ → RB) ∘ᵉ r))) (precomp B RB r (λ _ → RB)))
 
-    σβ' : (u : (RB → RB)) → Id (σ' (β' u)) u
-    σβ' = Fib-right-htpy (isfibrant _ ≅-refl) (Π-fibrant-witness (F ((λ _ → RB) ∘ᵉ r))) (precomp B RB r (λ _ → RB)) (P RB)
+    σβ' : (u : (RB → RB)) → Id {i ⊔ j} {RB → RB} (σ' (β' u)) u
+    σβ' = Fib-right-htpy {i ⊔ j} {i ⊔ j} (isfibrant _ ≅-refl) (Π-fibrant-witness (F ((λ _ → RB) ∘ᵉ r))) (precomp B RB r (λ _ → RB)) (P RB)
     
     aux-map : (f : Πᵉ B (Y ∘ᵉ r)) → (B → Z)
     aux-map f b = (r b) , (f b)
@@ -127,27 +128,27 @@ Lemma-2-3--3->2 {i} {j} B F RB r P Y = sec-map , section-proof
     aux-eq u = exo-inv (kh' ((precomp B RB r (λ _ → Z)) u))
 
     q : (f : Πᵉ B (Y ∘ᵉ r)) → (b : B) →
-        Id (pr1 ((σ (h' (aux-map f))) (r b))) (r b)
-    q f b = ap {i} {i} pr1
+        Id {i ⊔ j} {RB} (pr1 ((σ (h' (aux-map f))) (r b))) (r b)
+    q f b = ap {i ⊔ j} {i ⊔ j} {Z} {RB} (λ z → pr1 z)
                    ((=ᵉ-to-Id (happlyᵉ (aux-eq (σ (h' (aux-map f)))) b)) ·
-                    (ap {i} {i} (λ u → (k' (u (h' (aux-map f)))) b) (funext βσ) · =ᵉ-to-Id (happlyᵉ (kh' (aux-map f)) b)))
+                    (ap {i ⊔ j} {i ⊔ j} (λ u → (k' (u (h' (aux-map f)))) b) (funext βσ) · =ᵉ-to-Id (happlyᵉ (kh' (aux-map f)) b)))
 
-    q' : (f : Πᵉ B (Y ∘ᵉ r)) → Id (h'' ((pr1 ∘ (σ (h' (aux-map f)))) ∘ᵉ r)) (h'' r)
-    q' f = FUNEXT.FEP {i} {i} {B} {λ _ → RB} {F} (q f)
+    q' : (f : Πᵉ B (Y ∘ᵉ r)) → Id {i ⊔ j} (h'' (λ b → pr1 (σ (h' (aux-map f)) (r b)))) (h'' r)
+    q' f = FUNEXT.FEP {i} {i ⊔ j} {B} {λ _ → RB} {F} (q f)
 
-    p : (f : Πᵉ B (Y ∘ᵉ r)) → Id (pr1 ∘ (σ (h' (aux-map f)))) id
-    p f = ((σβ' (λ c' → pr1 ((σ (h' (aux-map f))) c'))) ⁻¹) · ((ap σ' (q' f)) · σβ' id)
+    p : (f : Πᵉ B (Y ∘ᵉ r)) → Id {i ⊔ j} {RB → RB} (λ d → pr1 (σ (h' (aux-map f)) d)) (λ d → d)
+    p f = ((σβ' (λ c' → pr1 ((σ (h' (aux-map f))) c'))) ⁻¹) · ((ap {i ⊔ j} {i ⊔ j} σ' (q' f)) · σβ' (λ d → d))
 
     sec-map : FM → Π RB Y
-    sec-map x = λ c → tr Y (happly (p (k x)) c) (pr2 (σ (h' (aux-map (k x))) c))
+    sec-map x = λ c → tr {i ⊔ j} {i ⊔ j} Y (happly {i ⊔ j} {i ⊔ j} (p (k x)) c) (pr2 (σ (h' (aux-map (k x))) c))
 
-    aux-eq2 : (x : FM) → (b : B) → Id (r b , sec-map x (r b)) (aux-map (k x) b)
-    aux-eq2 x b =  (lift {i} {j} {RB} {Y} {r b} (σ (h' (aux-map (k x))) (r b)) (happly (p (k x)) (r b))) ⁻¹ ·
+    aux-eq2 : (x : FM) → (b : B) → Id {i ⊔ j} {Z} (r b , sec-map x (r b)) (aux-map (k x) b)
+    aux-eq2 x b =  (lift {i ⊔ j} {i ⊔ j} {RB} {Y} {r b} (σ (h' (aux-map (k x))) (r b)) (happly {i ⊔ j} {i ⊔ j} (p (k x)) (r b))) ⁻¹ ·
                  ((=ᵉ-to-Id (happlyᵉ (aux-eq (σ (h' (aux-map (k x))))) b)) ·
-                    (ap {i} {i} (λ u → (k' (u (h' (aux-map (k x))))) b) (funext βσ) · =ᵉ-to-Id (happlyᵉ (kh' (aux-map (k x))) b)))
+                    (ap {i ⊔ j} {i ⊔ j} (λ u → (k' (u (h' (aux-map (k x))))) b) (funext βσ) · =ᵉ-to-Id (happlyᵉ (kh' (aux-map (k x))) b)))
 
     aux-eq3 : (x : FM) → (b : B) → Id (sec-map x (r b)) ((k x) b)
-    aux-eq3 x b = (apd (sec-map x) (pr1 (inv-dep-pair⁼ _ _ (aux-eq2 x b)))) ⁻¹ · (pr2 (inv-dep-pair⁼ _ _ (aux-eq2 x b))) 
+    aux-eq3 x b = (apd {i ⊔ j} {i ⊔ j} (sec-map x) (pr1 (inv-dep-pair⁼ {i ⊔ j} {i ⊔ j} _ _ (aux-eq2 x b)))) ⁻¹ · (pr2 (inv-dep-pair⁼ {i ⊔ j} {i ⊔ j} _ _ (aux-eq2 x b))) 
 
     fib-precomp = Fib-map {i ⊔ j} {i ⊔ j} {Π RB Y} {Πᵉ B (Y ∘ᵉ r)}
                                                            (isfibrant _ ≅-refl)
@@ -155,4 +156,4 @@ Lemma-2-3--3->2 {i} {j} B F RB r P Y = sec-map , section-proof
                                                            (precomp B RB r Y)
 
     section-proof : (x : FM) → Id (fib-precomp (sec-map x)) x
-    section-proof x =  FUNEXT.FEP {i ⊔ j} {i ⊔ j} {B} {Y ∘ᵉ r} {F} (aux-eq3 x) · (=ᵉ-to-Id (hk x))
+    section-proof x =  FUNEXT.FEP {i} {i ⊔ j} {B} {Y ∘ᵉ r} {F} (aux-eq3 x) · (=ᵉ-to-Id (hk x))

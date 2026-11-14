@@ -118,3 +118,64 @@ Fib-×ᵉ-contr : {i j : Level} {A : UUᵉ i} {B : UUᵉ j} {W : isFibrant {i} A
 Fib-×ᵉ-contr {i} {j} {A} {B} {W} {V} P Q = ×-contr-is-contr P Q
 -------------------------------------------------------------------------------------------------------------
 
+module _ {l1 l2 l3 : Level} {A : UUᵉ l1} {B : A → UUᵉ l2} {Z : UU l3}
+         (FA : isFibrant {l1} A) (FB : (a : A) → isFibrant {l2} (B a))
+         (cA : is-contr {l1} (fibrant-match FA)) (cB : (a : A) → is-contr {l2} (fibrant-match (FB a)))
+         (F : Σᵉ {l1} {l2} A B → Z) where
+  private
+    MA : UU l1
+    MA = fibrant-match FA
+
+    MB : A → UU l2
+    MB a = fibrant-match (FB a)
+
+    fa : A → MA
+    fa = pr1ᵉ (fibrant-witness FA)
+
+    ga : MA → A
+    ga = pr1ᵉ (pr2ᵉ (fibrant-witness FA))
+
+    lha : (a : A) → _=ᵉ_ {l1} {A} (ga (fa a)) a
+    lha = pr1ᵉ (pr2ᵉ (pr2ᵉ (fibrant-witness FA)))
+
+    fb : (a : A) → B a → MB a
+    fb a = pr1ᵉ (fibrant-witness (FB a))
+
+    gb : (a : A) → MB a → B a
+    gb a = pr1ᵉ (pr2ᵉ (fibrant-witness (FB a)))
+
+    lhb : (a : A) (b : B a) → _=ᵉ_ {l2} {B a} (gb a (fb a b)) b
+    lhb a = pr1ᵉ (pr2ᵉ (pr2ᵉ (fibrant-witness (FB a))))
+
+    T : UU (l1 ⊔ l2)
+    T = Σ {l1} {l2} MA (λ x → MB (ga x))
+
+    cT : is-contr {l1 ⊔ l2} T
+    cT = Σ-is-contr {l1} {l2} {MA} {λ x → MB (ga x)} cA (λ x → cB (ga x))
+
+    G : T → Z
+    G (x , y) = F (ga x ,ᵉ gb (ga x) y)
+
+    pt : Σᵉ {l1} {l2} A B → T
+    pt (a ,ᵉ b) = fa a , fb (ga (fa a)) (exo-tr {l1} {l2} {A} B (exo-inv {l1} {A} (lha a)) b)
+
+    tr-F : {a' a : A} (p : _=ᵉ_ {l1} {A} a' a) (b : B a)
+           → _=ᵉ_ {l3} {Z} (F (a' ,ᵉ exo-tr {l1} {l2} {A} B (exo-inv {l1} {A} p) b)) (F (a ,ᵉ b))
+    tr-F reflᵉ b = reflᵉ
+
+    G-pt : (u : Σᵉ {l1} {l2} A B) → _=ᵉ_ {l3} {Z} (G (pt u)) (F u)
+    G-pt (a ,ᵉ b) =
+      exo-concat {l3} {Z}
+        (exo-ap {l2} {l3} {B (ga (fa a))} {Z} (λ t → F (ga (fa a) ,ᵉ t))
+                (lhb (ga (fa a)) (exo-tr {l1} {l2} {A} B (exo-inv {l1} {A} (lha a)) b)))
+        (tr-F (lha a) b)
+
+  contr-Σᵉ-const : (u u' : Σᵉ {l1} {l2} A B) → Id {l3} {Z} (F u) (F u')
+  contr-Σᵉ-const u u' =
+    _·_ {l3} {Z} (_⁻¹ {l3} {Z} (=ᵉ-to-Id {l3} {Z} (G-pt u)))
+      (_·_ {l3} {Z}
+        (ap {l1 ⊔ l2} {l3} {T} {Z} G
+            (_·_ {l1 ⊔ l2} {T} (centrality {l1 ⊔ l2} T cT (pt u))
+                               (_⁻¹ {l1 ⊔ l2} {T} (centrality {l1 ⊔ l2} T cT (pt u')))))
+        (=ᵉ-to-Id {l3} {Z} (G-pt u')))
+-------------------------------------------------------------------------------------------------------------

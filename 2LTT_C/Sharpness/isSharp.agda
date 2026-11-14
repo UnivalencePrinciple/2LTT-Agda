@@ -5,6 +5,12 @@ module 2LTT_C.Sharpness.isSharp where
 open import 2LTT_C.Cofibration public
 
 
+record Raise {i : Level} (j : Level) (A : UU i) : UU (i ⊔ j) where
+  constructor raise
+  field lower : A
+
+open Raise public
+
 --precomposition maps of cofibrant types
 precomp : {i j : Level} (A : UUᵉ i) (RA : UU i) (f : A → RA) (Y : RA → UU j)
           → C (Π RA Y) → Πᵉ A (λ a → C (Y (f a)))

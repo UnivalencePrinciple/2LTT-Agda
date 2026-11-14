@@ -17,4 +17,4 @@ This folder has been organized in a similar manner to the other 2LTT folder.
 
 Thanks for being the inspiration for this arrangement, [Josh Chen](https://joshchen.io/).
 
-For questions and suggestions, please write to euskuplu@usc.edu
+For questions and suggestions, please write to uskupluelif@gmail.com

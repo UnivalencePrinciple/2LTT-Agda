@@ -63,6 +63,12 @@ open import 2LTT.Exotypes.Sigma
                  (λ g → λ a → λ b → g (a ,ᵉ b)) ,ᵉ
                  (λ x → reflᵉ) ,ᵉ (λ x → reflᵉ)
 
+Πᵉ-Σᵉ-distr : {i j k : Level} {Z : UUᵉ i} {A : Z → UUᵉ j} {B : (z : Z) → A z → UUᵉ k}
+              → ((z : Z) → Σᵉ (A z) (B z)) ≅ Σᵉ ((z : Z) → A z) (λ f → (z : Z) → B z (f z))
+Πᵉ-Σᵉ-distr = (λ g → (λ z → pr1ᵉ (g z)) ,ᵉ (λ z → pr2ᵉ (g z))) ,ᵉ
+              (λ (f ,ᵉ h) z → f z ,ᵉ h z) ,ᵉ
+              (λ _ → reflᵉ) ,ᵉ (λ _ → reflᵉ)
+
 Πᵉ-functor : {i j : Level}{A B : UUᵉ i}{P : A → UUᵉ j}{Q : B → UUᵉ j}
              → (f0 : B → A ) → (f1 : (b : B) → P (f0 b) →  Q (b))
              → Πᵉ A P → Πᵉ B Q

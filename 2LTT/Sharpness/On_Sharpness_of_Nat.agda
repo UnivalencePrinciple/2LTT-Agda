@@ -1,4 +1,4 @@
-{-# OPTIONS --without-K --exact-split --two-level --cumulativity --type-in-type #-}
+{-# OPTIONS --without-K --exact-split --two-level --cumulativity #-}
 
 module 2LTT.Sharpness.On_Sharpness_of_Nat where
 
@@ -76,5 +76,5 @@ isSharp.precomp-is-equiv (cofib-to-sharp-ℕᵉ {i} P) Y
                                                            (isCofibrant-at.Π-fibrant-witness (P (Y ∘ᵉ r)))
                                                            (precomp ℕᵉ ℕ r Y)
         inv-map-issec : (x : FM) → Id (fib-precomp (inv-map x)) x
-        inv-map-issec x = FUNEXT.FEP {i} {i} {ℕᵉ} {Y ∘ᵉ r} {P} (λ m → aux-eq m Y x) · (=ᵉ-to-Id (hk x))
+        inv-map-issec x = FUNEXT.FEP {lzero} {i} {ℕᵉ} {Y ∘ᵉ r} {P} (λ m → aux-eq m Y x) · (=ᵉ-to-Id (hk x))
           

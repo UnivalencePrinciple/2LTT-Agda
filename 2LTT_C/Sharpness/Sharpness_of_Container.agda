@@ -1,4 +1,4 @@
-{-# OPTIONS --without-K --exact-split --two-level --type-in-type #-}
+{-# OPTIONS --without-K --exact-split --two-level #-}
 
 module 2LTT_C.Sharpness.Sharpness_of_Container where
 
@@ -26,10 +26,10 @@ finite-exp-sharp P (n ,ᵉ e) = isSharp-iso (Πᵉ-iso-cong' (≅-sym e) (λ _ �
 --If A is sharp, each position fiber is exo-finite, and the shape exo-type is sharp,
 --then F(A) is sharp.
 ⟦⟧ᵉ-preserve-Sharp : {i j k : Level} (F : Containerᵉ i lzero) {A : UUᵉ j}
-                     → isSharp A (j ⊔ k) → isFinitary F → isSharp (Shape F) (lsuc j ⊔ k)
-                     → isSharp (⟦ F ⟧ᵉ A) k
+                     → isSharp A (lsuc j ⊔ k) → isFinitary F → isSharp (Shape F) (lsuc j ⊔ k)
+                     → isSharp (⟦ F ⟧ᵉ A) (lsuc j ⊔ k)
 ⟦⟧ᵉ-preserve-Sharp {i} {j} {k} (S ◁ P) R fin Q =
-  Σᵉ-preserve-Sharp {i} {j} {k} Q (λ s → finite-exp-sharp R (fin s))
+  Σᵉ-preserve-Sharp {i} {j} {k} Q (λ s → finite-exp-sharp {j} {lsuc j ⊔ k} R (fin s))
 
 --Conversely, if F(⊤ᵉ) is sharp, then the shape exo-type is sharp.
 --Hence the hypothesis on the shape exo-type above cannot be weakened.
@@ -45,18 +45,18 @@ Countable-is-sharp (inrᵉ e) P = isSharp-iso e (cofib-to-sharp-ℕᵉ P)
 --In particular, if ℕᵉ is cofibrant, then F(A) is sharp for every sharp A
 --and every finitary container F with countable shapes.
 Containerᵉ-isSharp : {i j : Level} (F : Containerᵉ lzero lzero) {A : UUᵉ i}
-                     → isSharp A (i ⊔ j) → isFinitary F → isCountable (Shape F) → isCofibrant ℕᵉ (lsuc i ⊔ j)
-                     → isSharp (⟦ F ⟧ᵉ A) j
-Containerᵉ-isSharp F R fin cnt P = ⟦⟧ᵉ-preserve-Sharp F R fin (Countable-is-sharp cnt P)
+                     → isSharp A (lsuc i ⊔ j) → isFinitary F → isCountable (Shape F) → isCofibrant ℕᵉ (lsuc i ⊔ j)
+                     → isSharp (⟦ F ⟧ᵉ A) (lsuc i ⊔ j)
+Containerᵉ-isSharp {i} {j} F R fin cnt P = ⟦⟧ᵉ-preserve-Sharp {lzero} {i} {j} F R fin (Countable-is-sharp cnt P)
 
 --List container
 List-Containerᵉ-isSharp : {i j : Level} {A : UUᵉ i}
-                          → isSharp A (i ⊔ j) → isCofibrant ℕᵉ (lsuc i ⊔ j)
-                          → isSharp (⟦ List-Containerᵉ ⟧ᵉ A) j
-List-Containerᵉ-isSharp R P = Containerᵉ-isSharp List-Containerᵉ R List-Containerᵉ-isFinitary List-Containerᵉ-isCountable P
+                          → isSharp A (lsuc i ⊔ j) → isCofibrant ℕᵉ (lsuc i ⊔ j)
+                          → isSharp (⟦ List-Containerᵉ ⟧ᵉ A) (lsuc i ⊔ j)
+List-Containerᵉ-isSharp {i} {j} R P = Containerᵉ-isSharp {i} {j} List-Containerᵉ R List-Containerᵉ-isFinitary List-Containerᵉ-isCountable P
 
 --Hence Listᵉ A is sharp (cf. cofib-list-to-sharp-List)
 Listᵉ-isSharp-via-Containerᵉ : {i j : Level} {A : UUᵉ i}
-                               → isSharp A (i ⊔ j) → isCofibrant ℕᵉ (lsuc i ⊔ j)
-                               → isSharp (Listᵉ A) j
-Listᵉ-isSharp-via-Containerᵉ R P = isSharp-iso List-Containerᵉ≅Listᵉ (List-Containerᵉ-isSharp R P)
+                               → isSharp A (lsuc i ⊔ j) → isCofibrant ℕᵉ (lsuc i ⊔ j)
+                               → isSharp (Listᵉ A) (lsuc i ⊔ j)
+Listᵉ-isSharp-via-Containerᵉ {i} {j} R P = isSharp-iso List-Containerᵉ≅Listᵉ (List-Containerᵉ-isSharp {i} {j} R P)
