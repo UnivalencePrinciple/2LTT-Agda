@@ -74,7 +74,7 @@ exo-pairᵉ : {i j : Level} {A : UUᵉ i} {B : UUᵉ j} (x y : A ×ᵉ B)
 exo-pairᵉ x y = ((pr1ᵉ x) =ᵉ (pr1ᵉ y)) ×ᵉ ((pr2ᵉ x) =ᵉ (pr2ᵉ y))
 
 pair-=ᵉ : {i j : Level} {A : UUᵉ i} {B : UUᵉ j} (x y : A ×ᵉ B)
-            → (exo-pairᵉ x y) → (x =ᵉ y) 
+            → (exo-pairᵉ x y) → (x =ᵉ y)
 pair-=ᵉ (a ,ᵉ b) (.a ,ᵉ .b) (reflᵉ ,ᵉ reflᵉ) = reflᵉ
 
 inv-pair-=ᵉ : {i j : Level} {A : UUᵉ i} {B : UUᵉ j} (x y : A ×ᵉ B)

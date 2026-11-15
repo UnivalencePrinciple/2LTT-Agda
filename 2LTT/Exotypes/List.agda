@@ -27,4 +27,3 @@ list-appendᵉ-right (x ::ᵉ l) = exo-ap (λ l → x ::ᵉ l) (list-appendᵉ-r
 
 embed-to-Listᵉ : {i : Level} (A : UUᵉ i) → A → Listᵉ A
 embed-to-Listᵉ A a = a ::ᵉ []ᵉ
-

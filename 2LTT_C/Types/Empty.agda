@@ -13,5 +13,3 @@ ex-falso ()
 
 ind-⊥ : {i : Level}{P : ⊥ → UU i} → ((x : ⊥) → P x)
 ind-⊥ ()
-
-

@@ -6,7 +6,7 @@ module 2LTT.Exotypes.Exo_Equality where
 open import 2LTT.Primitive
 
 
-infix 4 _=ᵉ_ 
+infix 4 _=ᵉ_
 --Except for HoTT style, we have a strict equality. It's kind a judgmental equality. We call it exo-equality.
 --Notation:
 -- a =ᵉ b means a b are terms of exo-types and they are exo-equal
@@ -53,7 +53,7 @@ exo-tr-left-law P reflᵉ = reflᵉ
 
 exo-tr-right-law : {i j : Level} {A : UUᵉ i} (P : A → UUᵉ j) {x y : A}(p : x =ᵉ y) {z : P x}
                    → exo-tr P (exo-concat p (exo-inv p)) z =ᵉ z
-exo-tr-right-law P reflᵉ = reflᵉ 
+exo-tr-right-law P reflᵉ = reflᵉ
 
 exo-tr-concat : {i j : Level} {A : UUᵉ i} {P : A → UUᵉ j} {x y z : A}
                   (e₁ : x =ᵉ y) (e₂ : y =ᵉ z) {p : P x}

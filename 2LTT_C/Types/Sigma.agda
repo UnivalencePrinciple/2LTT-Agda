@@ -54,7 +54,7 @@ exo-pairᵉ' : {i j : Level} {A : UU i} {B : UU j} (x y : A × B)
 exo-pairᵉ' x y = ((c (pr1 x)) =ᵉ (c (pr1 y))) ×ᵉ (c ((pr2 x)) =ᵉ (c (pr2 y)))
 
 pair-=ᵉ' : {i j : Level} {A : UU i} {B : UU j} (x y : A × B)
-            → (exo-pairᵉ' x y) → ((c x) =ᵉ (c y)) 
+            → (exo-pairᵉ' x y) → ((c x) =ᵉ (c y))
 pair-=ᵉ' (a , b) (.a , .b) (reflᵉ ,ᵉ reflᵉ) = reflᵉ
 
 inv-pair-=ᵉ' : {i j : Level} {A : UU i} {B : UU j} (x y : A × B)

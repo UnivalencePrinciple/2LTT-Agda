@@ -27,7 +27,7 @@ open import 2LTT.Sharpness.isSharp public
    midset : UU (i ⊔ lsuc j ⊔ k)
    midset = isFibrant.fibrant-match
               (isCofibrant-at.Π-fibrant-witness (cwA (λ _ → Uj)))
--------            
+-------
    F : (frA → Uj) → (A → Uj)
    F = (precomp A (frA) (ftA) (λ _ → Uj))
    F' : (frA → Uj) → midset
@@ -156,7 +156,7 @@ open import 2LTT.Sharpness.isSharp public
         midmap a = Π-functor (EQ-T a) (λ b → id)
         -------------------------
         Map-3 : ΠType-3 → ΠType-4
-        Map-3 = (Πᵉ-functor {i} {lsuc j ⊔ k} idᵉ midmap) 
+        Map-3 = (Πᵉ-functor {i} {lsuc j ⊔ k} idᵉ midmap)
         -------------------------
         ΠType-5 : UUᵉ (i ⊔ lsuc j ⊔ k) --this is an exo-type, but fibrant one.
         ΠType-5 = Πᵉ A (λ a → Πᵉ (B a) (λ b → Y ((ftA a) , EQ-T a (FTB a b))))
@@ -168,16 +168,16 @@ open import 2LTT.Sharpness.isSharp public
         midmap' a = precomp (B a) (RB a) (FTB a) (λ y → Y ((ftA a) , EQ-T a y))
         -------------------------
         check-map : (a : A) → (Π (RB a) (λ y → Y ((ftA a) , EQ-T a y)))
-                         → isFibrant.fibrant-match (isCofibrant-at.Π-fibrant-witness ((CWB a) (λ b → Y ((ftA a) ,  EQ-T a (FTB a b))))) 
+                         → isFibrant.fibrant-match (isCofibrant-at.Π-fibrant-witness ((CWB a) (λ b → Y ((ftA a) ,  EQ-T a (FTB a b)))))
         check-map a = Fib-map (isfibrant _ ≅-refl)
                               (isCofibrant-at.Π-fibrant-witness ((CWB a) (λ b → Y ((ftA a) ,  EQ-T a (FTB a b)))))                                                         (midmap' a)
         -------------------------
         midmap'-Fib-isEquiv : (a : A) → Fib-isEquiv (isfibrant _ ≅-refl)
                                                      (isCofibrant-at.Π-fibrant-witness ((CWB a) (λ b → Y ((ftA a) ,  EQ-T a (FTB a b)))))                                                         (midmap' a)
-        midmap'-Fib-isEquiv a = (pcmpeqBa a) (λ y → Y ((ftA a) ,  EQ-T a y)) 
+        midmap'-Fib-isEquiv a = (pcmpeqBa a) (λ y → Y ((ftA a) ,  EQ-T a y))
         -------------------------
         Map-4 : ΠType-4 → ΠType-5
-        Map-4 = (Πᵉ-functor {i} {lsuc j ⊔ k} idᵉ midmap') 
+        Map-4 = (Πᵉ-functor {i} {lsuc j ⊔ k} idᵉ midmap')
         -------------------------
         ΠType-6 : UUᵉ (i ⊔ lsuc j ⊔ k) --this is an exo-type, but fibrant one.
         ΠType-6 = Πᵉ (Σᵉ A B) (λ z → Y (ftΣ z))

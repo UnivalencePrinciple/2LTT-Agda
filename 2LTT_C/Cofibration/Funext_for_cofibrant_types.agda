@@ -35,7 +35,7 @@ module FUNEXT {i j : Level}{A : UUᵉ i} {B : A → UU j} {P : isCofibrant {i} A
      WFEP = isCofibrant-at.contr-preserve-witness (P Y)
 
      Πtype = isFibrant.fibrant-match (isCofibrant-at.Π-fibrant-witness (P Y))
-     
+
      α' : C Πtype → Πᵉ A (λ a → C (Y a))
      α' = pr1ᵉ (pr2ᵉ (isFibrant.fibrant-witness (isCofibrant-at.Π-fibrant-witness (P Y))))
 
@@ -70,10 +70,10 @@ Fib-Π-functor-isEquiv {i} {j} {A} {P} {Q} {F} W K
        λ T → cic-eq (exo-ap (fQ ∘ᵉ (Πᵉ-functor {i} {j} idᵉ (λ a x → c (F a (ic x)))))
                                           (gfP (((Πᵉ-functor {i} {j} idᵉ (λ a x → c (G a (ic x)))) ∘ᵉ gQ) (c T)))) ·
                (htpQ (c T) · cic-eq (fgQ (c T))))
-  where 
+  where
   fP : (Πᵉ A (λ a → C (P a))) → C (isFibrant.fibrant-match (isCofibrant-at.Π-fibrant-witness (W P)))
   fP = pr1ᵉ (isFibrant.fibrant-witness (isCofibrant-at.Π-fibrant-witness (W P)))
-  
+
   gP : C (isFibrant.fibrant-match (isCofibrant-at.Π-fibrant-witness (W P))) → (Πᵉ A (λ a → C (P a)))
   gP = pr1ᵉ (pr2ᵉ (isFibrant.fibrant-witness (isCofibrant-at.Π-fibrant-witness (W P))))
 
@@ -82,7 +82,7 @@ Fib-Π-functor-isEquiv {i} {j} {A} {P} {Q} {F} W K
 
   fgP : (T : _) → fP (gP T) =ᵉ T
   fgP = pr2ᵉ (pr2ᵉ (pr2ᵉ (isFibrant.fibrant-witness  (isCofibrant-at.Π-fibrant-witness (W P)))))
-     
+
   fQ : (Πᵉ A (λ a → C (Q a))) → C (isFibrant.fibrant-match  (isCofibrant-at.Π-fibrant-witness (W Q)))
   fQ = pr1ᵉ (isFibrant.fibrant-witness  (isCofibrant-at.Π-fibrant-witness (W Q)))
 
@@ -140,4 +140,3 @@ contr-preserve-witness (new-funext-to-cofib {A = A} F Q Y)
 
       hk : (X : C FM) → (h ∘ᵉ k) X =ᵉ X
       hk = pr2ᵉ (pr2ᵉ (pr2ᵉ (isFibrant.fibrant-witness (F Y))))
-                      

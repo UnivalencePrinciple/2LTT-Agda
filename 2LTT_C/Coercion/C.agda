@@ -36,7 +36,7 @@ map-=ᵉ reflᵉ = refl
 
 -----exo-universe
 map-UUᵉ : {i : Level} → UU i → UUᵉ i
-map-UUᵉ {i} A = C A 
+map-UUᵉ {i} A = C A
 
 -----exo-unit
 map-⊤ᵉ : {i : Level} → ⊤ᵉ {i} → C (⊤ {i})
@@ -45,7 +45,7 @@ map-⊤ᵉ starᵉ = c star
 inv-map-⊤ᵉ : {i : Level} → C (⊤ {i}) → ⊤ᵉ {i}
 inv-map-⊤ᵉ (c star) = starᵉ
 
-is-map-⊤ᵉ-iso : {i : Level} → is-exo-iso (map-⊤ᵉ {i}) 
+is-map-⊤ᵉ-iso : {i : Level} → is-exo-iso (map-⊤ᵉ {i})
 is-map-⊤ᵉ-iso {i} = inv-map-⊤ᵉ {i} ,ᵉ ((λ a → reflᵉ) ,ᵉ (λ b → reflᵉ))
 
 exo-iso-⊤ᵉ : {i : Level} → ⊤ᵉ {i} ≅ C (⊤ {i})
@@ -73,11 +73,11 @@ inv-map-×ᵉ : {i j : Level}{A : UU i}{B : UU j} → C (A × B) → C A ×ᵉ C
 inv-map-×ᵉ (c (a , b)) = (c a ,ᵉ c b)
 
 
------exo dependent function                                 
+-----exo dependent function
 map-Πᵉ : {i j : Level} {A : UU i}{B : A → UU j} → Πᵉ (C A) (λ {(c a) → C (B a)}) → C (Π A B)
 map-Πᵉ f = c (λ x → ic (f (c x)))
 
-inv-map-Πᵉ : {i j : Level} {A : UU i}{B : A → UU j} → C (Π A B) → Πᵉ (C A) (λ {(c a) → C (B a)}) 
+inv-map-Πᵉ : {i j : Level} {A : UU i}{B : A → UU j} → C (Π A B) → Πᵉ (C A) (λ {(c a) → C (B a)})
 inv-map-Πᵉ (c f) = λ {(c a) → c (f a)}
 
 is-map-Πᵉ-iso : {i j : Level}{A : UU i}{B : A → UU j} → is-exo-iso (map-Πᵉ {i} {j} {A} {B})

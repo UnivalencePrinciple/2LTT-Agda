@@ -20,7 +20,7 @@ isSharp.precomp-is-equiv (cofib-to-sharp-ℕᵉ {i} P) Y
 
         k : C FM → Πᵉ ℕᵉ  (λ x → C (Y (r x)))
         k = pr1ᵉ (pr2ᵉ (fibrant-witness (Π-fibrant-witness (P (λ x → Y (r x))))))
-    aux-Π-type (succ n) Y x = (aux-Π-type n Y' (ic (h' (λ u → k (c x) (succᵉ u))))) 
+    aux-Π-type (succ n) Y x = (aux-Π-type n Y' (ic (h' (λ u → k (c x) (succᵉ u)))))
       where
         Y' : ℕ → UU i
         Y' n = Y (succ n)
@@ -29,7 +29,7 @@ isSharp.precomp-is-equiv (cofib-to-sharp-ℕᵉ {i} P) Y
 
         k : C FM → Πᵉ ℕᵉ  (λ x → C (Y (r x)))
         k = pr1ᵉ (pr2ᵉ (fibrant-witness (Π-fibrant-witness (P  (λ x → Y (r x))))))
-            
+
         FM' = fibrant-match (Π-fibrant-witness (P  (λ x → Y' (r x))))
 
         h' : Πᵉ ℕᵉ  (λ x → C (Y' (r x))) → C FM'
@@ -49,7 +49,7 @@ isSharp.precomp-is-equiv (cofib-to-sharp-ℕᵉ {i} P) Y
 
         k : C FM → Πᵉ ℕᵉ  (λ x → C (Y (r x)))
         k = pr1ᵉ (pr2ᵉ (fibrant-witness (Π-fibrant-witness (P  (λ x → Y (r x))))))
-            
+
         FM' = fibrant-match (Π-fibrant-witness (P  (λ x → Y' (r x))))
 
         h' : Πᵉ ℕᵉ  (λ x → C (Y' (r x))) → C FM'
@@ -59,8 +59,8 @@ isSharp.precomp-is-equiv (cofib-to-sharp-ℕᵉ {i} P) Y
         k' = pr1ᵉ (pr2ᵉ (fibrant-witness (Π-fibrant-witness (P  (λ x → Y' (r x))))))
 
         kh' : (X : Πᵉ ℕᵉ  (λ x → C (Y' (r x)))) → k' (h' X) =ᵉ X
-        kh' = pr1ᵉ (pr2ᵉ (pr2ᵉ (fibrant-witness (Π-fibrant-witness (P  (λ x → Y' (r x)))))))        
- 
+        kh' = pr1ᵉ (pr2ᵉ (pr2ᵉ (fibrant-witness (Π-fibrant-witness (P  (λ x → Y' (r x)))))))
+
     has-sec-proof : (Y : ℕ → UU i) → Has-Section-Precomp ℕᵉ P ℕ map-ℕᵉ Y
     has-sec-proof Y = inv-map , inv-map-issec
       where
@@ -69,11 +69,10 @@ isSharp.precomp-is-equiv (cofib-to-sharp-ℕᵉ {i} P) Y
 
         inv-map : (x : FM) → Π ℕ Y
         inv-map x n = aux-Π-type n Y x
-        
+
         fib-precomp = Fib-map {i} {i} {C (Π ℕ Y)} {Πᵉ ℕᵉ  (λ x → C (Y (r x)))}
                                                            (isfibrant _ ≅-refl)
                                                            (isCofibrant-at.Π-fibrant-witness (P  (λ x → Y (r x))))
                                                            (precomp ℕᵉ ℕ r Y)
         inv-map-issec : (x : FM) → Id (fib-precomp (inv-map x)) x
         inv-map-issec x = FUNEXT.FEP {lzero} {i} {ℕᵉ} {λ x → Y (r x)} {P} (λ m → aux-eq m Y x) · (=ᵉ-to-Id (hk (c x)))
-          

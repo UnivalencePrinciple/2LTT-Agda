@@ -71,5 +71,3 @@ open import 2LTT_C.Cofibration.isCofibrant public
                                → isCofibrant {i} A (j ⊔ k)→ isCofibrant {j} B k
                                → isCofibrant {i ⊔ j} (A ×ᵉ B) k
 ×ᵉ-preserve-Cofibrant {i} {j} {k} {A} {B} P Q = Σᵉ-preserve-Cofibrant {i} {j} {k} {A} {λ _ → B} P (λ _ → Q)
-
- 

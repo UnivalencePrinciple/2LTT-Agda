@@ -20,7 +20,7 @@ isSharp.precomp-is-equiv (cofib-to-sharp-ℕᵉ {i} P) Y
 
         k : FM → Πᵉ ℕᵉ (Y ∘ᵉ r)
         k = pr1ᵉ (pr2ᵉ (fibrant-witness (Π-fibrant-witness (P (Y ∘ᵉ r)))))
-    aux-Π-type (succ n) Y x = aux-Π-type n Y' (h' (λ u → k x (succᵉ u))) 
+    aux-Π-type (succ n) Y x = aux-Π-type n Y' (h' (λ u → k x (succᵉ u)))
       where
         Y' : ℕ → UU i
         Y' n = Y (succ n)
@@ -29,7 +29,7 @@ isSharp.precomp-is-equiv (cofib-to-sharp-ℕᵉ {i} P) Y
 
         k : FM → Πᵉ ℕᵉ (Y ∘ᵉ r)
         k = pr1ᵉ (pr2ᵉ (fibrant-witness (Π-fibrant-witness (P (Y ∘ᵉ r)))))
-            
+
         FM' = fibrant-match (Π-fibrant-witness (P (Y' ∘ᵉ r)))
 
         h' : Πᵉ ℕᵉ (Y' ∘ᵉ r) → FM'
@@ -50,7 +50,7 @@ isSharp.precomp-is-equiv (cofib-to-sharp-ℕᵉ {i} P) Y
 
         k : FM → Πᵉ ℕᵉ (Y ∘ᵉ r)
         k = pr1ᵉ (pr2ᵉ (fibrant-witness (Π-fibrant-witness (P (Y ∘ᵉ r)))))
-            
+
         FM' = fibrant-match (Π-fibrant-witness (P (Y' ∘ᵉ r)))
 
         h' : Πᵉ ℕᵉ (Y' ∘ᵉ r) → FM'
@@ -60,8 +60,8 @@ isSharp.precomp-is-equiv (cofib-to-sharp-ℕᵉ {i} P) Y
         k' = pr1ᵉ (pr2ᵉ (fibrant-witness (Π-fibrant-witness (P (Y' ∘ᵉ r)))))
 
         kh' : (X : Πᵉ ℕᵉ (Y' ∘ᵉ r)) → k' (h' X) =ᵉ X
-        kh' = pr1ᵉ (pr2ᵉ (pr2ᵉ (fibrant-witness (Π-fibrant-witness (P (Y' ∘ᵉ r))))))        
- 
+        kh' = pr1ᵉ (pr2ᵉ (pr2ᵉ (fibrant-witness (Π-fibrant-witness (P (Y' ∘ᵉ r))))))
+
     has-sec-proof : (Y : ℕ → UU i) → Has-Section-Precomp ℕᵉ P ℕ map-ℕᵉ Y
     has-sec-proof Y = inv-map , inv-map-issec
       where
@@ -70,11 +70,10 @@ isSharp.precomp-is-equiv (cofib-to-sharp-ℕᵉ {i} P) Y
 
         inv-map : (x : FM) → Π ℕ Y
         inv-map x n = aux-Π-type n Y x
-        
+
         fib-precomp = Fib-map {i} {i} {Π ℕ Y} {Πᵉ ℕᵉ (Y ∘ᵉ r)}
                                                            (isfibrant _ ≅-refl)
                                                            (isCofibrant-at.Π-fibrant-witness (P (Y ∘ᵉ r)))
                                                            (precomp ℕᵉ ℕ r Y)
         inv-map-issec : (x : FM) → Id (fib-precomp (inv-map x)) x
         inv-map-issec x = FUNEXT.FEP {lzero} {i} {ℕᵉ} {Y ∘ᵉ r} {P} (λ m → aux-eq m Y x) · (=ᵉ-to-Id (hk x))
-          

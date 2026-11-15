@@ -41,7 +41,7 @@ _◃∘_ : {i j k : Level}{A : UU i} {B : UU j} {C : UU k}
 _◃∘_ {i} {j} {k} (r , s , η) (r' , s' , η') = (r ∘ r' , s' ∘ s , η'')
  where
    η'' = λ x → _≡⟨_⟩_ {i} (r (r' (s' (s x)))) (ap r (η' (s x)))
-                (_≡⟨_⟩_ {i} (r (s x) ) (η x)          
+                (_≡⟨_⟩_ {i} (r (s x) ) (η x)
                 (x ▮))
 
 _◃⟨_⟩_ : {i j k : Level}(A : UU i) {B : UU j} {C : UU k}
@@ -100,4 +100,3 @@ NatΣ s (x , a) = (x , s x a)
    where
     p : Id {i ⊔ k} (r (s x) , (tr C ((η x) ⁻¹) a)) (x , a)
     p = dep-pair⁼ _ _ (η x , tr-is-retraction {i} {k} C (η x) a)
-

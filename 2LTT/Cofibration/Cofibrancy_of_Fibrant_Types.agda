@@ -10,7 +10,7 @@ open import 2LTT.Coercion.Fibrant_Unit public
 
 --All types is cofibrant
 is-Type-Cofibrant : {i j : Level}(B : UU i) →  isCofibrant {i} B j
-is-Type-Cofibrant {i} {j} B Y = iscofibrant-at (isfibrant (Π B Y) ≅-refl)                                                                  
+is-Type-Cofibrant {i} {j} B Y = iscofibrant-at (isfibrant (Π B Y) ≅-refl)
                                                 λ K → Π-type-contr λ a → K a
 
 --All fibrant exo-types is cofibrant

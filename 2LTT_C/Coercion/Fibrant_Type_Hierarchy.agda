@@ -50,7 +50,7 @@ Fib-Π-type-contr {i} {j} {A} {W} {B} {V} F = Π-type-contr Pointwise-cont
  Pointwise-cont x = F (g (c x))
 ------------------------------------------------------------------------------------------------------------------------
 
---Contractibility is preserved under exo-isomorphism.    
+--Contractibility is preserved under exo-isomorphism.
 is-contr-iso : {i : Level} {A B : UU i}
                → C A ≅ C B
                → is-contr A

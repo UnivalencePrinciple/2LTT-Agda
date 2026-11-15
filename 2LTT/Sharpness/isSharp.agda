@@ -10,13 +10,13 @@ precomp : {i j : Level} (A : UUᵉ i) (RA : UU i) (f : A → RA) (Y : RA → UU 
           → Π RA Y → Πᵉ A (Y ∘ᵉ f)
 precomp {i} {j} A RA f Y T = T ∘ᵉ f
 {-# INLINE precomp #-}
-          
+
 
 --For exo-type B, being sharp
 record isSharp {i : Level} (B : UUᵉ i) (j : Level) : UUᵉ (lsuc (i ⊔ j)) where
   eta-equality
   constructor issharp
-  field 
+  field
     cofibrant-witness : isCofibrant {i} B j
     fibrant-replacement : UU i
     fibrant-transfer : B → fibrant-replacement
@@ -26,4 +26,3 @@ record isSharp {i : Level} (B : UUᵉ i) (j : Level) : UUᵉ (lsuc (i ⊔ j)) wh
                                       (isfibrant _ ≅-refl)
                                       (isCofibrant-at.Π-fibrant-witness (cofibrant-witness (Y ∘ᵉ fibrant-transfer)))
                                       (precomp B fibrant-replacement fibrant-transfer Y)
-

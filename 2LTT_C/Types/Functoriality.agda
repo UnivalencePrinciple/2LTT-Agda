@@ -64,9 +64,8 @@ open import 2LTT_C.Types.Equivalences
                    (ap {j} {j} (F b) (apd (λ b → (F' b) (T b)) (gf0 b)) · (FF' b) (T b))))
 
 Π-iso-cong' : {i j : Level}{A B : UU i}{P : A → UU j}{Q : B → UU j}
-             → (W : B ≃ A) 
+             → (W : B ≃ A)
              → (f1 : (b : B) → P ((pr1 W) b) ≃ Q (b))
              → Π A P ≃ Π B Q
 Π-iso-cong' W V
              = Π-iso-cong (pr1 W) {pr2 W} (λ (b : _) → pr1 (V b)) {λ (b : _) → pr2 (V b)}
-

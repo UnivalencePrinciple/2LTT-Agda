@@ -28,7 +28,7 @@ isFibrant.fibrant-witness (isCofibrant-at.Π-fibrant-witness (is-Fibrant-Cofibra
                                                (exo-inv (exo-tr-ap (fg x)))
                                                (exo-apd {i} {j} T (fg x))))))))
               (exo-Πᵉ-equiv)
-      
+
 isCofibrant-at.contr-preserve-witness (is-Fibrant-Cofibrant {i} {j} A (isfibrant fr (f ,ᵉ g ,ᵉ gf ,ᵉ fg)) Y)
     = Fib-Π-type-contr {i} {j} {A} {isfibrant fr (f ,ᵉ g ,ᵉ gf ,ᵉ fg)}
                                {λ x → C (Y x)} {λ a → isfibrant (Y a) ≅-refl}

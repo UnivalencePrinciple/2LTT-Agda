@@ -38,7 +38,7 @@ is-prop-isEquiv {i} {j} {A} f = Π-type-prop λ b → is-prop-contr {i ⊔ j} (�
 --Martín Hötzel Escardó
 
 isInvertible : {i j : Level} {A : UU i} {B : UU j} (f : A → B) → UU (i ⊔ j)
-isInvertible f = Σ (_ → _) (λ g → ((g ∘ f) ~ id) × ((f ∘ g) ~ id)) 
+isInvertible f = Σ (_ → _) (λ g → ((g ∘ f) ~ id) × ((f ∘ g) ~ id))
 
 
 fiber : {i j : Level}{A : UU i}{B : UU j} (f : A → B) → B → UU (i ⊔ j)
@@ -94,7 +94,7 @@ invertibles-are-equiv {k} {j} {A} {B} f (g , η , ε) b = iii
 -------------------------------------------
 
 inv-is-equiv : {i j : Level} {A : UU i} {B : UU j} (f : A → B) (P : isEquiv {i} {j} f) → isEquiv {j} {i} (inv f P)
-inv-is-equiv {i} {j} f P = invertibles-are-equiv {j} {i} 
+inv-is-equiv {i} {j} f P = invertibles-are-equiv {j} {i}
                       (inv f P)
                       (f , inv-is-section f P , inv-is-retraction f P)
 
@@ -151,14 +151,14 @@ nat-htpy-of-invertible {i} {j} {A} {B} f (g , gf , fg) = G , T
          (ap (λ q → q · (fg (f a))) (ap-comp {j} {i} {j} f g (ap f (gf a))) ·
           ((nat-trans-htpy {j} {j} {B} {B} {f ∘ g} {id} {f (g (f a))} {f a} fg (ap {i} {j} f (gf a))) ⁻¹ ·
             ap {j} {j} (λ q → fg (f (g (f a))) · q) (ap-id (ap f (gf a)))))
- 
+
   T : (a : A) → Id (ap f (gf a)) (G (f a))
   T a = (left-unit (ap {i} {j} f (gf a))) ⁻¹ ·
           (ap (λ p → p · (ap {i} {j} f (gf a))) (left-inv (fg (f (g (f a))))) ⁻¹ ·
              (assoc ((fg (f (g (f a)))) ⁻¹) (fg (f (g (f a)))) (ap f (gf a)) ·
                (ap {j} {j} (λ q → (((fg (f (g (f a)))) ⁻¹) · q)) (p2 a) ⁻¹)))
 
-  
+
 --------------------------------------------------------------------------
 -- ≃ is an equivalence relation
 ≃-refl : {i : Level} (A : UU i) → A ≃ A
@@ -211,7 +211,7 @@ isEquiv-inv-dep-pair⁼ u v p = (dep-pair⁼ u v p , htpy-inv-dep-pair⁼-dep-pa
 --Pi-Types
 Π-Id-char : {i j : Level} {A : UU i} {B : A → UU j} (f g : Π A B)
             → Id f g ≃ (f ~ g)
-Π-Id-char {i} {j} f g = happly {i} {j} , FUNEXT {i} {j} 
+Π-Id-char {i} {j} f g = happly {i} {j} , FUNEXT {i} {j}
 
 Π-Id-rule : {i j : Level} {A : UU i} {B : A → UU j} (f g : Π A B)
             → Id (Id f g) (f ~ g)
@@ -309,7 +309,7 @@ is-truncation-cong : {i j : Level} {A : UU i} {B : UU j}
                      → is-type t A
 is-truncation-cong {i} {j} W neg-two-𝕋 P = is-contr-cong {j} {i} (≃-sym W) P
 is-truncation-cong {i} {j} W (succ-𝕋 t) P = λ a a' → is-truncation-cong {i} {j} {Id {i} (a) (a')} {Id {j} (f a) (f a')}
-                                                                         (ap {i} {j} f , ap-isEquiv W a a') t (P (f a) (f a')) 
+                                                                         (ap {i} {j} f , ap-isEquiv W a a') t (P (f a) (f a'))
   where
   f = pr1 W
   g = pr1 (equivs-are-invertible f (pr2 W))
@@ -321,7 +321,7 @@ is-truncation-cong {i} {j} W (succ-𝕋 t) P = λ a a' → is-truncation-cong {i
                → (Π (Σ A B) Y) → (Π A (λ a → Π (B a) λ b → Y (a , b)))
 Π-Σ-expansion = (λ g → λ a → λ b → g (a , b))
 {-# INLINE Π-Σ-expansion #-}
-                
+
 Π-Σ-expansion-is-equiv :  {i j k : Level} {A : UU i} {B : A → UU j} {Y : Σ {i} {j} A B → UU k}
                           → isEquiv {i ⊔ j ⊔ k} {i ⊔ j ⊔ k} (Π-Σ-expansion {i} {j} {k} {A} {B} {Y})
 Π-Σ-expansion-is-equiv = invertibles-are-equiv (λ g → λ a → λ b → g (a , b))
@@ -331,8 +331,8 @@ is-truncation-cong {i} {j} W (succ-𝕋 t) P = λ a a' → is-truncation-cong {i
 --------------------------------------------------------------------------------
 Π-×-expansion : {i j k : Level} {A : UU i} {B : UU j} {Y : _×_ {i} {j} A B → UU k}
                → (Π (A × B) Y) → (Π A (λ a → Π B λ b → Y (a , b)))
-Π-×-expansion = (λ g → λ a → λ b → g (a , b)) 
-                
+Π-×-expansion = (λ g → λ a → λ b → g (a , b))
+
 Π-×-expansion-is-equiv :  {i j k : Level} {A : UU i} {B : UU j} {Y : _×_ {i} {j} A B → UU k}
                           → isEquiv {i ⊔ j ⊔ k} {i ⊔ j ⊔ k} (Π-×-expansion {i} {j} {k} {A} {B} {Y})
 Π-×-expansion-is-equiv = invertibles-are-equiv (λ g → λ a → λ b → g (a , b))
@@ -360,7 +360,7 @@ is-truncation-cong {i} {j} W (succ-𝕋 t) P = λ a a' → is-truncation-cong {i
 
 ×-of-maps-is-equiv : {i j i' j' : Level} {A : UU i} {A' : UU i'} {B : UU j} {B' : UU j'}{f : A → B}{f' : A' → B'}
                      → isEquiv {i} {j} f → isEquiv {i'} {j'} f' → isEquiv {i ⊔ i'} {j ⊔ j'} (×-of-maps f f')
-×-of-maps-is-equiv {i} {j} {i'} {j'} {f = f} {f' = f'} P Q = let (g , gf , fg) = equivs-are-invertible {i} {j} f P 
+×-of-maps-is-equiv {i} {j} {i'} {j'} {f = f} {f' = f'} P Q = let (g , gf , fg) = equivs-are-invertible {i} {j} f P
                                                                  (g' , g'f' , f'g') = equivs-are-invertible {i'} {j'} f' Q
                                                              in invertibles-are-equiv {i ⊔ i'} {j ⊔ j'} (×-of-maps f f')
                                                                  (×-of-maps g g' ,
@@ -408,12 +408,12 @@ Second-2-out-of-3-rule {i} {j} {k} f g P Q = let (g' , (g'g , gg')) = equivs-are
 -- A --g→ B
 -- |       |
 -- f       f'
--- ↓       ↓ 
+-- ↓       ↓
 -- A'--g'→ B'
 Com-Square : {i j k l : Level} {A : UU i} {A' : UU j} {B : UU k} {B' : UU l}
              (f : A → A') (f' : B → B') (g : A → B) (g' : A' → B')
              → UU (i ⊔ l)
-Com-Square {i} {j} {k} {l} f f' g g' = (a : _) → Id {l} (f' (g a)) (g' (f a)) 
+Com-Square {i} {j} {k} {l} f f' g g' = (a : _) → Id {l} (f' (g a)) (g' (f a))
 
 --In this case, if three of them are equivalent, then so is the fourth.
 First-3-out-of-4-rule : {i j k l : Level} {A : UU i} {A' : UU j} {B : UU k} {B' : UU l}
@@ -429,4 +429,4 @@ First-3-out-of-4-rule  {i} {j} {k} {l} f f' g g' CS Pf' Pg Pg' = Second-2-out-of
                                                                        (f' ∘ g)
                                                                        (g' ∘ f)
                                                                         (CS)
-                                                                    (∘-is-equiv g f' Pg Pf'))                       
+                                                                    (∘-is-equiv g f' Pg Pf'))

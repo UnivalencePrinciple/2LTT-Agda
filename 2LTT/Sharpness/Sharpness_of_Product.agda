@@ -24,13 +24,13 @@ open import 2LTT.Sharpness.isSharp public
         ΠType-2 : UU (i ⊔ j ⊔ k) --this is fibrant by default.
         ΠType-2 = Π RA (λ c → Π RB (λ d → Y (c , d)))
 
-        ΠType-3 : UUᵉ (i ⊔ j ⊔ k) 
+        ΠType-3 : UUᵉ (i ⊔ j ⊔ k)
         ΠType-3 = Πᵉ A (λ a → Π RB (λ d → Y (rA a , d)))
 
-        ΠType-4 : UUᵉ (i ⊔ j ⊔ k) 
+        ΠType-4 : UUᵉ (i ⊔ j ⊔ k)
         ΠType-4 = Πᵉ A (λ a → Πᵉ B (λ b → Y (rA a , rB b)))
 
-        ΠType-5 : UUᵉ (i ⊔ j ⊔ k) 
+        ΠType-5 : UUᵉ (i ⊔ j ⊔ k)
         ΠType-5 = Πᵉ (A ×ᵉ B) (Y ∘ᵉ rA×B)
 
         Fibrant3 = (isCofibrant-at.Π-fibrant-witness (cwA λ a → Π RB (λ d → Y (rA a , d))))
@@ -38,7 +38,7 @@ open import 2LTT.Sharpness.isSharp public
         Fibrant4 = (isFibrant-iso (≅-sym {i ⊔ j ⊔ k}{i ⊔ j ⊔ k} Πᵉ-×-expansion) (isCofibrant-at.Π-fibrant-witness (cwA×B (Y ∘ᵉ rA×B))))
 
         Fibrant5 = (isCofibrant-at.Π-fibrant-witness (cwA×B (Y ∘ᵉ rA×B)))
-        
+
         Map1 : ΠType-1 → ΠType-2
         Map1 = λ x x₁ x₂ → x (x₁ , x₂)
 
@@ -88,7 +88,3 @@ open import 2LTT.Sharpness.isSharp public
                                     Map-main
                                     Main-Htp
                                     Equiv-main
-        
-
-        
-        

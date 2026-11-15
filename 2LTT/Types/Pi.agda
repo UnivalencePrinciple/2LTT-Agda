@@ -2,7 +2,7 @@
 
 module 2LTT.Types.Pi where
 
-open import 2LTT.Primitive 
+open import 2LTT.Primitive
 open import 2LTT.Exotypes.Exo_Equality
 open import 2LTT.Types.Functions
 open import 2LTT.Exotypes.Functions
@@ -48,4 +48,3 @@ open import 2LTT.Types.Sigma
                 → (p : _=ᵉ_ {i} a a') → (q : e =ᵉ e')
                 → exo-tr P (p) (e a) =ᵉ e' a'
 Π-elim-cong reflᵉ reflᵉ = reflᵉ
-

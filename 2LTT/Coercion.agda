@@ -11,4 +11,3 @@ open import 2LTT.Coercion.Fibrant_Sigma          public
 open import 2LTT.Coercion.Fibrant_Unit           public
 open import 2LTT.Coercion.Fibrant_Pi             public
 open import 2LTT.Coercion.Fibrant_Type_Hierarchy public
-

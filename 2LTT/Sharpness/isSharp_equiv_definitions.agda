@@ -46,7 +46,7 @@ Lemma-2-3--2->1 {i} {j} B F RB r P Y = invertibles-are-equiv _
                                                 (pr1 (P Y) (Fib-map (isfibrant (Π RB Y) ≅-refl)
                                                   (Π-fibrant-witness (F (Y ∘ᵉ r))) (λ T → T ∘ᵉ r) x))
                                                 x
-                                                ((pr2 (P Y)) (h (x ∘ᵉ r)))) , 
+                                                ((pr2 (P Y)) (h (x ∘ᵉ r)))) ,
                                        pr2 (P Y))
   where
     FM = fibrant-match (Π-fibrant-witness (F (Y ∘ᵉ r)))
@@ -71,13 +71,13 @@ Lemma-2-3--2->1 {i} {j} B F RB r P Y = invertibles-are-equiv _
 Lemma-2-3--3->2 : {i j : Level} (B : UUᵉ i) →
                   (F : isCofibrant B (i ⊔ j)) →
                   (RB : UU i) → (r : B → RB) →
-                  ((Z : UU (i ⊔ j)) → Precomp-isEquiv {i} {i ⊔ j} B F RB r (λ _ → Z)) →                   
+                  ((Z : UU (i ⊔ j)) → Precomp-isEquiv {i} {i ⊔ j} B F RB r (λ _ → Z)) →
                   ((Y : RB → UU (i ⊔ j)) → Has-Section-Precomp {i} {i ⊔ j} B F RB r Y)
 Lemma-2-3--3->2 {i} {j} B F RB r P Y = sec-map , section-proof
-  where    
+  where
     Z : UU (i ⊔ j)
     Z = Σ {i ⊔ j} {i ⊔ j} RB Y
-    
+
     FM = fibrant-match (Π-fibrant-witness (F (Y ∘ᵉ r)))
 
     h : Πᵉ B (Y ∘ᵉ r) → FM
@@ -88,7 +88,7 @@ Lemma-2-3--3->2 {i} {j} B F RB r P Y = sec-map , section-proof
 
     hk : (X : FM) → h (k X) =ᵉ X
     hk = pr2ᵉ (pr2ᵉ (pr2ᵉ (fibrant-witness (Π-fibrant-witness (F (Y ∘ᵉ r))))))
-    
+
     FM' = fibrant-match (Π-fibrant-witness (F ((λ _ → Z) ∘ᵉ r)))
 
     h' : Πᵉ B ((λ _ → Z) ∘ᵉ r) → FM'
@@ -113,13 +113,13 @@ Lemma-2-3--3->2 {i} {j} B F RB r P Y = sec-map , section-proof
 
     k'' : FM'' → Πᵉ B ((λ _ → RB) ∘ᵉ r)
     k'' = pr1ᵉ (pr2ᵉ (fibrant-witness (Π-fibrant-witness (F ((λ _ → RB) ∘ᵉ r)))))
-    
+
     σ' = (inv _ (P RB))
     β' = (Fib-map (isfibrant _ ≅-refl) (Π-fibrant-witness (F ((λ _ → RB) ∘ᵉ r))) (precomp B RB r (λ _ → RB)))
 
     σβ' : (u : (RB → RB)) → Id {i ⊔ j} {RB → RB} (σ' (β' u)) u
     σβ' = Fib-right-htpy {i ⊔ j} {i ⊔ j} (isfibrant _ ≅-refl) (Π-fibrant-witness (F ((λ _ → RB) ∘ᵉ r))) (precomp B RB r (λ _ → RB)) (P RB)
-    
+
     aux-map : (f : Πᵉ B (Y ∘ᵉ r)) → (B → Z)
     aux-map f b = (r b) , (f b)
 
@@ -148,7 +148,7 @@ Lemma-2-3--3->2 {i} {j} B F RB r P Y = sec-map , section-proof
                     (ap {i ⊔ j} {i ⊔ j} (λ u → (k' (u (h' (aux-map (k x))))) b) (funext βσ) · =ᵉ-to-Id (happlyᵉ (kh' (aux-map (k x))) b)))
 
     aux-eq3 : (x : FM) → (b : B) → Id (sec-map x (r b)) ((k x) b)
-    aux-eq3 x b = (apd {i ⊔ j} {i ⊔ j} (sec-map x) (pr1 (inv-dep-pair⁼ {i ⊔ j} {i ⊔ j} _ _ (aux-eq2 x b)))) ⁻¹ · (pr2 (inv-dep-pair⁼ {i ⊔ j} {i ⊔ j} _ _ (aux-eq2 x b))) 
+    aux-eq3 x b = (apd {i ⊔ j} {i ⊔ j} (sec-map x) (pr1 (inv-dep-pair⁼ {i ⊔ j} {i ⊔ j} _ _ (aux-eq2 x b)))) ⁻¹ · (pr2 (inv-dep-pair⁼ {i ⊔ j} {i ⊔ j} _ _ (aux-eq2 x b)))
 
     fib-precomp = Fib-map {i ⊔ j} {i ⊔ j} {Π RB Y} {Πᵉ B (Y ∘ᵉ r)}
                                                            (isfibrant _ ≅-refl)

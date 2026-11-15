@@ -13,4 +13,3 @@ open import 2LTT_C.Cofibration.Properties                  public
 open import 2LTT_C.Cofibration.Funext_for_cofibrant_types  public
 open import 2LTT_C.Cofibration.Cofibrancy_of_Finite_Types  public
 open import 2LTT_C.Cofibration.Cofibrancy_of_Container     public
-

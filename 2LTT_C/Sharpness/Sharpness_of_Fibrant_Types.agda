@@ -2,7 +2,7 @@
 
 module 2LTT_C.Sharpness.Sharpness_of_Fibrant_Types where
 
-open import 2LTT_C.Sharpness.isSharp 
+open import 2LTT_C.Sharpness.isSharp
 
 
 -------------------------------------------------------------------------
@@ -42,11 +42,11 @@ is-Fibrant-Sharp {i} {j} {B} P = issharp cwB
  gftB = pr1ᵉ (pr2ᵉ (pr2ᵉ (isFibrant.fibrant-witness P)))
 
  fgtB = pr2ᵉ (pr2ᵉ (pr2ᵉ (isFibrant.fibrant-witness P)))
- 
+
  module precomp-fibrant-equiv {Y : fB → UU j} where
   F = (precomp B fB ftB Y)
 
-  F' = F ∘ᵉ map-Πᵉ 
+  F' = F ∘ᵉ map-Πᵉ
 
   G : Πᵉ B (λ x → C (Y (ftB x))) → Πᵉ (C fB) (λ x → C (Y (ic x)))
   G T = λ a → exo-tr (λ x → C (Y (ic x))) (fgtB a) (T (gtB a))
@@ -71,6 +71,6 @@ is-Fibrant-Sharp {i} {j} {B} P = issharp cwB
 --In particular, ⊤̂ᵉ is sharp
 is-⊤ᵉ-Sharp : {i : Level} (k : Level) → isSharp {i} (⊤ᵉ {i}) k
 is-⊤ᵉ-Sharp {i} k = issharp ((⊤ᵉ-is-cofibrant {i}) k)
-                      (⊤ {i}) 
+                      (⊤ {i})
                       (λ x → ic (map-⊤ᵉ x))
                       λ Y → id-is-equiv {i ⊔ k}

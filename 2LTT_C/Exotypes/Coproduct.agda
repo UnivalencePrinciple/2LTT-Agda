@@ -2,14 +2,14 @@
 
 module 2LTT_C.Exotypes.Coproduct where
 
-open import 2LTT_C.Primitive 
-open import 2LTT_C.Exotypes.Exo_Equality 
+open import 2LTT_C.Primitive
+open import 2LTT_C.Exotypes.Exo_Equality
 open import 2LTT_C.Exotypes.Pi
 open import 2LTT_C.Exotypes.Sigma
 open import 2LTT_C.Exotypes.Functions
 
 
---Type formers of coproducts for exotypes 
+--Type formers of coproducts for exotypes
 data _+ᵉ_ {l1 l2 : Level}(A : UUᵉ l1) (B : UUᵉ l2) : UUᵉ (l1 ⊔ l2)  where
   inlᵉ : A → A +ᵉ B
   inrᵉ : B → A +ᵉ B
@@ -35,4 +35,3 @@ inlᵉ-fmly C = λ a → C (inlᵉ a)
                  (λ (f ,ᵉ g) → λ { (inlᵉ x) → f x ; (inrᵉ x) → g x}) ,ᵉ
                  (λ x → funextᵉ λ { (inlᵉ x) → reflᵉ ; (inrᵉ x) → reflᵉ}) ,ᵉ
                  (λ x → reflᵉ)
-

@@ -85,17 +85,17 @@ is-set-to-all-paths-equal A W a b p q = all-elements-equal-is-prop (W a b) p q
 
 Π-type-contr : {i j : Level} {A : UU i} {B : A → UU j} →
               ((a : A) → is-contr (B a)) → is-contr (Π A B)
-Π-type-contr F = ((λ a → pr1 (F a))) , λ f → funext λ a → (pr2 (F a)) (f a) 
+Π-type-contr F = ((λ a → pr1 (F a))) , λ f → funext λ a → (pr2 (F a)) (f a)
 
 Π-type-prop : {i j : Level} {A : UU i} {B : A → UU j} →
               ((a : A) → is-prop (B a)) → is-prop (Π A B)
 Π-type-prop F = is-prop-all-elements-equal (λ f → λ g →  funext (λ x → pr1 ((F x) (f x) (g x))) )
 
-is-prop-contr :  {i : Level}(A : UU i) → is-prop (is-contr A) 
+is-prop-contr :  {i : Level}(A : UU i) → is-prop (is-contr A)
 is-prop-contr {i} A = is-prop-all-elements-equal λ {(a , p) → λ {(a' , p')
-                                                 → dep-pair⁼ {i} {i} {A = A} {B = λ a → (Π A (λ x → Id {i} x a))} (a , p) (a' , p') 
-                                                   (p' a ,  
-                                                   all-elements-equal-is-prop {i} 
+                                                 → dep-pair⁼ {i} {i} {A = A} {B = λ a → (Π A (λ x → Id {i} x a))} (a , p) (a' , p')
+                                                   (p' a ,
+                                                   all-elements-equal-is-prop {i}
                                                     (Π-type-prop λ a'' → (is-set-is-contr {i} A (a , p)) a'' a')
                                                     (tr (λ a₁ → Π A (λ x → Id x a₁)) (p' a) p) p')}}
                                                    --Here, we've applied exactly the same method in the proof of Lemma 3.11.4 in HoTT Book
@@ -108,7 +108,7 @@ is-prop-contr {i} A = is-prop-all-elements-equal λ {(a , p) → λ {(a' , p')
 
 Σ-is-contr : {l l' : Level} {A : UU l} {B : A → UU l'}
               → is-contr A → ((a : A) → is-contr (B a)) → is-contr (Σ A B)
-Σ-is-contr (a , ha) cB = 
+Σ-is-contr (a , ha) cB =
   (a , (center _ (cB a))) , λ {(a' , b') → dep-pair⁼ _ _ ((ha a') , (centrality _ (cB a) (tr _ (ha a') b')))}
 
 

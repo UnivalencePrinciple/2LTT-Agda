@@ -25,13 +25,13 @@ open import 2LTT_C.Coercion.Fibrant_Functions public
         ΠType-2 : UU (i ⊔ j ⊔ k) --this is fibrant by default.
         ΠType-2 = Π RA (λ c → Π RB (λ d → Y (c , d)))
 
-        ΠType-3 : UUᵉ (i ⊔ j ⊔ k) 
+        ΠType-3 : UUᵉ (i ⊔ j ⊔ k)
         ΠType-3 = Πᵉ A (λ a → C (Π RB (λ d → Y (rA a , d))))
 
-        ΠType-4 : UUᵉ (i ⊔ j ⊔ k) 
+        ΠType-4 : UUᵉ (i ⊔ j ⊔ k)
         ΠType-4 = Πᵉ A (λ a → Πᵉ B (λ b → C (Y (rA a , rB b))))
 
-        ΠType-5 : UUᵉ (i ⊔ j ⊔ k) 
+        ΠType-5 : UUᵉ (i ⊔ j ⊔ k)
         ΠType-5 = Πᵉ (A ×ᵉ B) (λ x → C (Y (rA×B x)))
 
         Fibrant3 = (isCofibrant-at.Π-fibrant-witness (cwA λ a → Π RB (λ d → Y (rA a , d))))
@@ -39,7 +39,7 @@ open import 2LTT_C.Coercion.Fibrant_Functions public
         Fibrant4 = (isFibrant-iso (≅-sym {i ⊔ j ⊔ k}{i ⊔ j ⊔ k} Πᵉ-×-expansion) (isCofibrant-at.Π-fibrant-witness (cwA×B (λ x → Y (rA×B x)))))
 
         Fibrant5 = (isCofibrant-at.Π-fibrant-witness (cwA×B (λ x → Y (rA×B x))))
-        
+
         Map1 : C ΠType-1 → C ΠType-2
         Map1 (c T) = c (λ a b → T (a , b))
 
@@ -89,7 +89,3 @@ open import 2LTT_C.Coercion.Fibrant_Functions public
                                     Map-main
                                     Main-Htp
                                     Equiv-main
-        
-
-        
-        

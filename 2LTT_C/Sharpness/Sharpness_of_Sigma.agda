@@ -28,7 +28,7 @@ open import 2LTT_C.Coercion.Fibrant_Functions public
    midset : UU (i ⊔ lsuc j ⊔ k)
    midset = isFibrant.fibrant-match
               (isCofibrant-at.Π-fibrant-witness (cwA (λ _ → Uj)))
--------            
+-------
    F : C (frA → Uj) → (A → C (Uj))
    F = (precomp A (frA) (ftA) (λ _ → Uj))
    F' : (frA → Uj) → midset
@@ -95,7 +95,7 @@ open import 2LTT_C.Coercion.Fibrant_Functions public
 -------
    L2 : (a : A) → (Id (RB̃ (ftA a)) (RB a))
    L2 a = ap lower ((=ᵉ-to-Id (exo-ap {i ⊔ lsuc j ⊔ k} {lsuc j ⊔ k} (ev a) (βα (λ a' → c (raise (RB̃ (ftA a'))))))) ⁻¹
-           · (ap (λ x → ic (eṽ a x)) L1 
+           · (ap (λ x → ic (eṽ a x)) L1
              · =ᵉ-to-Id (exo-ap {i ⊔ lsuc j ⊔ k} {lsuc j ⊔ k} (ev a) (βα (λ a → c (raise (RB a)))))))
 -------
    EQ-T : (a : A) → (RB a) → ((λ a → RB̃ (ftA a)) a)
@@ -142,7 +142,7 @@ open import 2LTT_C.Coercion.Fibrant_Functions public
         Fibrant3 = (isCofibrant-at.Π-fibrant-witness (cwA (λ a → Π (RB̃ (ftA a)) (λ y → Y ((ftA a) , y)))))
         -------------------------
         Map-2 : C ΠType-2 → ΠType-3
-        Map-2 (c T) = λ a → c (λ y → T (ftA a) y) 
+        Map-2 (c T) = λ a → c (λ y → T (ftA a) y)
         -------------------------
         ΠType-4 : UUᵉ (i ⊔ lsuc j ⊔ k) --this is an exo-type, but fibrant one.
         ΠType-4 = Πᵉ A (λ a → C (Π (RB a) (λ y → Y ((ftA a) , EQ-T a y))))
@@ -167,16 +167,16 @@ open import 2LTT_C.Coercion.Fibrant_Functions public
         midmap' a = precomp (B a) (RB a) (FTB a) (λ y → Y ((ftA a) , EQ-T a y))
         -------------------------
         check-map : (a : A) → (Π (RB a) (λ y → Y ((ftA a) , EQ-T a y)))
-                         → isFibrant.fibrant-match (isCofibrant-at.Π-fibrant-witness ((CWB a) (λ b → Y ((ftA a) ,  EQ-T a (FTB a b))))) 
+                         → isFibrant.fibrant-match (isCofibrant-at.Π-fibrant-witness ((CWB a) (λ b → Y ((ftA a) ,  EQ-T a (FTB a b)))))
         check-map a = Fib-map (isfibrant _ ≅-refl)
                               (isCofibrant-at.Π-fibrant-witness ((CWB a) (λ b → Y ((ftA a) ,  EQ-T a (FTB a b)))))                                                         (midmap' a)
         -------------------------
         midmap'-Fib-isEquiv : (a : A) → Fib-isEquiv (isfibrant _ ≅-refl)
                                                      (isCofibrant-at.Π-fibrant-witness ((CWB a) (λ b → Y ((ftA a) ,  EQ-T a (FTB a b)))))                                                         (midmap' a)
-        midmap'-Fib-isEquiv a = (pcmpeqBa a) (λ y → Y ((ftA a) ,  EQ-T a y)) 
+        midmap'-Fib-isEquiv a = (pcmpeqBa a) (λ y → Y ((ftA a) ,  EQ-T a y))
         -------------------------
         Map-4 : ΠType-4 → ΠType-5
-        Map-4 = (Πᵉ-functor {i} {lsuc j ⊔ k} idᵉ midmap') 
+        Map-4 = (Πᵉ-functor {i} {lsuc j ⊔ k} idᵉ midmap')
         -------------------------
         ΠType-6 : UUᵉ (i ⊔ lsuc j ⊔ k) --this is an exo-type, but fibrant one.
         ΠType-6 = Πᵉ (Σᵉ A B) (λ z → C (Y (ftΣ z)))

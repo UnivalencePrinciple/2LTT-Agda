@@ -2,7 +2,7 @@
 
 module 2LTT_C.Types.Pi where
 
-open import 2LTT_C.Primitive 
+open import 2LTT_C.Primitive
 
 --------------------------------------------------------
 --Type formers of dependent functions for types
@@ -15,4 +15,3 @@ open import 2LTT_C.Primitive
 
 Π-elim : {i j : Level} {A : UU i} {P : A → UU j} {a : A} → Π A P → P a
 Π-elim {a = a} f = f a
-

@@ -32,7 +32,7 @@ isFibrant-Σ {i} {j} {A = A} {B = B} (isfibrant fr P) Q =
 
   iso-2 : Σᵉ (C fr) (λ x → C (frB (g x))) ≅ C (Σ fr (λ x → frB (g (c x))))
   iso-2 = exo-Σᵉ-equiv
-  
+
 ------------------------------------------------------------------------------------------------------------------------
 --Fibrancy is preserved under ×ᵉ
 isFibrant-× : {i j : Level}{A : UUᵉ i}{B : UUᵉ j}

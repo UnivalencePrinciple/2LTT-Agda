@@ -16,13 +16,13 @@ precomp : {i j : Level} (A : UUᵉ i) (RA : UU i) (f : A → RA) (Y : RA → UU 
           → C (Π RA Y) → Πᵉ A (λ a → C (Y (f a)))
 precomp {i} {j} A RA f Y (c T) = (λ a → c (T (f a)))
 {-# INLINE precomp #-}
-          
+
 
 --For exo-type B, being sharp
 record isSharp {i : Level} (B : UUᵉ i) (j : Level) : UUᵉ (lsuc (i ⊔ j)) where
   eta-equality
   constructor issharp
-  field 
+  field
     cofibrant-witness : isCofibrant {i} B j
     fibrant-replacement : UU i
     fibrant-transfer : B → fibrant-replacement

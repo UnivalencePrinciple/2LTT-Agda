@@ -15,7 +15,7 @@ record isFibrant {i : Level}(B : UUᵉ i) : UUᵉ (lsuc i) where
     fibrant-witness : B ≅ fibrant-match
 
 open isFibrant public
-    
+
 fibrant-conversion : {i : Level} → (B : UUᵉ i) → (isFibrant B) → UU i
 fibrant-conversion B (isfibrant fibrant-match fibrant-witness) = fibrant-match
 
@@ -39,7 +39,3 @@ T1-term reflᵉ = reflᵉ
 
 T2-× :  {i j : Level}{A : UU i}{B : UU j} → C (A × B) =ᵉ (C A) ×ᵉ (C B)
 T2-× {i} {j} {A} {B} = T2-Σ {i} {j} {A} {(λ _ → B)}
-
-
-
-

@@ -2,7 +2,7 @@
 
 module 2LTT.Exotypes.Functions where
 
-open import 2LTT.Primitive 
+open import 2LTT.Primitive
 open import 2LTT.Exotypes.Exo_Equality
 open import 2LTT.Exotypes.Sigma
 open import 2LTT.Exotypes.Unit
@@ -32,7 +32,7 @@ idtoiso : {i : Level} {A B : UUᵉ i} → A =ᵉ B → A ≅ B
 idtoiso reflᵉ = ≅-refl
 
 happlyᵉ : {i j : Level} {A : UUᵉ i} {B : A → UUᵉ j} {f g : (x : A) → B x}
-         → f =ᵉ g → (∀ x → f x =ᵉ g x)      
+         → f =ᵉ g → (∀ x → f x =ᵉ g x)
 happlyᵉ reflᵉ x = reflᵉ
 
 postulate
@@ -107,7 +107,7 @@ Family-isoᵉ reflᵉ a = ≅-refl
                                               ((exo-ap-tr {i} {j} {B} {Q} {b} {b} {exo-concat (exo-inv (rh b))
                                                                                                    (rh b)}
                                                                                   {reflᵉ} {q} (UIPᵉ _ _)))))})
-   
+
 
 Σᵉ-iso-cong' : {i j : Level}{A B : UUᵉ i}{P : A → UUᵉ j}{Q : B → UUᵉ j}
            → (W : A ≅ B)
@@ -121,4 +121,3 @@ Family-isoᵉ reflᵉ a = ≅-refl
            → (V : P ≅ Q)
            → (A ×ᵉ P) ≅ (B ×ᵉ Q)
 ×ᵉ-iso-cong {i} {j} {A} {B} {P} {Q} W V = Σᵉ-iso-cong' {i} {j} {A} {B} {λ _ → P} {λ _ → Q} W λ _ → V
-       

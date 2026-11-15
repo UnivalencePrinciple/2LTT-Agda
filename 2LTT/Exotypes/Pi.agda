@@ -2,7 +2,7 @@
 
 module 2LTT.Exotypes.Pi where
 
-open import 2LTT.Primitive 
+open import 2LTT.Primitive
 open import 2LTT.Exotypes.Exo_Equality
 open import 2LTT.Exotypes.Functions
 open import 2LTT.Exotypes.Sigma
@@ -90,7 +90,7 @@ open import 2LTT.Exotypes.Sigma
    (λ f → funextᵉ λ b → exo-concat
                                    (exo-ap (f1 b)
                                    (exo-ap-tr {i} {j} {A} {P} {f0 (f0' (f0 b))} {f0 b}
-                                      {rh (f0 b)} {exo-ap f0 (lh b)} 
+                                      {rh (f0 b)} {exo-ap f0 (lh b)}
                                        (UIPᵉ {i} {A} {f0 (f0' (f0 b))} {f0 b} (rh (f0 b)) (exo-ap f0 (lh b)))))
                                    (exo-concat
                                     (exo-ap (f1 b) (exo-inv (exo-tr-ap {i} {j} {B} {A} {f0} {P} {_} {_} _
@@ -107,10 +107,8 @@ open import 2LTT.Exotypes.Sigma
 
 
 Πᵉ-iso-cong' : {i j : Level}{A B : UUᵉ i}{P : A → UUᵉ j}{Q : B → UUᵉ j}
-             → (W : B ≅ A) 
+             → (W : B ≅ A)
              → (f1 : (b : B) → P ((pr1ᵉ W) b) ≅ Q (b))
              → Πᵉ A P ≅ Πᵉ B Q
 Πᵉ-iso-cong' W V
              = Πᵉ-iso-cong (pr1ᵉ W) {pr2ᵉ W} (λ (b : _) → pr1ᵉ (V b)) {λ (b : _) → pr2ᵉ (V b)}
-
-

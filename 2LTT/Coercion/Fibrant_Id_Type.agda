@@ -18,5 +18,3 @@ Fib-Id {i} {A} {W} a b = Id (Fmap a) (Fmap b)
   Fmap = pr1ᵉ (isFibrant.fibrant-witness W)
 
 ----------
-
-

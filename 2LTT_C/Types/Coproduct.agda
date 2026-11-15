@@ -28,4 +28,3 @@ inl-fmly : {i j k : Level} {A : UU i} {B : UU j} (C : A + B → UU k)
 inl-fmly C = λ a → C (inl a)
 
 --------------------------------------------------------
-

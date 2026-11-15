@@ -8,7 +8,7 @@ open import 2LTT.Exotypes.Sigma
 open import 2LTT.Exotypes.Functions
 open import 2LTT.Exotypes.Unit
 
---Natural Numbers Exotype(ℕᵉ) 
+--Natural Numbers Exotype(ℕᵉ)
 data ℕᵉ : UUᵉ lzero where
      zeroᵉ : ℕᵉ
      succᵉ : ℕᵉ → ℕᵉ
@@ -112,7 +112,7 @@ m <ᵉ n = succᵉ m ≤ᵉ n
 --finite products
 
 folded-×ᵉ : {i : Level} → ℕᵉ → (A : UUᵉ i) → UUᵉ i
-folded-×ᵉ {i} zeroᵉ A = ⊤ᵉ {i} 
+folded-×ᵉ {i} zeroᵉ A = ⊤ᵉ {i}
 folded-×ᵉ (succᵉ n) A = A ×ᵉ (folded-×ᵉ n A)
 
 add-folded-×ᵉ : {i : Level}{A : UUᵉ i} → (n m : ℕᵉ) → folded-×ᵉ n A ×ᵉ folded-×ᵉ m A → folded-×ᵉ (add-ℕᵉ n m) A

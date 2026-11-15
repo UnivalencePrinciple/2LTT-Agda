@@ -11,7 +11,7 @@ cofib-list-to-sharp-List {l1} {l2} A P R
   where
    cwA = isSharp.cofibrant-witness P
 
-   Q = List-isCofibrant {l1} {l1 ⊔ l2} A cwA R 
+   Q = List-isCofibrant {l1} {l1 ⊔ l2} A cwA R
 
    RA = isSharp.fibrant-replacement P
 
@@ -80,7 +80,7 @@ cofib-list-to-sharp-List {l1} {l2} A P R
       where
         inv-map : (x : FM Y) → Π (List RA) Y
         inv-map x l = aux-type l Y x
-        
+
         fib-precomp = Fib-map {l1 ⊔ l2} {l1 ⊔ l2} {A = Π (List {l1} RA) Y} {B = Πᵉ (Listᵉ A) (Y ∘ᵉ rList)}
                                                            (isfibrant _ ≅-refl)
                                                            (isCofibrant-at.Π-fibrant-witness (Q (Y ∘ᵉ rList)))

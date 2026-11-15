@@ -19,7 +19,7 @@ data BinTreeᵉ {i j : Level}(N : UUᵉ i) (L : UUᵉ j) : UUᵉ (i ⊔ j) where
 data UnL-BinTreeᵉ : UUᵉ lzero  where
   ul-leafᵉ : UnL-BinTreeᵉ
   ul-nodeᵉ : UnL-BinTreeᵉ → UnL-BinTreeᵉ → UnL-BinTreeᵉ
-  
+
 number-of-leaves : UnL-BinTreeᵉ → ℕᵉ
 number-of-leaves ul-leafᵉ = oneᵉ
 number-of-leaves (ul-nodeᵉ t t₁) = (add-ℕᵉ (number-of-leaves t) (number-of-leaves t₁))
@@ -42,7 +42,7 @@ BinTree-to-UnLBinTree  (nodeᵉ t x t₁) =
 UnLBinTree-to-BinTree' : {i j : Level}{N : UUᵉ i}{L : UUᵉ j} →
            (t : (UnL-BinTreeᵉ)) → (p : (folded-×ᵉ (number-of-leaves t) L) ×ᵉ (folded-×ᵉ (number-of-nodes t) N)) →
            BinTreeᵉ N L
-UnLBinTree-to-BinTree' ul-leafᵉ  ((a ,ᵉ starᵉ) ,ᵉ starᵉ) = leafᵉ a 
+UnLBinTree-to-BinTree' ul-leafᵉ  ((a ,ᵉ starᵉ) ,ᵉ starᵉ) = leafᵉ a
 UnLBinTree-to-BinTree' (ul-nodeᵉ t t₁) (p ,ᵉ b ,ᵉ q) =
   nodeᵉ
    (UnLBinTree-to-BinTree' t (pr1ᵉ (inv-add-folded-×ᵉ _ _ p) ,ᵉ pr1ᵉ (inv-add-folded-×ᵉ _ _ q)))

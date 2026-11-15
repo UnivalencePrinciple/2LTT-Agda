@@ -36,4 +36,4 @@ tuples-to-list-iso : {i : Level} {A : UUᵉ i} →  Σᵉ ℕᵉ (λ n → (fold
 tuples-to-list-iso = tuples-to-list ,ᵉ (list-to-tuples ,ᵉ (tuples-to-list-has-retraction  ,ᵉ tuples-to-list-has-section ))
 
 List-isCofibrant : {i j : Level} (A : UUᵉ i) → isCofibrant A (i ⊔ j) → isCofibrant ℕᵉ (i ⊔ j) → isCofibrant (Listᵉ A) j
-List-isCofibrant A P Q = isCofibrant-iso tuples-to-list-iso (Σᵉ-preserve-Cofibrant Q (folded-×-cofib P)) 
+List-isCofibrant A P Q = isCofibrant-iso tuples-to-list-iso (Σᵉ-preserve-Cofibrant Q (folded-×-cofib P))

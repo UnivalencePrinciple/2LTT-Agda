@@ -28,7 +28,7 @@ ind-Id D f x .x refl = f x
 𝕁 =  ind-Id
 
 infix 20 _·_
--- notation for concatenation · is "\ cdot" 
+-- notation for concatenation · is "\ cdot"
 _·_ : {i : Level} {A : UU i} {x y z : A} → Id x y → Id y z → Id x z
 refl · q = q
 
@@ -113,10 +113,10 @@ ap-id refl = refl
 tr : {i j : Level} {A : UU i} (P : A → UU j) {x y : A} (p : Id x y) → P x → P y
 tr P refl b = b
 
-tr-is-retraction : {i j : Level} {A : UU i} (P : A → UU j) {a a' : A} (p : Id {i} a a') → (z : P a') → Id (tr P p (tr P (p ⁻¹) z)) z  
+tr-is-retraction : {i j : Level} {A : UU i} (P : A → UU j) {a a' : A} (p : Id {i} a a') → (z : P a') → Id (tr P p (tr P (p ⁻¹) z)) z
 tr-is-retraction P refl z = refl
 
-tr-is-section : {i j : Level} {A : UU i} (P : A → UU j) {a a' : A} (p : Id {i} a a') → (z : P a) → Id (tr P (p ⁻¹) (tr P p z)) z  
+tr-is-section : {i j : Level} {A : UU i} (P : A → UU j) {a a' : A} (p : Id {i} a a') → (z : P a) → Id (tr P (p ⁻¹) (tr P p z)) z
 tr-is-section P refl z = refl
 
 tr-cong : {i j : Level} {A : UU i} {P : A → UU j} {x y : A} {p q : Id {i} x y} {b : P x}
@@ -174,11 +174,11 @@ trns-htpy : {i j : Level} {A : UU i} {P : A → UU j} (f g h : Π {i} {j} A P)
             → f ~ g → g ~ h → f ~ h
 trns-htpy f g h H1 H2 a = (H1 a) · (H2 a)
 
-nat-trans-htpy : {i j : Level} {A : UU i} {B : UU j} {f g : A → B} {x y : A} 
+nat-trans-htpy : {i j : Level} {A : UU i} {B : UU j} {f g : A → B} {x y : A}
                  (H : _~_ {i} {j} f g) (p : Id {i} x y) → Id ((H x) · (ap g p)) ((ap f p) · (H y))
 nat-trans-htpy H refl = right-unit (H _)
 
-nat-trans-htpy2 : {i j : Level} {A : UU i} {B : UU j} {f g : A → B} {x y : A} 
+nat-trans-htpy2 : {i j : Level} {A : UU i} {B : UU j} {f g : A → B} {x y : A}
                  (H : _~_ {i} {j} f g) (p : Id {i} x y) → Id (((H x) · (ap g p)) · (H y) ⁻¹) (ap f p)
 nat-trans-htpy2 {i} {j} {f = f} {x = x} {y = y} H p = ap {j} {j} (λ s → s · (H y ⁻¹)) (nat-trans-htpy H p)
                                                   · (assoc (ap {i} {j} f p) (H y) (H y ⁻¹)
@@ -203,7 +203,7 @@ pair-Id : {i j : Level} {A : UU i} {B : UU j} (x y : A × B)
 pair-Id x y = Id (pr1 x) (pr1 y) × Id (pr2 x) (pr2 y)
 
 pair⁼ : {i j : Level} {A : UU i} {B : UU j} (x y : A × B)
-                    → (pair-Id x y) → Id x y 
+                    → (pair-Id x y) → Id x y
 pair⁼ (a , b) (.(pr1 (a , b)) , .(pr2 (a , b))) (refl , refl) = refl
 
 inv-pair⁼ : {i j : Level} {A : UU i} {B : UU j} (x y : A × B)
@@ -242,7 +242,7 @@ htpy-dep-pair⁼-inv-dep-pair⁼  (a , b) (.a , .b) refl = refl
 
 --Function extensionality
 happly : {i j : Level} {A : UU i} {B : A → UU j} {f g : (x : A) → B x}
-       → Id f g → (f ~ g) 
+       → Id f g → (f ~ g)
 happly refl x = refl
 
 --We have not defined isEquiv or is-contr. So we are using their expansions because we want that funext is inverse of happly.
@@ -250,10 +250,8 @@ postulate
  FUNEXT : {i j : Level} {A : UU i} {B : A → UU j} {f g : (x : A) → B x}
          → (Π {i ⊔ j} {i ⊔ j} (_~_ {i} {j} f g) (λ H → let T = (Σ {i ⊔ j} {i ⊔ j} (Id {i ⊔ j} f g)
                                                                     (λ p → Id (happly p) H))
-                                                         in Σ T (λ a → ((x : T) →  Id {i ⊔ j} x a)))) 
+                                                         in Σ T (λ a → ((x : T) →  Id {i ⊔ j} x a))))
 
 funext : {i j : Level} {A : UU i} {B : A → UU j} {f g : (x : A) → B x}
-       → (f ~ g) → Id f g 
+       → (f ~ g) → Id f g
 funext H = pr1 (pr1 (FUNEXT H))
-
-

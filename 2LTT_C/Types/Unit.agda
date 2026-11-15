@@ -2,7 +2,7 @@
 
 module 2LTT_C.Types.Unit where
 
-open import 2LTT_C.Primitive 
+open import 2LTT_C.Primitive
 open import 2LTT_C.Exotypes.Exo_Equality
 
 

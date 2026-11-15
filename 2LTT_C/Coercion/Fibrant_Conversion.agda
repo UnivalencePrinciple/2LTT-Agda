@@ -13,7 +13,6 @@ record isFibrant {i : Level}(B : UUᵉ i) : UUᵉ (lsuc i) where
     fibrant-witness : B ≅ C (fibrant-match)
 
 open isFibrant public
-    
+
 fibrant-conversion : {i : Level} → (B : UUᵉ i) → (isFibrant B) → UU i
 fibrant-conversion B (isfibrant fibrant-match fibrant-witness) = fibrant-match
-

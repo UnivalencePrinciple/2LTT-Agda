@@ -24,10 +24,10 @@ open import 2LTT_C.Sharpness.isSharp public
 
   ηA : A → RA
   ηA = isSharp.fibrant-transfer P
-  
+
   cfwB : isCofibrant B k
   cfwB = isSharp.cofibrant-witness Q
-  
+
   RB : UU j
   RB = isSharp.fibrant-replacement Q
 
@@ -61,7 +61,7 @@ open import 2LTT_C.Sharpness.isSharp public
 
     Fib-EqB : Fib-isEquiv (isfibrant _ ≅-refl) fibrant4 (precomp B RB ηB _)
     Fib-EqB = (isSharp.precomp-is-equiv Q) (λ x → Y (inr x))
-    
+
     v-left : C (Π (RA + RB) Y) → Πᵉ (A +ᵉ B) (λ x → C (Y (ηA+B x)))
     v-left = precomp (A +ᵉ B) (RA + RB) ηA+B Y
 
@@ -92,5 +92,3 @@ open import 2LTT_C.Sharpness.isSharp public
                                                            {Πᵉ (A +ᵉ B) (λ x → C (Y (ηA+B x)))}
                                                            {Πᵉ A (λ x → C (Y (inl (ηA x)))) ×ᵉ Πᵉ B (λ x → C (Y (inr (ηB x))))}
                                                            fibrant1 fibrant2 h-bot (pr2ᵉ (Πᵉ-+-expansion {i} {j} {k})))
-
-    

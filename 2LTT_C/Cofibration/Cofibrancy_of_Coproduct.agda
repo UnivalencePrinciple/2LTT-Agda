@@ -62,10 +62,10 @@ open import 2LTT_C.Cofibration.isCofibrant public
   frA+B = frA × frB
 
   fA+B : Πᵉ (A +ᵉ B) (λ x → C (Y x)) → C frA+B
-  fA+B w = c (ic (fA (λ x → w (inlᵉ x))) , ic (fB (λ x → w (inrᵉ x)))) 
+  fA+B w = c (ic (fA (λ x → w (inlᵉ x))) , ic (fB (λ x → w (inrᵉ x))))
 
   gA+B : C frA+B → Πᵉ (A +ᵉ B) (λ x → C (Y x))
-  gA+B (c (x , y)) (inlᵉ a) = gA (c x) a 
+  gA+B (c (x , y)) (inlᵉ a) = gA (c x) a
   gA+B (c (x , y)) (inrᵉ b) = gB (c y) b
 
   gfA+B : (T : Πᵉ (A +ᵉ B) (λ x → C (Y x))) → gA+B (fA+B T) =ᵉ T
@@ -73,4 +73,4 @@ open import 2LTT_C.Cofibration.isCofibrant public
                                     (inrᵉ x) → happlyᵉ (gfB (T ∘ᵉ inrᵉ)) x }
 
   fgA+B : (T : C frA+B) → fA+B (gA+B T) =ᵉ T
-  fgA+B (c (x , y)) = pair-=ᵉ' _ _ (fgA (c x) ,ᵉ fgB (c y)) 
+  fgA+B (c (x , y)) = pair-=ᵉ' _ _ (fgA (c x) ,ᵉ fgB (c y))

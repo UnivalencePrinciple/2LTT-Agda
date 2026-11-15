@@ -9,7 +9,7 @@ open import 2LTT_C.Sharpness.Sharpness_of_Exo_Empty
 open import 2LTT_C.Sharpness.Sharpness_of_Sigma
 open import 2LTT_C.Sharpness.Properties
 open import 2LTT_C.Sharpness.Sharpness_of_Finite_Types
-open import 2LTT_C.Sharpness.Sharpness_of_Product 
+open import 2LTT_C.Sharpness.Sharpness_of_Product
 
 --Multiple product of sharp exo-types is sharp
 folded-×-sharp : {i j : Level} {A : UUᵉ i} → (isSharp {i} A (i ⊔ j)) → (n : ℕᵉ) → (isSharp {i} (folded-×ᵉ {i} n A) j)
@@ -55,14 +55,14 @@ is-BinTreeᵉ-sharp {i} {j} {k} Q R P =
   isSharp-iso BinTree-to-UnLBinTree-iso
                 (Σᵉ-preserve-Sharp {lzero} {i ⊔ j} {k} (is-UnL-BinTreeᵉ-sharp {lsuc (i ⊔ j) ⊔ k} P)
                  λ a → ×ᵉ-preserve-Sharp (folded-×-sharp R _) (folded-×-sharp Q _))
-                 
+
 ------------------------------------------------------------------------------
 
 --Binary Tree with labeled leaf, unlabeled node, is sharp if ℕᵉ is cofibrant
 is-LeafLabeledBinTreeᵉ-sharp : {i k : Level}{L : UUᵉ i}
                                 → isSharp L (lsuc i ⊔ k) → isCofibrant ℕᵉ (lsuc i ⊔ k)
                                 → isSharp (BinTreeᵉ ⊤ᵉ L) (lsuc i ⊔ k)
-is-LeafLabeledBinTreeᵉ-sharp {i} {k} Q P = is-BinTreeᵉ-sharp {lzero} {i} {k} (is-⊤ᵉ-Sharp (lsuc i ⊔ k)) Q P 
+is-LeafLabeledBinTreeᵉ-sharp {i} {k} Q P = is-BinTreeᵉ-sharp {lzero} {i} {k} (is-⊤ᵉ-Sharp (lsuc i ⊔ k)) Q P
 
 ------------------------------------------------------------------------------
 
@@ -70,4 +70,4 @@ is-LeafLabeledBinTreeᵉ-sharp {i} {k} Q P = is-BinTreeᵉ-sharp {lzero} {i} {k}
 is-NodeLabeledBinTreeᵉ-sharp : {i k : Level}{N : UUᵉ i}
                                 → isSharp N (lsuc i ⊔ k) → isCofibrant ℕᵉ (lsuc i ⊔ k)
                                 → isSharp (BinTreeᵉ N ⊤ᵉ) (lsuc i ⊔ k)
-is-NodeLabeledBinTreeᵉ-sharp {i} {k} Q P = is-BinTreeᵉ-sharp {i} {lzero} {k} Q (is-⊤ᵉ-Sharp (lsuc i ⊔ k)) P 
+is-NodeLabeledBinTreeᵉ-sharp {i} {k} Q P = is-BinTreeᵉ-sharp {i} {lzero} {k} Q (is-⊤ᵉ-Sharp (lsuc i ⊔ k)) P

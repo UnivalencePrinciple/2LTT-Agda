@@ -65,7 +65,7 @@ UnL-BinTreeᵉ→Balanced t = UnL-BinTreeᵉ→Balanced' t zeroᵉ ([]ᵉ ,ᵉ s
 data Stack : ℕᵉ → UUᵉ lzero where
   sempty : Stack zeroᵉ
   scons  : ∀ {n} → UnL-BinTreeᵉ → Stack n → Stack (succᵉ n)
-  
+
 Balanced→UnL-BinTreeᵉ'  :  ∀ n → Balanced n → Stack (succᵉ n) → UnL-BinTreeᵉ
 Balanced→UnL-BinTreeᵉ' n ([]ᵉ ,ᵉ p) (scons x s) = x
 Balanced→UnL-BinTreeᵉ' n (popen ::ᵉ l ,ᵉ p) s
@@ -87,7 +87,7 @@ t = popen ::ᵉ pclose ::ᵉ popen ::ᵉ popen ::ᵉ pclose ::ᵉ pclose ::ᵉ p
 --       *         *
 --     /   \     /   \
 --    *     *   *     *
---   / \             / \ 
+--   / \             / \
 --  *   *           *   *
 --                     / \
 --                   *     *
@@ -174,20 +174,19 @@ is-BinTreeᵉ-cofib {i} {j} {k} Q R P =
   isCofibrant-iso BinTree-to-UnLBinTree-iso
                   (Σᵉ-preserve-Cofibrant (is-UnL-BinTreeᵉ-cofib {i ⊔ j ⊔ k} P)
                    λ a → ×ᵉ-preserve-Cofibrant {j} {i} {k} (folded-×-cofib R _) (folded-×-cofib Q _))
-                   
+
 ------------------------------------------------------------------------------
 
 --Binary Tree with labeled leaf, unlabeled node, is cofibrant if ℕᵉ is cofibrant
 is-LeafLabeledBinTreeᵉ-cofib : {i k : Level}{L : UUᵉ i}
-                                → isCofibrant L (i ⊔ k) → isCofibrant ℕᵉ (i ⊔ k) 
+                                → isCofibrant L (i ⊔ k) → isCofibrant ℕᵉ (i ⊔ k)
                                 → isCofibrant (BinTreeᵉ ⊤ᵉ L) k
-is-LeafLabeledBinTreeᵉ-cofib Q P = is-BinTreeᵉ-cofib (⊤ᵉ-is-cofibrant _) Q P 
+is-LeafLabeledBinTreeᵉ-cofib Q P = is-BinTreeᵉ-cofib (⊤ᵉ-is-cofibrant _) Q P
 
 ------------------------------------------------------------------------------
 
 --Binary Tree with labeled node, unlabeled leaf, is cofibrant if ℕᵉ is cofibrant
 is-NodeLabeledBinTreeᵉ-cofib : {i k : Level}{N : UUᵉ i}
-                                → isCofibrant N (i ⊔ k) → isCofibrant ℕᵉ (i ⊔ k) 
+                                → isCofibrant N (i ⊔ k) → isCofibrant ℕᵉ (i ⊔ k)
                                 → isCofibrant (BinTreeᵉ N ⊤ᵉ) k
 is-NodeLabeledBinTreeᵉ-cofib {i} {k} Q P = is-BinTreeᵉ-cofib {i} {lzero} {k} Q (⊤ᵉ-is-cofibrant _) P
-

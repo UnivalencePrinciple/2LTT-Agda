@@ -12,13 +12,13 @@ open import 2LTT.Coercion.Fibrant_Sigma public
 
 --Tranfering a map between fibrant exo-types to a map between types
 Fib-map : {i j : Level} {A : UUᵉ i} {B : UUᵉ j}
-          (P : isFibrant {i} A) (Q : isFibrant {j} B) → (F : A → B) 
+          (P : isFibrant {i} A) (Q : isFibrant {j} B) → (F : A → B)
           → isFibrant.fibrant-match P → isFibrant.fibrant-match Q
 Fib-map {i} {j} {A} {B} P Q F = fB ∘ᵉ (F ∘ᵉ gA)
    where
    gA : isFibrant.fibrant-match P → A
    gA = pr1ᵉ (pr2ᵉ (isFibrant.fibrant-witness P))
-   
+
    fB : B → isFibrant.fibrant-match Q
    fB = pr1ᵉ (isFibrant.fibrant-witness Q)
 
@@ -40,8 +40,8 @@ Fib-comp-htpy {i} {j} {k} {A} {B} {C} P Q R G F T = =ᵉ-to-Id (exo-ap {k} {k} f
    gA = pr1ᵉ (pr2ᵉ (isFibrant.fibrant-witness P))
 
    gB : isFibrant.fibrant-match Q → B
-   gB = pr1ᵉ (pr2ᵉ (isFibrant.fibrant-witness Q))  
-   
+   gB = pr1ᵉ (pr2ᵉ (isFibrant.fibrant-witness Q))
+
    fB : B → isFibrant.fibrant-match Q
    fB = pr1ᵉ (isFibrant.fibrant-witness Q)
 
@@ -143,7 +143,7 @@ Fib-Π-functor {i} {j} {A} {P} {Q} {F} W U = fQ ∘ᵉ ((Πᵉ-functor {i} {j} i
   where
   gP : isFibrant.fibrant-match W → (Πᵉ A P)
   gP = pr1ᵉ (pr2ᵉ (isFibrant.fibrant-witness W))
-   
+
   fQ : (Πᵉ A Q) → isFibrant.fibrant-match U
   fQ = pr1ᵉ (isFibrant.fibrant-witness U)
 
@@ -196,7 +196,7 @@ Fib-htpy-to-isEquiv {i} {j} {A} {B} P Q F G Htpy W = htpy-equiv {i} {j} (Fib-map
   where
    gA : isFibrant.fibrant-match P → A
    gA = pr1ᵉ (pr2ᵉ (isFibrant.fibrant-witness P))
-   
+
    fB : B → isFibrant.fibrant-match Q
    fB = pr1ᵉ (isFibrant.fibrant-witness Q)
 
@@ -221,7 +221,7 @@ Fib-First-2-out-of-3-rule : {i j k : Level} {A : UUᵉ i} {B : UUᵉ j} {C : UU�
                             (P : isFibrant {i} A) (Q : isFibrant {j} B) (R : isFibrant {k} C)
                             → (F : A → B) → (G : B → C)
                             → (Fib-isEquiv P Q F)
-                            → (Fib-isEquiv P R (G ∘ᵉ F))                            
+                            → (Fib-isEquiv P R (G ∘ᵉ F))
                             → (Fib-isEquiv Q R G)
 Fib-First-2-out-of-3-rule {i} {j} {k} {A} {B} {C} P Q R F G W U
   = htpy-equiv {j} {k} ((Fib-map P R (G ∘ᵉ F)) ∘ (Fib-inv P Q F W))
@@ -236,7 +236,7 @@ Fib-Second-2-out-of-3-rule : {i j k : Level} {A : UUᵉ i} {B : UUᵉ j} {C : UU
                              (P : isFibrant {i} A) (Q : isFibrant {j} B) (R : isFibrant {k} C)
                             → (F : A → B) → (G : B → C)
                             → (Fib-isEquiv Q R G)
-                            → (Fib-isEquiv P R (G ∘ᵉ F))                            
+                            → (Fib-isEquiv P R (G ∘ᵉ F))
                             → (Fib-isEquiv P Q F)
 Fib-Second-2-out-of-3-rule {i} {j} {k} {A} {B} {C} P Q R F G W U
   = htpy-equiv {i} {j} ((Fib-inv Q R G W) ∘ (Fib-map P R (G ∘ᵉ F)))
@@ -252,7 +252,7 @@ Fib-Second-2-out-of-3-rule {i} {j} {k} {A} {B} {C} P Q R F G W U
 -- A --g→ B
 -- |       |
 -- f       f'
--- ↓       ↓ 
+-- ↓       ↓
 -- A'--g'→ B'
 Fib-Com-Square : {i j k l : Level} {A : UUᵉ i} {A' : UUᵉ j} {B : UUᵉ k} {B' : UUᵉ l}
                  (g : A → B) (f : A → A') (f' : B → B') (g' : A' → B')
@@ -273,4 +273,3 @@ Fib-First-3-out-of-4-rule  {i} {j} {k} {l} {A} {B} {C} {D} P Q R S h-top v-left 
                                V
                                (Fib-htpy-to-isEquiv {i} {l} {A} {D} P S (v-right ∘ᵉ h-top) (h-bot ∘ᵉ v-left) FCS
                                (Fib-comp-isEquiv {i} {j} {l} {A} {B} {D} P Q S h-top v-right W U))
-

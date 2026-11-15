@@ -14,7 +14,7 @@ c a = a
 
 -----coprodᵉ
 map-coprodᵉ : {i j : Level}{A : UU i} {B : UU j} → A +ᵉ B → A + B
-map-coprodᵉ (inlᵉ x) = inl x 
+map-coprodᵉ (inlᵉ x) = inl x
 map-coprodᵉ (inrᵉ y) = inr y
 
 -----exo-empty
@@ -42,7 +42,7 @@ map-=ᵉ reflᵉ = refl
 
 -----exo-universe
 map-UUᵉ : {i : Level} → UU i → UUᵉ i
-map-UUᵉ {i} A = A 
+map-UUᵉ {i} A = A
 
 -----exo-unit
 map-⊤ᵉ : {i : Level} → ⊤ᵉ {i} → ⊤ {i}
@@ -51,7 +51,7 @@ map-⊤ᵉ starᵉ = star
 inv-map-⊤ᵉ : {i : Level} → ⊤ {i} → ⊤ᵉ {i}
 inv-map-⊤ᵉ star = starᵉ
 
-is-map-⊤ᵉ-iso : {i : Level} → is-exo-iso (map-⊤ᵉ {i}) 
+is-map-⊤ᵉ-iso : {i : Level} → is-exo-iso (map-⊤ᵉ {i})
 is-map-⊤ᵉ-iso {i} = inv-map-⊤ᵉ {i} ,ᵉ ((λ a → reflᵉ) ,ᵉ (λ b → reflᵉ))
 
 exo-iso-⊤ᵉ : {i : Level} → ⊤ᵉ {i} ≅ ⊤ {i}
@@ -78,7 +78,7 @@ inv-map-×ᵉ : {i j : Level}{A : UU i}{B : UU j} → A × B → A ×ᵉ B
 inv-map-×ᵉ (a , b) = (a ,ᵉ b)
 
 
------exo dependent function                                 
+-----exo dependent function
 map-Πᵉ : {i j : Level} {A : UU i}{B : A → UU j} → Πᵉ A B → Π A B
 map-Πᵉ f = f
 
