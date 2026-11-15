@@ -19,6 +19,12 @@ The theory itself follows
 
 The library contains the basics of 2LTT (types, exo-types, and the relation between them) together with the three classes of exo-types: fibrant, cofibrant, and sharp ones. The notion of sharpness is taken from the UP paper, and the **2LTT** version of the library assumes cumulativity (every type is an exo-type), as in that paper. As an application, the library also defines semisimplicial types.
 
+The construction follows Section 3 of the CSL 2016 paper above. An earlier Agda version of it, written in one-level HoTT with the coherence of the functor law postulated, is
+
+- N. Kraus, [SStypes.agda](https://github.com/nicolaikraus/HoTT-Agda/blob/939a2d83e090fcc924f69f7dfa5b65b3b79fe633/nicolai/SemiSimp/SStypes.agda) (2016), in the repository `nicolaikraus/HoTT-Agda`.
+
+In this library, the coherence is proved using UIP for the exo-equality, and the fibrancy of the exo-type of n-truncated semisimplicial types is proved using the cofibrancy of exo-finite types.
+
 **Note.** Earlier versions of the library used the `--type-in-type` flag in some files. This flag has been removed: all results are now proved with carefully chosen universe levels.
 
 The directory has two parts:
